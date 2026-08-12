@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: hrms-workflow
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false

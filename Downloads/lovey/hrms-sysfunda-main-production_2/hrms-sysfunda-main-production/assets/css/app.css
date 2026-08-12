@@ -1,0 +1,809 @@
+/* ================================================================
+   HRMS Modern UI — Minimal / Flat Refresh + Dark Mode
+   ================================================================ */
+
+/* ── Design tokens ───────────────────────────────────────────────
+   Light values live on :root; html.dark overrides them. Every rule
+   below should reference var(--token) rather than a literal color
+   so both themes stay in sync from one place. */
+:root {
+	--bg-page: #f8fafc;
+	--bg-surface: #ffffff;
+	--bg-surface-muted: #f8fafc;
+	--bg-surface-hover: #f1f5f9;
+	--border-subtle: #e7ebf1;
+	--border-default: #e5e7eb;
+	--text-primary: #0f172a;
+	--text-secondary: #475569;
+	--text-muted: #64748b;
+	--accent: #4f46e5;
+	--accent-hover: #4338ca;
+	--accent-soft-bg: #eef2ff;
+	--accent-soft-text: #4338ca;
+	--sidebar-bg: #ffffff;
+	--sidebar-border: #e2e8f0;
+	--shadow-card: 0 1px 2px rgba(15, 23, 42, .04);
+	--shadow-hover: 0 2px 6px rgba(15, 23, 42, .06);
+	--shadow-popover: 0 8px 20px rgba(15, 23, 42, .08);
+	--tooltip-bg: #1e293b;
+	--tooltip-text: #f8fafc;
+	--bg-translucent: rgba(255, 255, 255, .72);
+	--ease-premium: cubic-bezier(.25, .1, .25, 1);
+}
+html.dark {
+	/* True neutral black/white/gray — not navy-tinted — per reference screenshot */
+	--bg-page: #0a0a0a;
+	--bg-surface: #171717;
+	--bg-surface-muted: #1f1f1f;
+	--bg-surface-hover: #292929;
+	--border-subtle: #333333;
+	--border-default: #454545;
+	--text-primary: #fafafa;
+	--text-secondary: #a3a3a3;
+	--text-muted: #737373;
+	--accent: #6366f1;
+	--accent-hover: #818cf8;
+	--accent-soft-bg: rgba(255, 255, 255, .08);
+	--accent-soft-text: #fafafa;
+	--sidebar-bg: #0a0a0a;
+	--sidebar-border: #262626;
+	--shadow-card: 0 1px 2px rgba(0, 0, 0, .4);
+	--shadow-hover: 0 2px 8px rgba(0, 0, 0, .5);
+	--shadow-popover: 0 8px 24px rgba(0, 0, 0, .6);
+	--tooltip-bg: #fafafa;
+	--tooltip-text: #0a0a0a;
+	--bg-translucent: rgba(10, 10, 10, .72);
+}
+
+body {
+	background: var(--bg-page); color: var(--text-primary);
+	transition: background-color .15s ease, color .15s ease;
+	-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+	letter-spacing: -.006em;
+}
+.form-label { font-size: 0.875rem; color: var(--text-secondary); }
+
+/* ── Mobile Optimizations ────────────────────────────────────── */
+@media (max-width: 639px) {
+	/* Improve touch targets on mobile */
+	.btn { min-height: 2.5rem; padding: .5rem 1rem; }
+	.btn-icon { min-height: 2.5rem; min-width: 2.5rem; }
+
+	/* Make form inputs taller for easier tapping */
+	input[type="text"], input[type="email"], input[type="tel"],
+	input[type="password"], input[type="date"], input[type="time"],
+	textarea, select, .input-text {
+		min-height: 2.5rem;
+		font-size: 1rem; /* Prevents iOS zoom on focus */
+	}
+
+	/* Cards: reduce padding on mobile */
+	.card-body { padding: .75rem; }
+	.card-header { padding: .625rem .75rem; }
+
+	/* Tables: smaller text and padding on mobile */
+	.table-basic th, .table-basic td { padding: .5rem .375rem; font-size: .75rem; }
+
+	/* Top bar: reduce padding on mobile */
+	.top-bar { padding: .5rem .75rem; }
+
+	/* Action links: stack vertically on small screens */
+	.action-links { flex-direction: column; gap: .25rem; }
+	.action-links > * + * { padding-left: 0; }
+	.action-links > * + *::before { display: none; }
+
+	/* Dropdown menus: ensure they don't overflow viewport */
+	.dropdown-menu { min-width: 8rem; }
+}
+
+/* Table scroll hint - gradient fade on overflowing tables */
+.overflow-x-auto {
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Prevent content from being wider than viewport */
+#appMain { overflow-x: hidden; max-width: 100%; }
+
+/* Canvas defaults to display:inline, which reserves baseline whitespace
+   below it. Chart.js sets the canvas's actual pixel width/height inline
+   itself (don't override those here — this only fixes the inline-vs-block
+   box model quirk). */
+canvas[data-chart] { display: block; }
+
+/* Loading Spinner */
+.loader-spinner {
+	width: 48px; height: 48px;
+	border: 3px solid rgba(99,102,241,0.15);
+	border-top-color: var(--accent);
+	border-radius: 9999px;
+	animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-mini { width:16px; height:16px; border:2px solid rgba(255,255,255,0.5); border-top-color:#fff; border-radius:9999px; animation: spin .8s linear infinite; display:inline-block; vertical-align:middle; }
+
+/* In-page loading overlay (SPA nav + Refresh) — theme-aware so it blurs the
+   current content in place instead of ever showing a hard white flash. */
+.content-loader-overlay {
+	background: var(--bg-translucent);
+	backdrop-filter: saturate(180%) blur(6px);
+	-webkit-backdrop-filter: saturate(180%) blur(6px);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .22s ease;
+}
+.content-loader-overlay.is-visible { opacity: 1; pointer-events: auto; }
+
+/* ── Sidebar ─────────────────────────────────────────────────── */
+.sidebar {
+	position: sticky; top: 0; height: 100vh; overflow-y: auto;
+	align-self: flex-start; z-index: 30;
+	/* Without this, a flex child defaults to shrink-to-fit — if any page's
+	   main content is wide (a dense table, a chart row), the flex row would
+	   squeeze the sidebar narrower than its w-64/collapsed width instead of
+	   giving that space to content, clipping every label inside it. */
+	flex-shrink: 0;
+	background: var(--bg-translucent);
+	backdrop-filter: saturate(180%) blur(20px);
+	-webkit-backdrop-filter: saturate(180%) blur(20px);
+	border-right: 1px solid var(--sidebar-border);
+	transition: width .28s var(--ease-premium), padding .28s var(--ease-premium), background-color .15s ease, border-color .15s ease;
+	will-change: width;
+	contain: layout style;
+}
+.sidebar { -ms-overflow-style: none; scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.08) transparent; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(0,0,0,.1); border-radius: 4px; }
+
+/* Brand area */
+.sidebar-brand {
+	display: flex; align-items: center; gap: .75rem;
+	padding: 1.25rem 1rem .75rem;
+	position: relative; z-index: 35;
+}
+/* Collapse toggle row below brand */
+.sidebar-collapse-row {
+	display: flex; justify-content: center;
+	padding: 0 1rem .75rem; border-bottom: 1px solid var(--border-subtle);
+}
+.sidebar-brand .brand-icon {
+	width: 3.25rem; height: 3.25rem;
+	margin-top: -.25rem;
+	display: flex; align-items: center; justify-content: center;
+	flex-shrink: 0;
+	transition: transform .2s ease;
+}
+.sidebar-brand .brand-icon svg {
+	width: 100%; height: 100%;
+}
+/* Logo is an inlined SVG (not <img>), so its fill is a normal CSS property —
+   drive it from the same theme tokens as everything else. No filter hacks,
+   no separate light/dark asset needed, and it stays crisp at any size. */
+.sidebar-brand .brand-icon svg .cls-1 {
+	fill: var(--text-primary);
+	transition: fill .15s ease;
+}
+.sidebar-brand:hover .brand-icon {
+	transform: scale(1.04);
+}
+.sidebar-brand .brand-text {
+	font-family: 'Nunito', 'Inter', system-ui, sans-serif;
+	font-size: 1.125rem; font-weight: 700; color: var(--text-primary);
+	letter-spacing: -.01em; line-height: 1.2;
+}
+.sidebar-brand .brand-sub {
+	font-size: .65rem; color: var(--text-muted); text-transform: uppercase;
+	letter-spacing: .06em; margin-top: .125rem;
+}
+
+/* Collapse button */
+.sidebar-collapse-btn {
+	display: flex; align-items: center; justify-content: center;
+	width: 100%; height: 1.75rem; border-radius: .5rem;
+	color: var(--text-muted); background: var(--bg-surface-muted);
+	border: 1px solid var(--border-subtle); cursor: pointer;
+	transition: all .15s ease;
+	position: relative; z-index: 40;
+	pointer-events: auto;
+	flex-shrink: 0;
+	gap: .25rem;
+}
+.sidebar-collapse-btn:hover {
+	background: var(--bg-surface-hover);
+	color: var(--accent);
+	border-color: var(--border-default);
+}
+.sidebar-collapse-btn:active {
+	transform: scale(0.97);
+}
+/* Icon swap: show chevron normally, hamburger when collapsed */
+.sidebar-collapse-btn .collapse-chevron { display: block; }
+.sidebar-collapse-btn .collapse-hamburger { display: none; }
+.sidebar.collapsed .sidebar-collapse-btn .collapse-chevron { display: none; }
+.sidebar.collapsed .sidebar-collapse-btn .collapse-hamburger { display: block; }
+
+/* Navigation items */
+.nav-item {
+	position: relative; display: flex; align-items: center;
+	gap: .625rem; padding: .5rem .75rem; border-radius: .625rem;
+	color: var(--text-secondary); font-size: .8125rem; font-weight: 450;
+	transition: background .18s var(--ease-premium), color .18s var(--ease-premium);
+	margin: 1px 0;
+}
+.nav-item:hover {
+	background: var(--bg-surface-hover); color: var(--text-primary);
+}
+.nav-icon {
+	width: 1.25rem; height: 1.25rem;
+	display: inline-flex; align-items: center; justify-content: center;
+	color: var(--text-muted); flex-shrink: 0;
+	transition: color .15s;
+}
+.nav-item:hover .nav-icon { color: var(--accent); }
+
+/* Active state — flat pill, no gradient */
+.nav-item.active {
+	background: var(--accent-soft-bg);
+	color: var(--accent-soft-text); font-weight: 600;
+}
+.nav-item.active .nav-icon { color: var(--accent-soft-text); }
+
+/* Group labels & separators */
+.group-label {
+	color: var(--text-muted); font-weight: 600; letter-spacing: .08em;
+	padding: .375rem .75rem; margin-top: .75rem;
+	transition: opacity .22s cubic-bezier(.4,0,.2,1);
+	cursor: pointer; border-radius: .375rem;
+}
+.group-label:hover { color: var(--text-secondary); }
+.group-label svg { color: var(--text-muted); transition: transform .2s, color .15s; }
+.group-label:hover svg { color: var(--text-secondary); }
+/* Expanded nav-group indicator — a single accent color on the title row
+   (title text + chevron), not a background pill or border, so it reads as
+   "this section is open" without competing with the indigo .nav-item.active
+   pill used for "this is the current page." Specificity here (class +
+   attribute + :first-child + descendant) intentionally outranks both the
+   inline text-gray-400 utility on that row and the plain :hover rules above,
+   so it stays visible on hover and regardless of stylesheet load order. */
+.group-label[aria-expanded="true"] > span:first-child,
+.group-label[aria-expanded="true"] > span:first-child svg { color: #F26E30; }
+.group-sep { height: 1px; background: var(--border-subtle); margin: .25rem .75rem; }
+
+/* Group content expand/collapse */
+.group-content { overflow: hidden; transition: max-height .3s cubic-bezier(.4,0,.2,1), opacity .25s cubic-bezier(.4,0,.2,1); max-height: none; opacity: 1; }
+.group-content.is-collapsed { max-height: 0; opacity: 0; }
+
+/* Sidebar text labels smooth collapse */
+.sidebar .sidebar-label { display: inline-block; white-space: nowrap; transition: opacity .22s cubic-bezier(.4,0,.2,1), width .22s cubic-bezier(.4,0,.2,1), margin .22s cubic-bezier(.4,0,.2,1); }
+.sidebar.collapsed .sidebar-label { opacity: 0; width: 0; margin: 0; overflow: hidden; }
+
+/* ── Collapsed sidebar ───────────────────────────────────────── */
+.sidebar.collapsed { width: 4.75rem; overflow: visible; }
+.sidebar.collapsed .sidebar-nav { padding: .5rem 0; display: flex; flex-direction: column; align-items: center; }
+.sidebar.collapsed .sidebar-brand {
+	justify-content: center;
+	padding: 1rem 0 .5rem;
+	position: relative;
+}
+.sidebar.collapsed .sidebar-brand > div {
+	flex: 0 1 auto; justify-content: center;
+}
+.sidebar.collapsed .sidebar-brand .brand-text,
+.sidebar.collapsed .sidebar-brand .brand-sub { display: none; }
+/* Collapse row in collapsed mode */
+.sidebar.collapsed .sidebar-collapse-row {
+	justify-content: center;
+	padding: 0 0 .625rem;
+}
+.sidebar.collapsed .sidebar-collapse-btn {
+	width: 2.5rem; height: 2rem;
+	border-radius: .5rem;
+	background: var(--bg-surface-muted);
+	border: 1px solid var(--border-subtle);
+	color: var(--text-secondary);
+	margin: 0 auto;
+}
+.sidebar.collapsed .sidebar-collapse-btn:hover {
+	background: var(--bg-surface-hover);
+	border-color: var(--border-default);
+	color: var(--accent);
+}
+
+/* Collapsed nav items — icon pill style */
+.sidebar.collapsed .nav-item {
+	justify-content: center;
+	padding: .5rem;
+	margin: 1px auto;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: .75rem;
+	transition: background .15s ease, transform .1s ease;
+}
+.sidebar.collapsed .nav-item:hover {
+	background: var(--bg-surface-hover);
+}
+.sidebar.collapsed .nav-item .nav-icon {
+	margin: 0;
+	width: 1.375rem; height: 1.375rem;
+	color: var(--text-secondary);
+	transition: color .15s ease;
+}
+.sidebar.collapsed .nav-item .nav-icon svg {
+	width: 1.375rem; height: 1.375rem;
+}
+.sidebar.collapsed .nav-item:hover .nav-icon {
+	color: var(--accent);
+}
+.sidebar.collapsed .nav-item .sidebar-label { display: none; }
+
+.sidebar.collapsed .nav-group { display: contents; }
+.sidebar.collapsed .group-content { max-height: none !important; opacity: 1 !important; display: contents; }
+.sidebar.collapsed .group-content .nav-item { margin-left: 0; margin-right: 0; }
+.sidebar.collapsed .group-label { opacity: 0; height: 0; line-height: 0; margin: 0; padding: 0; overflow: hidden; pointer-events: none; }
+.sidebar.collapsed .group-sep { align-self: center; }
+
+/* Collapsed separators — centered horizontal line */
+.sidebar.collapsed .group-sep {
+	display: block !important;
+	height: 1px;
+	background: none;
+	margin: .5rem auto;
+	width: 2rem;
+	position: relative;
+}
+.sidebar.collapsed .group-sep::after {
+	content: '';
+	display: block;
+	width: 100%; height: 1px;
+	border-radius: 1px;
+	background: var(--border-default);
+	margin: 0 auto;
+}
+
+/* Active state — flat fill, no gradient */
+.sidebar.collapsed .nav-item.active {
+	background: var(--accent-soft-bg);
+}
+.sidebar.collapsed .nav-item.active .nav-icon {
+	color: var(--accent-soft-text);
+}
+.sidebar.collapsed .nav-item.active:hover {
+	background: var(--bg-surface-hover);
+}
+
+/* Collapsed tooltips */
+.sidebar.collapsed .nav-item::after {
+	content: attr(data-tip); position: absolute; left: 4.75rem; top: 50%;
+	transform: translateY(-50%) translateX(-4px);
+	background: var(--tooltip-bg); color: var(--tooltip-text);
+	padding: .375rem .75rem; border-radius: .5rem;
+	font-size: .75rem; font-weight: 500;
+	opacity: 0; pointer-events: none;
+	transition: opacity .15s cubic-bezier(.4,0,.2,1), transform .15s cubic-bezier(.4,0,.2,1);
+	white-space: nowrap; z-index: 60;
+	letter-spacing: .01em;
+}
+.sidebar.collapsed .nav-item::before {
+	content: ''; position: absolute; left: 4rem; top: 50%;
+	transform: translateY(-50%) translateX(-4px);
+	border: 5px solid transparent;
+	border-right-color: var(--tooltip-bg);
+	opacity: 0; pointer-events: none;
+	transition: opacity .15s cubic-bezier(.4,0,.2,1), transform .15s cubic-bezier(.4,0,.2,1);
+	z-index: 61;
+}
+.sidebar.collapsed .nav-item:hover::after,
+.sidebar.collapsed .nav-item:hover::before {
+	opacity: 1;
+	transform: translateY(-50%) translateX(0);
+}
+
+/* ── Layout structure ────────────────────────────────────────── */
+#layoutRoot { height: 100vh; }
+/* min-width: 0 overrides the flex default of min-width: auto, which otherwise
+   sizes this column to its widest content (a chart, a table) and pushes on
+   the sidebar instead of scrolling/wrapping internally. Pairs with
+   .sidebar's flex-shrink: 0 above to fully lock the sidebar's width. */
+#layoutRoot > .flex-1 { height: 100vh; overflow: hidden; min-width: 0; }
+#layoutRoot > .flex-1 > main { overflow-y: auto; }
+
+/* Compact layout in collapsed mode */
+#sidebar.collapsed .sidebar-nav > * { margin-top: 0 !important; }
+#sidebar.collapsed .sidebar-nav > * + * { margin-top: .25rem !important; }
+
+/* ── Top bar ─────────────────────────────────────────────────── */
+.top-bar {
+	background: var(--bg-translucent);
+	backdrop-filter: saturate(180%) blur(20px);
+	-webkit-backdrop-filter: saturate(180%) blur(20px);
+	border-bottom: 1px solid var(--border-default);
+	padding: .5rem 1.25rem;
+	display: flex; align-items: center; justify-content: space-between;
+	position: sticky; top: 0; z-index: 40;
+	min-height: 3.25rem;
+	transition: background-color .15s ease, border-color .15s ease;
+}
+.top-bar .page-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+/* .btn's unconditional `display: inline-flex` ties in specificity with
+   Tailwind's `.md\:hidden` and — since this stylesheet loads after
+   tailwind.css — wins on source order, leaving the mobile-only hamburger
+   visible on desktop. An ID selector always outranks a class, so this
+   reliably restores the intended md:hidden behavior regardless of load order. */
+@media (min-width: 768px) {
+	#btnMobileMenu { display: none; }
+}
+
+/* ── Dropdown menus ──────────────────────────────────────────── */
+.btn[data-dd-toggle]::after { content: "▾"; margin-left: .4rem; font-size: .85rem; line-height: 1; opacity: .9; }
+.dropdown-item.csv { color:#059669; }
+.dropdown-item.csv:hover { color:#047857; }
+.dropdown-item.pdf { color:#dc2626; }
+.dropdown-item.pdf:hover { color:#b91c1c; }
+
+/* ── Form focus & error states ───────────────────────────────── */
+input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="date"], input[type="time"], textarea, select{
+	transition: background-color .15s ease, box-shadow .15s ease, border-color .15s ease, opacity .15s ease;
+}
+input:focus, textarea:focus, select:focus{
+	outline: none !important;
+	box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+	border-color: var(--accent) !important;
+}
+.input-error{ border-color: #ef4444 !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
+.field-error{ color:#ef4444; font-size:.8rem; margin-top:.25rem }
+
+/* Required label marker */
+label.required::after{ content:" *"; color:#ef4444; }
+
+/* Philippine phone input wrapper */
+.ph-phone{ display:flex; align-items:stretch; border:1px solid var(--border-default); border-radius:.5rem; overflow:hidden; background:var(--bg-surface) }
+.ph-prefix{ display:inline-flex; align-items:center; gap:.35rem; padding:0 .5rem; background:var(--bg-surface-muted); color:var(--text-secondary); border-right:1px solid var(--border-default); }
+.ph-prefix .flag{ font-size:1rem; line-height:1 }
+.ph-input{ flex:1 1 auto; border:0; padding:.5rem .75rem; min-width:0; background: transparent; color: var(--text-primary); }
+.ph-input:focus{ outline:none; box-shadow:none; background:transparent }
+
+/* Ensure mouse cursor and text caret are visible on form controls */
+input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="date"], input[type="time"], textarea {
+	cursor: text !important;
+	caret-color: var(--text-primary);
+}
+select { cursor: default; }
+button, [type="button"], [type="submit"], a { cursor: pointer; }
+input:disabled, textarea:disabled, select:disabled { cursor: not-allowed; }
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+/* Same pill + frosted-glass language as the global Back/Refresh controls:
+   full rounded shape everywhere, translucent "material" background for the
+   neutral/outline variant (the one that visually plays the same role as
+   Back/Refresh), solid fill kept only where a button needs strong contrast
+   to read as the primary action on its page. */
+.btn {
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 9999px; font-weight: 600; line-height: 1.25rem;
+	padding: .5rem .875rem; border: 1px solid transparent;
+	font-size: .8125rem;
+	transition: background-color .18s var(--ease-premium), color .18s var(--ease-premium), box-shadow .18s var(--ease-premium), border-color .18s var(--ease-premium), transform .1s ease;
+	user-select: none;
+}
+.btn:hover { box-shadow: var(--shadow-hover); }
+.btn:active { box-shadow: none; transform: scale(.97); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .55; cursor: not-allowed; box-shadow: none; }
+.btn-icon { padding: 0.5rem; width: 2.25rem; height: 2.25rem; border-radius: 9999px; }
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background-color: #374151; color: #fff; }
+.btn-secondary:hover { background-color: #1f2937; }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: var(--accent-hover); }
+.btn-warning { background-color: #d97706; color: #fff; }
+.btn-warning:hover { background-color: #b45309; }
+.btn-danger { background-color: #dc2626; color: #fff; }
+.btn-danger:hover { background-color: #b91c1c; }
+.btn-outline {
+	background: var(--bg-translucent);
+	backdrop-filter: saturate(180%) blur(20px);
+	-webkit-backdrop-filter: saturate(180%) blur(20px);
+	color: var(--text-secondary); border-color: var(--border-default);
+}
+.btn-outline:hover { color: var(--text-primary); border-color: var(--text-muted); }
+
+/* Text inputs */
+.input-text { border: 1px solid var(--border-default); background: var(--bg-surface); color: var(--text-primary); padding: 0.5rem 0.75rem; border-radius: 0.5rem; min-width: 12rem; }
+.input-text:hover{ background: var(--bg-surface-muted); border-color: var(--text-muted); }
+
+/* Simple dropdown */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-menu { position: absolute; right: 0; top: calc(100% + .25rem); min-width: 9rem; background: var(--bg-translucent); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border: 1px solid var(--border-default); border-radius: .75rem; box-shadow: var(--shadow-popover); z-index: 50; overflow: hidden; }
+.dropdown-item { display:block; padding:.5rem .75rem; font-size:.875rem; color: var(--text-secondary); transition: background .1s; }
+.dropdown-item:hover { background: var(--bg-surface-hover); }
+.dropdown-item.disabled { opacity:.5; pointer-events:none; }
+
+/* ── Cards ────────────────────────────────────────────────────── */
+.card { background-color: var(--bg-surface); border-radius: 1rem; box-shadow: var(--shadow-card); border: 1px solid var(--border-subtle); transition: background-color .15s ease, border-color .15s ease; }
+.card-header { padding: .75rem 1rem; border-bottom: 1px solid var(--border-subtle); font-weight: 600; color: var(--text-primary); }
+.card-body { padding: 1rem; }
+
+/* ── Tables ───────────────────────────────────────────────────── */
+.table-basic { width: 100%; font-size: 0.875rem; border-collapse: collapse; color: var(--text-primary); }
+.table-basic th { text-align: left; background-color: var(--bg-surface-muted); padding: .625rem .75rem; font-weight: 600; color: var(--text-secondary); font-size: .8125rem; }
+.table-basic td { padding: .625rem .75rem; border-top: 1px solid var(--border-subtle); }
+.table-basic tbody tr:hover { background-color: var(--bg-surface-muted); }
+
+/* Inline action links group with subtle dividers */
+.action-links { display: inline-flex; align-items: center; gap: .5rem; }
+.action-links > * + * { position: relative; padding-left: .75rem; }
+.action-links > * + *::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 1px; height: 1rem; background: var(--border-default); }
+
+/* ── Mobile nav overlay ──────────────────────────────────────── */
+#mnav {
+	background: var(--bg-surface);
+	border-bottom: 1px solid var(--sidebar-border);
+	max-height: calc(100vh - 3.5rem);
+	max-height: calc(100dvh - 3.5rem);
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+#mnav a { color: var(--text-secondary); border-radius: .5rem; font-weight: 450; }
+#mnav a:hover { background: var(--bg-surface-hover); color: var(--text-primary); }
+#mnav .mobile-group-label { color: var(--text-muted); }
+#mnav .mobile-nav-divider {
+	height: 1px;
+	background: var(--sidebar-border);
+	margin: 0.5rem 0.75rem;
+}
+
+/* ── Notification improvements ───────────────────────────────── */
+#notifDropdown .overflow-hidden { border-radius: .75rem; }
+
+/* ── User avatar ─────────────────────────────────────────────── */
+.user-avatar {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 2rem; height: 2rem; border-radius: .5rem;
+	background: var(--accent);
+	color: #fff; font-weight: 600; font-size: .8125rem;
+	flex-shrink: 0;
+}
+
+/* ── Page intro (title + one-line plain-language explanation) ──── */
+.page-intro { margin-bottom: 1.5rem; }
+.page-intro h1 { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+.page-intro .hint-text { margin-top: .25rem; font-size: .875rem; }
+
+/* ── Hint / helper text ──────────────────────────────────────── */
+.hint-text { color: var(--text-muted); font-size: .8125rem; line-height: 1.4; }
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.empty-state {
+	display: flex; flex-direction: column; align-items: center; justify-content: center;
+	text-align: center; padding: 2rem 1rem; color: var(--text-muted);
+}
+.empty-state svg { width: 2rem; height: 2rem; margin-bottom: .5rem; color: var(--text-muted); opacity: .6; }
+.empty-state .empty-state-title { font-size: .875rem; font-weight: 600; color: var(--text-secondary); }
+.empty-state .empty-state-desc { font-size: .8125rem; margin-top: .25rem; max-width: 24rem; }
+
+/* ── Collapsible section (dashboard/page-level, not sidebar nav) ─ */
+.section-collapsible-header {
+	display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+	width: 100%; cursor: pointer; background: none; border: 0; text-align: left;
+}
+.section-collapsible-header > :first-child { min-width: 0; }
+/* Groups the optional summary + chevron as ONE flex item on the right, so
+   justify-content: space-between on the header always splits exactly two
+   things (title block vs. this group) — with a summary present, 3 loose
+   flex children would spread apart instead, stranding the summary text in
+   an awkward floating middle position. */
+.section-collapsible-right {
+	display: flex; align-items: center; gap: .75rem; flex-shrink: 0;
+}
+/* On narrow phones the summary text ("N item(s) need attention") is long
+   enough that, protected by flex-shrink: 0 above, it squeezes the title
+   block's available width until the heading word-wraps mid-phrase right
+   under the sticky top bar — reading as if the two overlap. Stack the
+   summary+chevron onto their own row instead so the title always gets
+   the full row width on one line. */
+@media (max-width: 479px) {
+	.section-collapsible-header { flex-wrap: wrap; row-gap: .375rem; }
+	.section-collapsible-header > :first-child { flex: 1 1 100%; }
+	.section-collapsible-right { margin-left: auto; }
+	/* Headers with no summary text (Quick Actions, Charts & Trends, Recent
+	   Notifications) have the chevron as a bare direct child instead of
+	   wrapped in .section-collapsible-right — without this it drops to the
+	   wrapped row above but lands at the left instead of lining up on the
+	   right like the summary-bearing headers do. */
+	.section-collapsible-header > svg.section-chevron { margin-left: auto; }
+}
+.section-collapsible-header .section-chevron {
+	width: 1.125rem; height: 1.125rem; color: var(--text-muted); flex-shrink: 0;
+	transition: transform .2s cubic-bezier(.4,0,.2,1);
+}
+.section-collapsible-header[aria-expanded="false"] .section-chevron { transform: rotate(-90deg); }
+.section-collapsible-summary { font-size: .8125rem; color: var(--text-muted); font-weight: 500; }
+.section-collapsible-header[aria-expanded="true"] .section-collapsible-summary { display: none; }
+.section-collapsible-body {
+	overflow: hidden; transition: max-height .25s cubic-bezier(.4,0,.2,1), opacity .2s ease;
+}
+.section-collapsible-body.is-collapsed { max-height: 0 !important; opacity: 0; pointer-events: none; }
+
+/* ── Draggable dashboard cards ───────────────────────────────────
+   A small grip handle in each card's top-left corner reorders the
+   dashboard's 4 collapsible cards. Uses Pointer Events (not native HTML5
+   drag-and-drop, which touch browsers don't support) so it works on
+   mobile too. padding-left on the header makes room for the handle
+   without touching the section markup captured/reused from each card. */
+.dashboard-card-draggable { position: relative; }
+.dashboard-card-draggable.is-dragging { z-index: 10; box-shadow: var(--shadow-popover); }
+.dashboard-card-draggable .section-collapsible-header { padding-left: 3rem; }
+.dashboard-card-handle {
+	position: absolute; top: 1.125rem; left: 1rem; z-index: 5;
+	display: flex; align-items: center; justify-content: center;
+	width: 1.75rem; height: 1.75rem; border-radius: .625rem; border: 0;
+	background: var(--bg-translucent);
+	backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px);
+	color: var(--text-muted); cursor: grab; touch-action: none;
+	opacity: .55; transition: opacity .15s ease, background-color .15s ease, color .15s ease, transform .15s ease;
+}
+/* 2x3 dot grid reads as a physical "grip" texture — the same convention
+   used by Notion/Trello/Linear-style drag handles — rendered as plain
+   spans (not an SVG) so dot size/spacing stays pixel-exact and themes via
+   currentColor automatically. */
+.dashboard-card-handle-grip {
+	display: grid; grid-template-columns: repeat(2, 3px); grid-auto-rows: 3px; gap: 3px;
+}
+.dashboard-card-handle-grip span { width: 3px; height: 3px; border-radius: 50%; background: currentColor; }
+.dashboard-card-handle:hover { opacity: 1; background: var(--bg-surface-hover); color: var(--text-secondary); transform: scale(1.06); }
+.dashboard-card-handle:active,
+.dashboard-card-draggable.is-dragging .dashboard-card-handle { cursor: grabbing; opacity: 1; transform: scale(1.06); }
+@media (max-width: 639px) {
+	.dashboard-card-handle { width: 2rem; height: 2rem; }
+}
+
+/* ── Customizable Quick Actions ──────────────────────────────────
+   Each tile gets a small remove "x" (hidden until hover/focus on desktop,
+   faintly visible on touch since there's no hover to reveal it) and the
+   grid ends with a dashed "+ Add Shortcut" tile. The picker is a plain
+   in-flow panel (not an absolutely-positioned dropdown) that toggles
+   hidden/visible below the grid — it grows the card to fit its contents
+   and pushes whatever comes after it down, instead of floating over it. */
+.dashboard-qa-tile { position: relative; }
+/* Whole-tile navigation goes through this real <a>, not a JS click-delegation
+   helper — it's a plain absolutely-positioned link filling the tile, painted
+   above the static icon/text content (position:absolute content always
+   paints above in-flow siblings) but below the remove button (z-index 1
+   vs the button's z-index 3), so clicking anywhere except the button
+   navigates, and the button reliably gets its own clicks. */
+.dashboard-qa-tile-link { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.dashboard-qa-remove {
+	position: absolute; top: -.5rem; right: -.5rem; z-index: 3;
+	display: flex; align-items: center; justify-content: center;
+	width: 1.375rem; height: 1.375rem; border-radius: 9999px;
+	border: 1px solid var(--border-default); background: var(--bg-surface); color: var(--text-muted);
+	opacity: 0; transform: scale(.85);
+	transition: opacity .15s ease, transform .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.dashboard-qa-remove svg { width: .75rem; height: .75rem; }
+.dashboard-qa-tile:hover .dashboard-qa-remove,
+.dashboard-qa-remove:focus-visible { opacity: 1; transform: scale(1); }
+.dashboard-qa-remove:hover { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+html.dark .dashboard-qa-remove:hover { background: rgba(220,38,38,.15); color: #f87171; border-color: rgba(248,113,113,.4); }
+@media (max-width: 767px) {
+	.dashboard-qa-remove { opacity: .5; }
+}
+.dashboard-qa-picker-inline {
+	margin-top: .75rem; padding: .75rem; border: 1px dashed var(--border-default); border-radius: .75rem;
+	background: var(--bg-surface-muted);
+	gap: .375rem; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+}
+/* Tailwind's .hidden { display: none } and this rule are equal specificity
+   (one class each); since app.css loads after tailwind.css it would win on
+   source order regardless of the .hidden class being present, so the panel
+   never actually hid. :not(.hidden) only matches — and only sets
+   display:grid — when .hidden is absent, letting .hidden's display:none
+   apply uncontested whenever it's there. */
+.dashboard-qa-picker-inline:not(.hidden) { display: grid; }
+.dashboard-qa-picker-item {
+	display: flex; align-items: center; gap: .625rem; width: 100%;
+	padding: .5rem .625rem; border-radius: .5rem; font-size: .8125rem; font-weight: 500;
+	color: var(--text-secondary); text-align: left; background: var(--bg-surface);
+	border: 1px solid var(--border-subtle); transition: background-color .1s ease, border-color .1s ease;
+}
+.dashboard-qa-picker-item:hover { background: var(--bg-surface-hover); color: var(--text-primary); border-color: var(--border-default); }
+.dashboard-qa-picker-empty { grid-column: 1 / -1; padding: .5rem; font-size: .8125rem; color: var(--text-muted); text-align: center; }
+
+/* ── Global Back / Refresh controls ─────────────────────────────
+   Fixed to the same viewport position on every page (not part of page
+   content flow), so it never moves regardless of scroll position or
+   which page/child page you're on. */
+.global-nav-controls {
+	position: fixed;
+	bottom: 1.5rem;
+	right: 1.5rem;
+	z-index: 45;
+	display: flex;
+	gap: .5rem;
+}
+.global-nav-btn {
+	display: inline-flex; align-items: center; gap: .375rem;
+	padding: .5rem .875rem;
+	border-radius: 9999px;
+	background: var(--bg-translucent);
+	backdrop-filter: saturate(180%) blur(20px);
+	-webkit-backdrop-filter: saturate(180%) blur(20px);
+	border: 1px solid var(--border-default);
+	color: var(--text-secondary);
+	font-size: .75rem; font-weight: 600;
+	box-shadow: var(--shadow-hover);
+	cursor: pointer;
+	transition: background-color .18s var(--ease-premium), color .18s var(--ease-premium), border-color .18s var(--ease-premium), transform .1s ease;
+}
+.global-nav-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
+.global-nav-btn:active { transform: scale(.96); }
+.global-nav-btn svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+
+/* Mobile: icon-only pills, with real breathing room from the edge so they
+   read as a placed control rather than a stray element clipped to the side. */
+@media (max-width: 639px) {
+	.global-nav-controls { bottom: 1.25rem; right: 1rem; gap: .5rem; }
+	.global-nav-btn { padding: .625rem; }
+	.global-nav-btn span { display: none; }
+}
+
+/* ── Theme toggle icon swap ──────────────────────────────────── */
+html.dark #themeIconDark { display: none !important; }
+html.dark #themeIconLight { display: inline-flex !important; }
+html:not(.dark) #themeIconLight { display: none !important; }
+html:not(.dark) #themeIconDark { display: inline-flex !important; }
+
+/* ── Dark-mode retrofit for raw Tailwind utility classes ──────────
+   Many page templates paint colors directly in markup (bg-white,
+   text-slate-900, bg-emerald-100, etc.) instead of the token-based
+   .card/.btn/.table-basic primitives. Rather than hand-editing every
+   file, redefine the common classes here under html.dark so they
+   resolve through the token system too. Light mode is untouched —
+   these already match the light token values. New pages should
+   still prefer tokens/primitives directly; this is a safety net for
+   the rest of the app. */
+html.dark .bg-slate-50, html.dark .bg-gray-50, html.dark .bg-slate-100, html.dark .bg-gray-100 { background-color: var(--bg-surface-muted); }
+html.dark .bg-white { background-color: var(--bg-surface); }
+html.dark .text-slate-900, html.dark .text-slate-800, html.dark .text-gray-900, html.dark .text-gray-800 { color: var(--text-primary); }
+html.dark .text-slate-700, html.dark .text-slate-600, html.dark .text-gray-700, html.dark .text-gray-600 { color: var(--text-secondary); }
+html.dark .text-slate-500, html.dark .text-slate-400, html.dark .text-gray-500, html.dark .text-gray-400 { color: var(--text-muted); }
+html.dark .border-slate-100, html.dark .border-gray-100 { border-color: var(--border-subtle); }
+html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]), html.dark .divide-gray-100 > :not([hidden]) ~ :not([hidden]) { border-color: var(--border-subtle); }
+html.dark .border-slate-200, html.dark .border-slate-300, html.dark .border-gray-200, html.dark .border-gray-300 { border-color: var(--border-default); }
+html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]), html.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) { border-color: var(--border-default); }
+html.dark .hover\:bg-slate-50:hover, html.dark .hover\:bg-gray-50:hover, html.dark .hover\:bg-slate-100:hover, html.dark .hover\:bg-gray-100:hover { background-color: var(--bg-surface-hover); }
+
+html.dark .bg-indigo-50, html.dark .bg-indigo-100, html.dark .bg-indigo-200 { background-color: rgba(224,231,255,.14); }
+html.dark .border-indigo-50, html.dark .border-indigo-100, html.dark .border-indigo-200 { border-color: rgba(224,231,255,.35); }
+html.dark .text-indigo-600, html.dark .text-indigo-700, html.dark .text-indigo-800 { color: rgb(199,210,254); }
+html.dark .bg-emerald-50, html.dark .bg-emerald-100, html.dark .bg-emerald-200 { background-color: rgba(209,250,229,.14); }
+html.dark .border-emerald-50, html.dark .border-emerald-100, html.dark .border-emerald-200 { border-color: rgba(209,250,229,.35); }
+html.dark .text-emerald-600, html.dark .text-emerald-700, html.dark .text-emerald-800 { color: rgb(167,243,208); }
+html.dark .bg-amber-50, html.dark .bg-amber-100, html.dark .bg-amber-200 { background-color: rgba(254,243,199,.14); }
+html.dark .border-amber-50, html.dark .border-amber-100, html.dark .border-amber-200 { border-color: rgba(254,243,199,.35); }
+html.dark .text-amber-600, html.dark .text-amber-700, html.dark .text-amber-800 { color: rgb(253,230,138); }
+html.dark .bg-red-50, html.dark .bg-red-100, html.dark .bg-red-200 { background-color: rgba(254,226,226,.14); }
+html.dark .border-red-50, html.dark .border-red-100, html.dark .border-red-200 { border-color: rgba(254,226,226,.35); }
+html.dark .text-red-600, html.dark .text-red-700, html.dark .text-red-800 { color: rgb(254,202,202); }
+html.dark .bg-blue-50, html.dark .bg-blue-100, html.dark .bg-blue-200 { background-color: rgba(219,234,254,.14); }
+html.dark .border-blue-50, html.dark .border-blue-100, html.dark .border-blue-200 { border-color: rgba(219,234,254,.35); }
+html.dark .text-blue-600, html.dark .text-blue-700, html.dark .text-blue-800 { color: rgb(191,219,254); }
+html.dark .bg-purple-50, html.dark .bg-purple-100, html.dark .bg-purple-200 { background-color: rgba(243,232,255,.14); }
+html.dark .border-purple-50, html.dark .border-purple-100, html.dark .border-purple-200 { border-color: rgba(243,232,255,.35); }
+html.dark .text-purple-600, html.dark .text-purple-700, html.dark .text-purple-800 { color: rgb(233,213,255); }
+html.dark .bg-sky-50, html.dark .bg-sky-100, html.dark .bg-sky-200 { background-color: rgba(224,242,254,.14); }
+html.dark .border-sky-50, html.dark .border-sky-100, html.dark .border-sky-200 { border-color: rgba(224,242,254,.35); }
+html.dark .text-sky-600, html.dark .text-sky-700, html.dark .text-sky-800 { color: rgb(186,230,253); }
+html.dark .bg-rose-50, html.dark .bg-rose-100, html.dark .bg-rose-200 { background-color: rgba(255,228,230,.14); }
+html.dark .border-rose-50, html.dark .border-rose-100, html.dark .border-rose-200 { border-color: rgba(255,228,230,.35); }
+html.dark .text-rose-600, html.dark .text-rose-700, html.dark .text-rose-800 { color: rgb(254,205,211); }
+html.dark .bg-teal-50, html.dark .bg-teal-100, html.dark .bg-teal-200 { background-color: rgba(204,251,241,.14); }
+html.dark .border-teal-50, html.dark .border-teal-100, html.dark .border-teal-200 { border-color: rgba(204,251,241,.35); }
+html.dark .text-teal-600, html.dark .text-teal-700, html.dark .text-teal-800 { color: rgb(153,246,228); }
+html.dark .bg-green-50, html.dark .bg-green-100, html.dark .bg-green-200 { background-color: rgba(220,252,231,.14); }
+html.dark .border-green-50, html.dark .border-green-100, html.dark .border-green-200 { border-color: rgba(220,252,231,.35); }
+html.dark .text-green-600, html.dark .text-green-700, html.dark .text-green-800 { color: rgb(187,247,208); }
+html.dark .bg-yellow-50, html.dark .bg-yellow-100, html.dark .bg-yellow-200 { background-color: rgba(254,249,195,.14); }
+html.dark .border-yellow-50, html.dark .border-yellow-100, html.dark .border-yellow-200 { border-color: rgba(254,249,195,.35); }
+html.dark .text-yellow-600, html.dark .text-yellow-700, html.dark .text-yellow-800 { color: rgb(254,240,138); }
