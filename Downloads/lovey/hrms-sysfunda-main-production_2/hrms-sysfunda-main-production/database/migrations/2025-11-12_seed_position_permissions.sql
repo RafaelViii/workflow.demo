@@ -296,11 +296,10 @@ BEGIN
     END IF;
 
     -- Log completion
-    INSERT INTO audit_log (user_id, action, data, ip_address, created_at)
-    VALUES (1, 'seed_position_permissions', 
+    INSERT INTO audit_logs (user_id, action, details, created_at)
+    VALUES (1, 'seed_position_permissions',
             '{"migration": "2025-11-12_seed_position_permissions", "positions_seeded": "CEO, CHRO, CFO, HR Manager, HR Officer, Payroll Manager, Payroll Clerk, Recruiter, Supervisor, Auditor"}',
-            '127.0.0.1', CURRENT_TIMESTAMP)
-    ON CONFLICT DO NOTHING;
+            CURRENT_TIMESTAMP);
 
     RAISE NOTICE '✅ Position permission seeding complete!';
 END $$;

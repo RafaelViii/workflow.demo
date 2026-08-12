@@ -89,16 +89,16 @@ $$;
 DO $$
 BEGIN
     IF NOT EXISTS (
-        SELECT 1 FROM pg_indexes 
-        WHERE schemaname = 'public' 
-        AND tablename = 'leave_requests' 
+        SELECT 1 FROM pg_indexes
+        WHERE schemaname = 'public'
+        AND tablename = 'leave_requests'
         AND indexname = 'idx_leave_requests_status'
     ) THEN
-        CREATE INDEX idx_leave_requests_status ON leave_requests(status) WHERE tablename = 'leave_requests';
-    EXCEPTION WHEN undefined_table THEN
-        -- Table doesn't exist yet, skip
-        NULL;
+        CREATE INDEX idx_leave_requests_status ON leave_requests(status);
     END IF;
+EXCEPTION WHEN undefined_table THEN
+    -- Table doesn't exist yet, skip
+    NULL;
 END
 $$;
 
@@ -106,16 +106,16 @@ $$;
 DO $$
 BEGIN
     IF NOT EXISTS (
-        SELECT 1 FROM pg_indexes 
-        WHERE schemaname = 'public' 
-        AND tablename = 'payroll_periods' 
+        SELECT 1 FROM pg_indexes
+        WHERE schemaname = 'public'
+        AND tablename = 'payroll_periods'
         AND indexname = 'idx_payroll_periods_status'
     ) THEN
         CREATE INDEX idx_payroll_periods_status ON payroll_periods(status);
-    EXCEPTION WHEN undefined_table THEN
-        -- Table doesn't exist yet, skip
-        NULL;
     END IF;
+EXCEPTION WHEN undefined_table THEN
+    -- Table doesn't exist yet, skip
+    NULL;
 END
 $$;
 
@@ -123,16 +123,16 @@ $$;
 DO $$
 BEGIN
     IF NOT EXISTS (
-        SELECT 1 FROM pg_indexes 
-        WHERE schemaname = 'public' 
-        AND tablename = 'employees' 
+        SELECT 1 FROM pg_indexes
+        WHERE schemaname = 'public'
+        AND tablename = 'employees'
         AND indexname = 'idx_employees_status'
     ) THEN
         CREATE INDEX idx_employees_status ON employees(status);
-    EXCEPTION WHEN undefined_table THEN
-        -- Table doesn't exist yet, skip
-        NULL;
     END IF;
+EXCEPTION WHEN undefined_table THEN
+    -- Table doesn't exist yet, skip
+    NULL;
 END
 $$;
 
@@ -140,15 +140,15 @@ $$;
 DO $$
 BEGIN
     IF NOT EXISTS (
-        SELECT 1 FROM pg_indexes 
-        WHERE schemaname = 'public' 
-        AND tablename = 'memos' 
+        SELECT 1 FROM pg_indexes
+        WHERE schemaname = 'public'
+        AND tablename = 'memos'
         AND indexname = 'idx_memos_status_published'
     ) THEN
         CREATE INDEX idx_memos_status_published ON memos(status, published_at DESC);
-    EXCEPTION WHEN undefined_table THEN
-        -- Table doesn't exist yet, skip
-        NULL;
     END IF;
+EXCEPTION WHEN undefined_table THEN
+    -- Table doesn't exist yet, skip
+    NULL;
 END
 $$;

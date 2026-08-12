@@ -14,26 +14,25 @@ BEGIN
     -- System Administrator Position
     -- ============================================================================
     SELECT id INTO pos_id FROM positions 
-    WHERE LOWER(title) LIKE '%system admin%' 
-       OR LOWER(title) LIKE '%sysadmin%'
-       OR title = 'System Administrator'
+    WHERE LOWER(name) LIKE '%system admin%' 
+       OR LOWER(name) LIKE '%sysadmin%'
+       OR name = 'System Administrator'
     LIMIT 1;
 
     IF pos_id IS NOT NULL THEN
         -- Check if permission already exists
         SELECT EXISTS (
-            SELECT 1 FROM position_permissions 
+            SELECT 1 FROM position_access_permissions 
             WHERE position_id = pos_id 
-            AND domain = 'user_management' 
-            AND resource = 'audit_logs'
+            AND domain = 'system' 
+            AND resource_key = 'audit_logs'
         ) INTO perm_exists;
 
         IF NOT perm_exists THEN
-            INSERT INTO position_permissions (position_id, domain, resource, access_level, is_system_permission, notes)
+            INSERT INTO position_access_permissions (position_id, domain, resource_key, access_level, notes)
             VALUES 
-                (pos_id, 'user_management', 'audit_logs', 'manage', TRUE, 'System Administrator - Full audit trail access'),
-                (pos_id, 'user_management', 'audit_reports', 'manage', TRUE, 'System Administrator - Full audit reports access')
-            ON CONFLICT (position_id, domain, resource) DO NOTHING;
+                (pos_id, 'system', 'audit_logs', 'manage', 'System Administrator - Full audit trail access')
+            ON CONFLICT (position_id, domain, resource_key) DO NOTHING;
             RAISE NOTICE 'Seeded audit trail permissions for System Administrator (ID: %)', pos_id;
         ELSE
             RAISE NOTICE 'System Administrator already has audit trail permissions';
@@ -46,25 +45,24 @@ BEGIN
     -- HR Manager Position
     -- ============================================================================
     SELECT id INTO pos_id FROM positions 
-    WHERE LOWER(title) LIKE '%hr manager%'
-       OR LOWER(title) LIKE '%human resource%manager%'
-       OR title = 'HR Manager'
+    WHERE LOWER(name) LIKE '%hr manager%'
+       OR LOWER(name) LIKE '%human resource%manager%'
+       OR name = 'HR Manager'
     LIMIT 1;
 
     IF pos_id IS NOT NULL THEN
         SELECT EXISTS (
-            SELECT 1 FROM position_permissions 
+            SELECT 1 FROM position_access_permissions 
             WHERE position_id = pos_id 
-            AND domain = 'user_management' 
-            AND resource = 'audit_logs'
+            AND domain = 'system' 
+            AND resource_key = 'audit_logs'
         ) INTO perm_exists;
 
         IF NOT perm_exists THEN
-            INSERT INTO position_permissions (position_id, domain, resource, access_level, is_system_permission, notes)
+            INSERT INTO position_access_permissions (position_id, domain, resource_key, access_level, notes)
             VALUES 
-                (pos_id, 'user_management', 'audit_logs', 'manage', FALSE, 'HR Manager - Full audit trail access for HR oversight'),
-                (pos_id, 'user_management', 'audit_reports', 'manage', FALSE, 'HR Manager - Full audit reports access')
-            ON CONFLICT (position_id, domain, resource) DO NOTHING;
+                (pos_id, 'system', 'audit_logs', 'manage', 'HR Manager - Full audit trail access for HR oversight')
+            ON CONFLICT (position_id, domain, resource_key) DO NOTHING;
             RAISE NOTICE 'Seeded audit trail permissions for HR Manager (ID: %)', pos_id;
         ELSE
             RAISE NOTICE 'HR Manager already has audit trail permissions';
@@ -77,25 +75,24 @@ BEGIN
     -- Internal Auditor Position
     -- ============================================================================
     SELECT id INTO pos_id FROM positions 
-    WHERE LOWER(title) LIKE '%auditor%'
-       OR LOWER(title) LIKE '%compliance%'
-       OR title = 'Internal Auditor'
+    WHERE LOWER(name) LIKE '%auditor%'
+       OR LOWER(name) LIKE '%compliance%'
+       OR name = 'Internal Auditor'
     LIMIT 1;
 
     IF pos_id IS NOT NULL THEN
         SELECT EXISTS (
-            SELECT 1 FROM position_permissions 
+            SELECT 1 FROM position_access_permissions 
             WHERE position_id = pos_id 
-            AND domain = 'user_management' 
-            AND resource = 'audit_logs'
+            AND domain = 'system' 
+            AND resource_key = 'audit_logs'
         ) INTO perm_exists;
 
         IF NOT perm_exists THEN
-            INSERT INTO position_permissions (position_id, domain, resource, access_level, is_system_permission, notes)
+            INSERT INTO position_access_permissions (position_id, domain, resource_key, access_level, notes)
             VALUES 
-                (pos_id, 'user_management', 'audit_logs', 'manage', FALSE, 'Internal Auditor - Full audit trail access for compliance'),
-                (pos_id, 'user_management', 'audit_reports', 'manage', FALSE, 'Internal Auditor - Full audit reports access')
-            ON CONFLICT (position_id, domain, resource) DO NOTHING;
+                (pos_id, 'system', 'audit_logs', 'manage', 'Internal Auditor - Full audit trail access for compliance')
+            ON CONFLICT (position_id, domain, resource_key) DO NOTHING;
             RAISE NOTICE 'Seeded audit trail permissions for Internal Auditor (ID: %)', pos_id;
         ELSE
             RAISE NOTICE 'Internal Auditor already has audit trail permissions';
@@ -108,25 +105,24 @@ BEGIN
     -- IT Administrator Position
     -- ============================================================================
     SELECT id INTO pos_id FROM positions 
-    WHERE LOWER(title) LIKE '%it admin%'
-       OR LOWER(title) LIKE '%information tech%admin%'
-       OR title = 'IT Administrator'
+    WHERE LOWER(name) LIKE '%it admin%'
+       OR LOWER(name) LIKE '%information tech%admin%'
+       OR name = 'IT Administrator'
     LIMIT 1;
 
     IF pos_id IS NOT NULL THEN
         SELECT EXISTS (
-            SELECT 1 FROM position_permissions 
+            SELECT 1 FROM position_access_permissions 
             WHERE position_id = pos_id 
-            AND domain = 'user_management' 
-            AND resource = 'audit_logs'
+            AND domain = 'system' 
+            AND resource_key = 'audit_logs'
         ) INTO perm_exists;
 
         IF NOT perm_exists THEN
-            INSERT INTO position_permissions (position_id, domain, resource, access_level, is_system_permission, notes)
+            INSERT INTO position_access_permissions (position_id, domain, resource_key, access_level, notes)
             VALUES 
-                (pos_id, 'user_management', 'audit_logs', 'read', FALSE, 'IT Administrator - Read audit trail for system monitoring'),
-                (pos_id, 'user_management', 'audit_reports', 'read', FALSE, 'IT Administrator - Read audit reports for analysis')
-            ON CONFLICT (position_id, domain, resource) DO NOTHING;
+                (pos_id, 'system', 'audit_logs', 'read', 'IT Administrator - Read audit trail for system monitoring')
+            ON CONFLICT (position_id, domain, resource_key) DO NOTHING;
             RAISE NOTICE 'Seeded audit trail permissions for IT Administrator (ID: %)', pos_id;
         ELSE
             RAISE NOTICE 'IT Administrator already has audit trail permissions';
@@ -139,25 +135,24 @@ BEGIN
     -- Compliance Officer Position
     -- ============================================================================
     SELECT id INTO pos_id FROM positions 
-    WHERE LOWER(title) LIKE '%compliance officer%'
-       OR LOWER(title) LIKE '%compliance manager%'
-       OR title = 'Compliance Officer'
+    WHERE LOWER(name) LIKE '%compliance officer%'
+       OR LOWER(name) LIKE '%compliance manager%'
+       OR name = 'Compliance Officer'
     LIMIT 1;
 
     IF pos_id IS NOT NULL THEN
         SELECT EXISTS (
-            SELECT 1 FROM position_permissions 
+            SELECT 1 FROM position_access_permissions 
             WHERE position_id = pos_id 
-            AND domain = 'user_management' 
-            AND resource = 'audit_logs'
+            AND domain = 'system' 
+            AND resource_key = 'audit_logs'
         ) INTO perm_exists;
 
         IF NOT perm_exists THEN
-            INSERT INTO position_permissions (position_id, domain, resource, access_level, is_system_permission, notes)
+            INSERT INTO position_access_permissions (position_id, domain, resource_key, access_level, notes)
             VALUES 
-                (pos_id, 'user_management', 'audit_logs', 'manage', FALSE, 'Compliance Officer - Full audit trail access for regulatory compliance'),
-                (pos_id, 'user_management', 'audit_reports', 'manage', FALSE, 'Compliance Officer - Full audit reports access')
-            ON CONFLICT (position_id, domain, resource) DO NOTHING;
+                (pos_id, 'system', 'audit_logs', 'manage', 'Compliance Officer - Full audit trail access for regulatory compliance')
+            ON CONFLICT (position_id, domain, resource_key) DO NOTHING;
             RAISE NOTICE 'Seeded audit trail permissions for Compliance Officer (ID: %)', pos_id;
         ELSE
             RAISE NOTICE 'Compliance Officer already has audit trail permissions';
@@ -170,26 +165,25 @@ BEGIN
     -- Security Officer Position
     -- ============================================================================
     SELECT id INTO pos_id FROM positions 
-    WHERE LOWER(title) LIKE '%security officer%'
-       OR LOWER(title) LIKE '%security manager%'
-       OR LOWER(title) LIKE '%infosec%'
-       OR title = 'Security Officer'
+    WHERE LOWER(name) LIKE '%security officer%'
+       OR LOWER(name) LIKE '%security manager%'
+       OR LOWER(name) LIKE '%infosec%'
+       OR name = 'Security Officer'
     LIMIT 1;
 
     IF pos_id IS NOT NULL THEN
         SELECT EXISTS (
-            SELECT 1 FROM position_permissions 
+            SELECT 1 FROM position_access_permissions 
             WHERE position_id = pos_id 
-            AND domain = 'user_management' 
-            AND resource = 'audit_logs'
+            AND domain = 'system' 
+            AND resource_key = 'audit_logs'
         ) INTO perm_exists;
 
         IF NOT perm_exists THEN
-            INSERT INTO position_permissions (position_id, domain, resource, access_level, is_system_permission, notes)
+            INSERT INTO position_access_permissions (position_id, domain, resource_key, access_level, notes)
             VALUES 
-                (pos_id, 'user_management', 'audit_logs', 'manage', FALSE, 'Security Officer - Full audit trail access for security monitoring'),
-                (pos_id, 'user_management', 'audit_reports', 'manage', FALSE, 'Security Officer - Full audit reports access')
-            ON CONFLICT (position_id, domain, resource) DO NOTHING;
+                (pos_id, 'system', 'audit_logs', 'manage', 'Security Officer - Full audit trail access for security monitoring')
+            ON CONFLICT (position_id, domain, resource_key) DO NOTHING;
             RAISE NOTICE 'Seeded audit trail permissions for Security Officer (ID: %)', pos_id;
         ELSE
             RAISE NOTICE 'Security Officer already has audit trail permissions';

@@ -49,6 +49,28 @@ CREATE TABLE IF NOT EXISTS overtime_requests (
     CONSTRAINT chk_overtime_time_order CHECK (end_time > start_time OR (end_time < start_time AND hours_worked > 0))
 );
 
+-- The 2025-11-07_add_overtime_requests_table.sql migration may have already
+-- created this table with an older, smaller column set (e.g. `hours` instead
+-- of `hours_worked`, no start_time/end_time/overtime_type/etc.) — in that
+-- case the CREATE TABLE IF NOT EXISTS above is a no-op, so reconcile the
+-- schema here regardless of which migration actually created the table.
+ALTER TABLE overtime_requests
+  ADD COLUMN IF NOT EXISTS start_time TIME WITHOUT TIME ZONE,
+  ADD COLUMN IF NOT EXISTS end_time TIME WITHOUT TIME ZONE,
+  ADD COLUMN IF NOT EXISTS hours_worked NUMERIC(5,2),
+  ADD COLUMN IF NOT EXISTS overtime_type VARCHAR(50) DEFAULT 'regular',
+  ADD COLUMN IF NOT EXISTS work_description TEXT,
+  ADD COLUMN IF NOT EXISTS notes TEXT,
+  ADD COLUMN IF NOT EXISTS is_paid BOOLEAN NOT NULL DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS created_by INT;
+
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = current_schema() AND table_name = 'overtime_requests' AND column_name = 'hours') THEN
+    UPDATE overtime_requests SET hours_worked = hours WHERE hours_worked IS NULL;
+  END IF;
+END $$;
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_overtime_employee ON overtime_requests(employee_id);
 CREATE INDEX IF NOT EXISTS idx_overtime_status ON overtime_requests(status);

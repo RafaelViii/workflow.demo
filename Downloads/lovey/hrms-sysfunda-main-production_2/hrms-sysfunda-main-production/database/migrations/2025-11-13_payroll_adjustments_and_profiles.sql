@@ -23,6 +23,20 @@ BEGIN
     END IF;
 END$$;
 
+-- This table was historically created by hand in earlier environments and
+-- never captured as its own migration — create it here (base columns only)
+-- so a fresh install has something for the ALTER block below to extend.
+CREATE TABLE IF NOT EXISTS employee_payroll_profiles (
+    employee_id INTEGER PRIMARY KEY REFERENCES employees(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    allow_overtime BOOLEAN NOT NULL DEFAULT FALSE,
+    duty_start TIME WITHOUT TIME ZONE NULL,
+    duty_end TIME WITHOUT TIME ZONE NULL,
+    hours_per_day INTEGER NULL,
+    working_days_per_month INTEGER NULL,
+    updated_by INTEGER NULL REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Extend employee payroll profiles with customization fields
 DO $$
 BEGIN

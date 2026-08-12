@@ -33,10 +33,10 @@ COMMENT ON COLUMN users.can_grant_permissions IS
 -- Create audit trail for this sensitive permission
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM audit_log WHERE action = 'add_can_grant_permissions_column') THEN
-        INSERT INTO audit_log (user_id, action, data, ip_address, created_at)
-        VALUES (1, 'add_can_grant_permissions_column', 
+    IF NOT EXISTS (SELECT 1 FROM audit_logs WHERE action = 'add_can_grant_permissions_column') THEN
+        INSERT INTO audit_logs (user_id, action, details, created_at)
+        VALUES (1, 'add_can_grant_permissions_column',
                 '{"migration": "2025-11-12_add_can_grant_permissions", "reason": "Added sensitive permission control"}',
-                '127.0.0.1', CURRENT_TIMESTAMP);
+                CURRENT_TIMESTAMP);
     END IF;
 END $$;

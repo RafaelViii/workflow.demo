@@ -73,6 +73,17 @@ foreach ($files as $path) {
         continue;
     }
 
+    // An empty (or whitespace/comment-only) file has nothing to execute —
+    // PDO::exec() rejects an empty string outright, so treat it as a trivial
+    // no-op and just record it as applied rather than failing the whole run.
+    if (trim($sql) === '') {
+        out('[APPLY] ' . $file . ' (empty file, no-op)');
+        $ins = $pdo->prepare('INSERT INTO schema_migrations (filename, checksum) VALUES (:f, :c)');
+        $ins->execute([':f' => $file, ':c' => $checksum]);
+        $appliedCount++;
+        continue;
+    }
+
     out('[APPLY] ' . $file);
     try {
         // Execute as-is (migration files may contain their own BEGIN/COMMIT)

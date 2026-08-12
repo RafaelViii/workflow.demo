@@ -234,16 +234,9 @@ BEGIN
     END IF;
 END $$;
 
--- ============================================================================
--- STEP 9: Record migration completion
--- ============================================================================
-INSERT INTO schema_migrations (filename, checksum, applied_at)
-VALUES (
-    '2025-11-12_position_based_permissions.sql',
-    'position_based_permissions_v1',
-    CURRENT_TIMESTAMP
-)
-ON CONFLICT (filename) DO NOTHING;
+-- Note: tools/migrate.php records this file's completion (with its real
+-- sha256 checksum) in schema_migrations automatically after this script
+-- runs successfully — no need to do it here too.
 
 -- ============================================================================
 -- MIGRATION COMPLETE

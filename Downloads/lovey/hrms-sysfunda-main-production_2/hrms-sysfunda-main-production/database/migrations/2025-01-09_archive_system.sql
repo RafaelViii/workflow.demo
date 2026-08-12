@@ -67,14 +67,14 @@ END $$;
 DO $$ 
 BEGIN
     IF NOT EXISTS (
-        SELECT 1 FROM information_schema.columns 
-        WHERE table_name = 'leaves' AND column_name = 'deleted_at'
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'leave_requests' AND column_name = 'deleted_at'
     ) THEN
-        ALTER TABLE leaves 
+        ALTER TABLE leave_requests
         ADD COLUMN deleted_at TIMESTAMP NULL,
         ADD COLUMN deleted_by INTEGER REFERENCES employees(id);
-        
-        CREATE INDEX IF NOT EXISTS idx_leaves_deleted_at ON leaves(deleted_at);
+
+        CREATE INDEX IF NOT EXISTS idx_leave_requests_deleted_at ON leave_requests(deleted_at);
     END IF;
 END $$;
 
@@ -124,7 +124,7 @@ DECLARE
     v_result BOOLEAN;
 BEGIN
     -- Validate table name to prevent SQL injection
-    IF p_table_name NOT IN ('employees', 'departments', 'positions', 'leaves', 'memos', 'documents') THEN
+    IF p_table_name NOT IN ('employees', 'departments', 'positions', 'leave_requests', 'memos', 'documents') THEN
         RAISE EXCEPTION 'Invalid table name: %', p_table_name;
     END IF;
     
@@ -168,7 +168,7 @@ BEGIN
     
     -- Loop through each table and delete old archives
     FOR v_table IN 
-        SELECT unnest(ARRAY['employees', 'departments', 'positions', 'leaves', 'memos', 'documents'])
+        SELECT unnest(ARRAY['employees', 'departments', 'positions', 'leave_requests', 'memos', 'documents'])
     LOOP
         EXECUTE format(
             'DELETE FROM %I WHERE deleted_at IS NOT NULL AND deleted_at < $1',
