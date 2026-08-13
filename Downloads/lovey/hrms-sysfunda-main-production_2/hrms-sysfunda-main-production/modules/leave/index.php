@@ -200,6 +200,16 @@ $statusBadgeClasses = [
       <?php endif; ?>
     </div>
 
+    <?php render_page_guide('secGuideLeaveIndex', '
+      <ol class="list-decimal list-inside space-y-1">
+        <li>Click <strong>File Leave</strong> at the top to submit a new request — pick your leave type, dates, and reason.</li>
+        <li>The three cards above show your <strong>remaining balance</strong>, requests still <strong>pending</strong> approval, and days already <strong>approved</strong> this year.</li>
+        <li><strong>Upcoming Approved Leaves</strong> below lists time off that\'s been approved and hasn\'t happened yet, so you can double-check nothing was missed.</li>
+        <li>Your full request history — including pending, approved, rejected, and cancelled requests — is further down the page and can be filtered by status.</li>
+      </ol>
+      <p>A request stuck in <strong>Pending</strong>? It\'s waiting on your approver — check with them, or with HR if it\'s been a while.</p>
+    ') ?>
+
     <?php if (!$employeeError): ?>
       <div class="card card-body">
         <h2 class="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-3">Upcoming Approved Leaves</h2>

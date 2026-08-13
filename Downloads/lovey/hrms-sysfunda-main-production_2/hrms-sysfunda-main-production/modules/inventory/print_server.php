@@ -118,6 +118,15 @@ require_once __DIR__ . '/../../includes/header.php';
   </div>
 </div>
 
+<?php render_page_guide('secGuidePrintServer', '
+  <p>This connects the browser to physical printers on this computer via <strong>QZ Tray</strong> (a small helper app that must be installed and running locally — it isn\'t part of this web app).</p>
+  <ol class="list-decimal list-inside space-y-1">
+    <li>Click <strong>Connect</strong> on the QZ Tray banner to detect available printers on this machine.</li>
+    <li>Use the <strong>Printers</strong> tab to select a default printer, <strong>Queue</strong> to see jobs waiting to print, and <strong>History</strong> for what\'s already printed.</li>
+  </ol>
+  <p>If QZ Tray shows "Not Connected" and won\'t connect, make sure the QZ Tray application is actually installed and running on this computer.</p>
+') ?>
+
 <!-- Tab navigation -->
 <div class="border-b mb-4">
   <div class="flex gap-0 -mb-px" id="psTabs">

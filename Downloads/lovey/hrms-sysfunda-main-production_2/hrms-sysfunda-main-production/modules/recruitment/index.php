@@ -167,6 +167,14 @@ require_once __DIR__ . '/../../includes/header.php';
     <?php endforeach; ?>
   </div>
 
+  <?php render_page_guide('secGuideRecruitmentIndex', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Click a status card above (All, Pending, For Final Interview, Interviewed, Hired, Rejected) to filter the pipeline, or search by name, email, or position.</li>
+      <li>Click <strong>Add Applicant</strong> to log a new candidate, then move them through the pipeline by updating their status as they progress.</li>
+      <li>Ready to hire someone? Open their record and use <strong>Transition to Employee</strong> rather than setting the status to Hired directly — that\'s what actually creates their employee profile.</li>
+    </ol>
+  ') ?>
+
   <!-- Search & Filter Bar -->
   <div class="card">
     <div class="card-body p-4">

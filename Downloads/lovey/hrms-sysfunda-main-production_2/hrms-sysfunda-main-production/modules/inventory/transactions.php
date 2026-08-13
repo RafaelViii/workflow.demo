@@ -124,6 +124,14 @@ require_once __DIR__ . '/../../includes/header.php';
     </form>
   </div>
 
+  <?php render_page_guide('secGuideInventoryTransactions', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Search by transaction number or customer, filter by date range or status (Completed, Voided, Refunded), then click Filter.</li>
+      <li>Click <strong>Actions</strong> on a row to view the full receipt, or to void a transaction (restores the stock) if you have manager-level access.</li>
+    </ol>
+    <p>This is a record of completed sales — to ring up a new sale, use <strong>New Sale</strong> above to open the POS Terminal.</p>
+  ') ?>
+
   <!-- Transactions Table -->
   <div class="bg-white rounded-xl border overflow-hidden">
     <div class="overflow-x-auto">

@@ -115,6 +115,14 @@ require_once __DIR__ . '/../../includes/header.php';
     </div>
   </div>
 
+  <?php render_page_guide('secGuideLeaveAdmin', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Use the <strong>Filter by Status</strong> buttons to switch between pending, approved, rejected, and cancelled requests.</li>
+      <li>Open a request to review the dates, leave type, and reason, then approve or reject it — your decision updates the employee\'s leave balance automatically.</li>
+    </ol>
+    <p>If you supervise specific departments, this page only shows requests from employees in those departments.</p>
+  ') ?>
+
   <!-- Filters -->
   <div class="card">
     <div class="card-body">

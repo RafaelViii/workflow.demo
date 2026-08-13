@@ -203,6 +203,15 @@ require_once __DIR__ . '/../../includes/header.php';
         </a>
     </div>
 
+    <?php render_page_guide('secGuideInventoryRestock', '
+      <p>Use this page for a quick, informal stock top-up — no purchase order paperwork, just add quantity directly.</p>
+      <ol class="list-decimal list-inside space-y-1">
+        <li>Filter to <strong>Low Stock</strong> or <strong>Out of Stock</strong> to focus on what actually needs restocking, or search for a specific product.</li>
+        <li>For each item you\'re restocking, enter the quantity received (and optionally an updated cost per item), then submit at the bottom.</li>
+      </ol>
+      <p>Need a formal purchase order with a supplier record instead? Use <strong>Purchase Orders</strong> at the top of this page.</p>
+    ') ?>
+
     <!-- Restock Form -->
     <form method="post">
         <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">

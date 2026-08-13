@@ -131,6 +131,14 @@ catch (Throwable $e) { sys_log('DB2524', 'Prepare failed: departments list - ' .
   <?php endif; ?>
 </form>
 
+<?php render_page_guide('secGuideDepartmentsIndex', '
+  <ol class="list-decimal list-inside space-y-1">
+    <li>Click <strong>+ Add Department</strong> to create a new one — give it a name and optional description.</li>
+    <li>The <strong>Employees</strong> column shows headcount; <strong>Supervisors</strong> shows who\'s assigned to oversee that department (e.g. for leave approval routing).</li>
+    <li>Assign employees to a department from their individual profile under <strong>Employees</strong>, not from here.</li>
+  </ol>
+') ?>
+
 <div class="card overflow-hidden rounded-xl">
   <div class="overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200">

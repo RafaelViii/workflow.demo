@@ -167,6 +167,16 @@ require_once __DIR__ . '/../../includes/header.php';
     <?php endif; ?>
   </div>
 
+  <?php render_page_guide('secGuideInventoryReports', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li><strong>Overview</strong> — total items, stock value, sales, and low/out-of-stock counts for a quick snapshot.</li>
+      <li><strong>Stock Valuation</strong> — what your current inventory is worth at cost.</li>
+      <li><strong>Expiry Tracking</strong> — items already expired or expiring soon, so you can act before they\'re unsellable.</li>
+      <li><strong>Movement Analysis</strong> — stock changes (sales, restocks, adjustments) over a date range.</li>
+    </ol>
+    <p>Use the <strong>From</strong>/<strong>To</strong> date fields where shown to change the reporting period.</p>
+  ') ?>
+
   <?php if ($report === 'overview'): ?>
   <!-- Overview Report -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3">

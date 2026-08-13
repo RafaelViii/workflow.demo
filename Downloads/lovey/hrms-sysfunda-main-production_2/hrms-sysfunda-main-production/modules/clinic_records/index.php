@@ -246,6 +246,15 @@ require_once __DIR__ . '/../../includes/header.php';
   </div>
 </div>
 
+<?php render_page_guide('secGuideClinicRecords', '
+  <p>This logs employee visits to the clinic — nurse services, MedTech (lab/pickup) services, or both.</p>
+  <ol class="list-decimal list-inside space-y-1">
+    <li>Click <strong>New Record</strong> to log a visit, filling in the patient and whichever service(s) applied.</li>
+    <li>Filter by status (<strong>Open</strong> = still in progress, <strong>Completed</strong>, <strong>Cancelled</strong>), service type, date range, or search by name.</li>
+    <li>Use <strong>Export</strong> for a CSV or PDF copy of the currently filtered records.</li>
+  </ol>
+') ?>
+
 <!-- Filters -->
 <div class="card mb-6">
   <div class="card-body cr-filter-body">

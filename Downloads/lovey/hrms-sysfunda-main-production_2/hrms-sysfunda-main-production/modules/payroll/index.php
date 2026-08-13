@@ -348,6 +348,17 @@ require_once __DIR__ . '/../../includes/header.php';
     </div>
   </div>
 
+  <?php render_page_guide('secGuidePayrollIndex', '
+    <p>A payroll run goes through four stages: <strong>Create</strong> → <strong>Branch submission</strong> → <strong>Approval</strong> → <strong>Release</strong>.</p>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Click <strong>+ New Payroll Run</strong> and set the cutoff period. Each branch then submits its own batch of payslips for that period.</li>
+      <li>A run moves through a sequential approval chain — each approver signs off in order before the next one can act. The <strong>Pending with</strong> row shows who\'s holding up a run right now.</li>
+      <li>Once every branch batch is approved with no rejections, the run becomes <strong>Ready for release</strong>. Releasing it makes payslips visible to employees under My Payslips.</li>
+      <li>Switch to the <strong>Complaint Tracker</strong> tab to review payslip complaints employees have filed against released runs.</li>
+    </ol>
+    <p>A row showing <strong>Rejections present</strong> needs your attention before the run can move forward — open it to see which approver rejected it and why.</p>
+  ') ?>
+
   <!-- Payroll / Complaints Tabs -->
   <div class="flex gap-1 border-b border-slate-200" role="tablist" id="payrollTabs" data-default-tab="<?= htmlspecialchars($defaultPayrollTab) ?>">
     <button type="button" class="payroll-tab-btn px-4 py-2 text-sm font-semibold border-b-2 -mb-px transition" data-tab-target="tabRuns" role="tab">

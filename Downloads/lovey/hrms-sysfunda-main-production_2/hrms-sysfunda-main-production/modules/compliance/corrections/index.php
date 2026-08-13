@@ -154,6 +154,15 @@ require_once __DIR__ . '/../../../includes/header.php';
     </button>
   </div>
 
+  <?php render_page_guide('secGuideDataCorrections', '
+    <p>Use this page if any of your personal information on file is wrong — you cannot edit your own profile directly, so corrections go through a review.</p>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Click <strong>+ New Correction Request</strong>, choose the category and specific field, then enter the correct value and a brief reason.</li>
+      <li>Submitting creates a <strong>Pending</strong> request — an administrator reviews it and either applies the change or rejects it with a note.</li>
+      <li>Track all your past and current requests, and any reviewer notes, in the table below.</li>
+    </ol>
+  ') ?>
+
   <!-- Existing Requests -->
   <div class="card">
     <div class="card-header flex items-center justify-between">

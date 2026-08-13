@@ -49,6 +49,14 @@ require_once __DIR__ . '/../../includes/header.php';
       </div>
     </div>
   </div>
+  <?php render_page_guide('secGuideDocumentsIndex', '
+    <p>This is a read-only list of files that have been shared with you — either addressed to you personally, to your department, or company-wide.</p>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Click <strong>Open</strong> on any row to view or download that file.</li>
+      <li>Use <strong>Export</strong> if you need a CSV list of everything shown here.</li>
+    </ol>
+    <p>Don\'t see a file you were told about? It may be assigned to a different department, or not yet published — check with whoever shared it.</p>
+  ') ?>
   <div class="overflow-x-auto">
     <table class="table-basic min-w-full text-sm">
       <thead class="bg-gray-50">

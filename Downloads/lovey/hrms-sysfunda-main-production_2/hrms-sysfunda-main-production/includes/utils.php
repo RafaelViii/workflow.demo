@@ -364,6 +364,34 @@ function format_datetime_display($value, bool $includeSeconds = false, string $f
     }
 }
 
+/**
+ * Renders a collapsed-by-default "How to use this page" help panel, reusing
+ * the app's existing section-collapsible component (see app.css/app.js) so
+ * it expands/collapses and remembers state per-page with no extra wiring.
+ * $id must be unique per page — it's also the localStorage key suffix, so a
+ * duplicate id would make two different pages' guides share one
+ * expand/collapse state. $bodyHtml is trusted content authored by us (not
+ * user input), so it's echoed as-is rather than escaped.
+ */
+function render_page_guide(string $id, string $bodyHtml): void {
+    ?>
+    <div class="card mb-5">
+      <button type="button" class="section-collapsible-header px-4 py-3" data-section-toggle="<?= htmlspecialchars($id) ?>" aria-expanded="false">
+        <span class="text-sm font-semibold flex items-center gap-2" style="color: var(--text-primary);">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z"/></svg>
+          How to use this page
+        </span>
+        <svg class="section-chevron" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"/></svg>
+      </button>
+      <div id="<?= htmlspecialchars($id) ?>" class="section-collapsible-body is-collapsed px-4 pb-4">
+        <div class="text-sm space-y-2" style="color: var(--text-secondary);">
+          <?= $bodyHtml ?>
+        </div>
+      </div>
+    </div>
+    <?php
+}
+
 /** Ensure bridge table exists for per-user read tracking of global notifications. */
 function ensure_notification_reads(PDO $pdo): void {
     try {

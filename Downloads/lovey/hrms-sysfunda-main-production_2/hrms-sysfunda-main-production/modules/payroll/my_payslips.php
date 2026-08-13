@@ -158,6 +158,15 @@ require_once __DIR__ . '/../../includes/header.php';
     </nav>
   </div>
 
+  <?php render_page_guide('secGuidePayrollMyPayslips', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>The <strong>Payslips</strong> tab lists your released pay periods, most recent first. Only payslips that have actually been released to you show up here.</li>
+      <li>See something wrong on a payslip? Expand <strong>File a Payroll Complaint</strong>, choose the affected payslip, pick a category and topic, and describe the issue.</li>
+      <li>Track a complaint you already filed under the <strong>My Complaints</strong> tab — it shows its status (pending, in review, resolved) and any notes left by the reviewer.</li>
+    </ol>
+    <p>You can only have one open complaint per payslip at a time — wait for it to resolve before filing another on the same payslip.</p>
+  ') ?>
+
   <?php if ($activeTab === 'payslips'): ?>
     <!-- Payslips Tab -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200">

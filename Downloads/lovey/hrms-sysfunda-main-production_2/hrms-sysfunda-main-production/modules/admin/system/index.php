@@ -156,6 +156,16 @@ require_once __DIR__ . '/../../../includes/header.php';
     </div>
   </section>
 
+  <?php render_page_guide('secGuideSystemManagement', '
+    <p>This page is mostly diagnostic — it monitors database health, doesn\'t configure anything on its own. The stat cards above give a live snapshot of active users, DB connections, and database size.</p>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Scroll down for the system log preview, or click <strong>View all</strong> for the full log viewer.</li>
+      <li>Use <strong>Backup History</strong> to download or review past database backups.</li>
+      <li><strong>Archive</strong> lets you review and permanently delete old soft-deleted records.</li>
+      <li><strong>Connections</strong> shows current live database connections — useful if the app feels slow.</li>
+    </ol>
+  ') ?>
+
   <!-- Database & Performance Stats -->
   <section class="grid gap-6 lg:grid-cols-2">
     <div class="card p-6">

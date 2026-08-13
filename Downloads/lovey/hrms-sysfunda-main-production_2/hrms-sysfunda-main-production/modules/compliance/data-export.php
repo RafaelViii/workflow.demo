@@ -211,6 +211,14 @@ require_once __DIR__ . '/../../includes/header.php';
     <p class="text-sm text-slate-500 mt-0.5">Exercise your Right to Access under RA 10173 — download a copy of your personal data stored in the system.</p>
   </div>
 
+  <?php render_page_guide('secGuideDataExport', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Check the boxes for whichever sections you want (all are selected by default) — personal info, employment, emergency contact, leaves, payslips, and/or attendance.</li>
+      <li>Click <strong>Download CSV</strong> to save a spreadsheet file with your data.</li>
+    </ol>
+    <p>This is your <strong>Right to Access</strong> copy — it doesn\'t change anything in the system. To correct wrong data instead, use Data Corrections; to remove data, use Request Data Erasure on the Privacy &amp; Consent page.</p>
+  ') ?>
+
   <div class="card">
     <div class="card-header">
       <span class="flex items-center gap-2">

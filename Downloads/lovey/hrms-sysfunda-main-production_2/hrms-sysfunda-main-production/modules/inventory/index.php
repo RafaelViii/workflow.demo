@@ -88,6 +88,16 @@ require_once __DIR__ . '/../../includes/header.php';
     </div>
   </div>
 
+  <?php render_page_guide('secGuideInventoryIndex', '
+    <p>This is an at-a-glance overview — the stat cards summarize total items, inventory value, today\'s sales, and low-stock/out-of-stock counts.</p>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Click <strong>Manage Inventory</strong> to add items, adjust stock levels, or review a specific product.</li>
+      <li>Click <strong>Open POS</strong> to start ringing up a sale at the point-of-sale terminal.</li>
+      <li>Red and amber banners (if shown) flag expired or soon-to-expire items — click through to review them.</li>
+      <li><strong>Low Stock Items</strong> below lists what needs reordering soonest.</li>
+    </ol>
+  ') ?>
+
   <!-- Alert Banners -->
   <?php if ($alreadyExpired > 0): ?>
   <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-center gap-3">

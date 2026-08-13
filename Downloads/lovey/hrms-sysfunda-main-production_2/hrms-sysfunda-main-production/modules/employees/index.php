@@ -144,6 +144,15 @@ catch (Throwable $e) { sys_log('DB2204', 'List failed: employees - ' . $e->getMe
   <?php endif; ?>
 </form>
 
+<?php render_page_guide('secGuideEmployeesIndex', '
+  <ol class="list-decimal list-inside space-y-1">
+    <li>Search by name or email, or scroll the full roster below.</li>
+    <li><strong>View</strong> opens an employee\'s full profile; <strong>Edit</strong> lets you update their record (only shown if you have write access — otherwise it asks an authorized admin to confirm first).</li>
+    <li><strong>Add Employee</strong> creates a new employee record. Note: this only creates the employee profile — to give them login access, create their user account from <strong>Administration → Management Hub → Account Manager</strong> afterward.</li>
+    <li><strong>Export CSV</strong> downloads the currently filtered list as a spreadsheet.</li>
+  </ol>
+') ?>
+
 <div class="card overflow-hidden rounded-xl">
   <div class="overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">

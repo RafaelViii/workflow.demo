@@ -69,6 +69,16 @@ require_once __DIR__ . '/../../../includes/header.php';
     </div>
   </div>
 
+  <?php render_page_guide('secGuideAccessControl', '
+    <p>This controls which devices and IPs are allowed to sign in, on top of normal username/password login.</p>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>The whole system is off by default — configuring rules and registering devices here has no effect until you turn it on in <strong>Settings</strong>.</li>
+      <li>Choose an enforcement mode in Settings: <strong>whitelist</strong> (only listed devices/IPs can log in) or <strong>blacklist</strong> (everyone can, except listed ones).</li>
+      <li>The stats above and the recent activity log below help you spot unexpected blocked attempts before they become a problem.</li>
+    </ol>
+    <p><strong>Be careful enabling whitelist mode</strong> — if your own device/IP isn\'t registered first, you could lock yourself out.</p>
+  ') ?>
+
   <?php if (!$isEnabled): ?>
   <!-- Inactive Notice -->
   <div class="rounded-lg border-2 border-dashed border-amber-300 bg-amber-50 p-6 text-center">

@@ -335,6 +335,15 @@ foreach ($rows as $r) {
     </div>
   </div>
 
+  <?php render_page_guide('secGuideAttendanceIndex', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>The stat cards above summarize today\'s attendance across the workforce — present, late, absent, and on-leave counts.</li>
+      <li>Use <strong>Search Employee</strong> and the date filters below to narrow the list, or use <strong>Export</strong> for a CSV/PDF copy.</li>
+      <li><strong>+ Add Entry</strong> lets you manually log a time in/out for an employee (e.g. correcting a missed punch); <strong>CSV Import</strong> bulk-uploads records from a biometric/timekeeping export.</li>
+      <li><strong>Schedules</strong> is where each employee\'s expected work hours and days are configured — attendance status (present/late) is calculated against that schedule.</li>
+    </ol>
+  ') ?>
+
   <!-- Filters -->
   <div class="card">
     <div class="card-body">

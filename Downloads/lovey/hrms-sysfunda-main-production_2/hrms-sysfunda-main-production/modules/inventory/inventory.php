@@ -173,6 +173,15 @@ require_once __DIR__ . '/../../includes/header.php';
     <?php endif; ?>
   </div>
 
+  <?php render_page_guide('secGuideInventoryItems', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Click <strong>Add Item</strong> to create a single product, or <strong>Bulk Import</strong> to upload many at once from a spreadsheet.</li>
+      <li>Use the pill filters (All, Adequate, Low Stock, Out of Stock, Expiring Soon, Expired) to jump straight to items that need attention.</li>
+      <li>Search by name, SKU, barcode, or generic name, and narrow further with the category/supplier/location filters below.</li>
+    </ol>
+    <p>Stock levels update automatically from POS sales and Order Supplies receipts — you shouldn\'t normally need to edit quantities by hand except to correct a count.</p>
+  ') ?>
+
   <!-- Filters -->
   <div class="bg-white rounded-xl border p-4">
     <form method="GET" class="space-y-3">

@@ -77,6 +77,20 @@ require_once __DIR__ . '/../../includes/header.php';
 <script>document.getElementById('appMain')?.classList.add('pos-main-override');</script>
 <div id="posApp" class="flex flex-col w-full">
 
+  <?php
+    // Kept deliberately compact (collapsed = one slim bar) since this page
+    // locks #appMain to a fixed, non-scrolling viewport during checkout -
+    // anything taller here eats directly into the product grid's height.
+    render_page_guide('secGuidePosTerminal', '
+      <ol class="list-decimal list-inside space-y-1">
+        <li>Tap a product (or scan its barcode) to add it to the current order on the left.</li>
+        <li>Choose a discount type and payment method, enter the amount received, then complete the sale.</li>
+        <li><strong>Clear All</strong> empties the current order without completing a sale.</li>
+      </ol>
+      <p>Sales here update inventory stock automatically — you don\'t need to adjust stock levels separately.</p>
+    ');
+  ?>
+
   <!-- ===== DESKTOP LAYOUT (lg+): side-by-side ===== -->
   <div class="hidden lg:flex flex-1 min-h-0 overflow-hidden">
     <!-- Left: Cart -->

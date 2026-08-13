@@ -228,6 +228,11 @@ require_once __DIR__ . '/../../includes/header.php';
     </div>
   </div>
 
+  <?php render_page_guide('secGuideAdminManagement', '
+    <p>This is a directory of admin tools, grouped by area (Security, Compliance &amp; Reports, Inventory Management, POS Configuration, and general settings). Each card links straight to that tool.</p>
+    <p>Use the search bar below to jump directly to a tool by name instead of scanning the whole grid. Cards marked <strong>Admins</strong> only are automatically hidden if you\'re signed in as HR rather than a full admin.</p>
+  ') ?>
+
   <!-- Search Bar -->
   <div class="relative">
     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">

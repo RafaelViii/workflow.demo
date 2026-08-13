@@ -127,6 +127,14 @@ try {
   <?php endif; ?>
 </form>
 
+<?php render_page_guide('secGuidePositionsIndex', '
+  <ol class="list-decimal list-inside space-y-1">
+    <li>Click <strong>+ Add Position</strong> to define a new role — name, department, and base salary.</li>
+    <li>Every employee inherits their system access from their assigned position, not set individually per person. Click <strong>Edit</strong> on a position, then switch to its <strong>Permissions</strong> tab to control what everyone in that position can see and do.</li>
+    <li>The <strong>Employees</strong> column shows how many people currently hold that position — a position with employees assigned to it can\'t be deleted.</li>
+  </ol>
+') ?>
+
 <div class="card overflow-hidden rounded-xl">
   <div class="overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200">

@@ -177,6 +177,15 @@ require_once __DIR__ . '/../../includes/header.php';
     </div>
   </div>
 
+  <?php render_page_guide('secGuideOvertimeAdmin', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Click a stat card (Total, Pending, Approved, Rejected) to filter the table below to that status.</li>
+      <li>Use <strong>Search Employee</strong> and the date range to narrow the list further.</li>
+      <li>Check the boxes next to one or more requests, then use <strong>Approve Selected</strong> or <strong>Reject Selected</strong> to act on several at once.</li>
+    </ol>
+    <p>Only <strong>approved</strong> overtime is credited to payroll — a pending request has no effect until it\'s acted on.</p>
+  ') ?>
+
   <!-- Filters -->
   <div class="card">
     <div class="card-body">

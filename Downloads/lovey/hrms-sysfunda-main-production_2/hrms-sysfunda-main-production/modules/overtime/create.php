@@ -227,6 +227,15 @@ require_once __DIR__ . '/../../includes/header.php';
         </div>
     </div>
 
+    <?php render_page_guide('secGuideOvertimeCreate', '
+      <ol class="list-decimal list-inside space-y-1">
+        <li>Pick the <strong>Overtime Date</strong> (defaults to today, but you can backdate it if you\'re filing late).</li>
+        <li>Enter the <strong>Actual Time Out</strong> — the time you actually left. Your overtime hours are calculated from the gap between this and your scheduled time out, shown above.</li>
+        <li>Choose the correct <strong>OT Type</strong> (regular day vs. rest day/holiday rates differ), then submit.</li>
+      </ol>
+      <p>Your request starts as <strong>Pending</strong> and only counts toward payroll once your approver marks it <strong>Approved</strong> — track its status in the list below.</p>
+    ') ?>
+
     <!-- OT Request Form -->
     <div class="card">
         <div class="card-header">

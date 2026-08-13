@@ -164,6 +164,15 @@ require_once __DIR__ . '/../../../includes/header.php';
     <p class="text-sm text-slate-500 mt-0.5">Manage your data privacy preferences under RA 10173 (Data Privacy Act of 2012)</p>
   </div>
 
+  <?php render_page_guide('secGuidePrivacyConsent', '
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Review your rights under the Data Privacy Act in the <strong>Privacy Notice</strong> section below.</li>
+      <li>Check or uncheck each item under <strong>Your Consent Preferences</strong>, then click <strong>Save Preferences</strong>. Items marked <strong>Required</strong> can\'t be unchecked — they\'re needed to process your employment.</li>
+      <li>Want your data removed instead? Use <strong>Request Data Erasure</strong> — note some records (like BIR tax records) must legally be kept regardless.</li>
+    </ol>
+    <p>Need to fix incorrect information instead of managing consent? Use <strong>Data Corrections</strong> (linked at the bottom of this page).</p>
+  ') ?>
+
   <!-- Privacy Notice -->
   <div class="card">
     <div class="card-header">

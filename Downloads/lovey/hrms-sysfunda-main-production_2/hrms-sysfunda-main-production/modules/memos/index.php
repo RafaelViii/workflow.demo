@@ -171,6 +171,19 @@ require_once __DIR__ . '/../../includes/header.php';
     </div>
   </div>
 
+  <?php
+    $memoGuideBody = '
+      <p>Click any memo card to open its full details and any attachments.</p>
+      <p>Use the search box to find a memo by its code or header text.</p>
+    ';
+    if ($canManageMemos) {
+      $memoGuideBody .= '
+        <p><strong>Create memo</strong> publishes a new announcement — choose its audience (everyone, a specific department, or a specific employee), write the content, and optionally attach files.</p>
+      ';
+    }
+    render_page_guide('secGuideMemosIndex', $memoGuideBody);
+  ?>
+
   <?php if ($memoRows): ?>
     <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
       <?php foreach ($memoRows as $memo): ?>

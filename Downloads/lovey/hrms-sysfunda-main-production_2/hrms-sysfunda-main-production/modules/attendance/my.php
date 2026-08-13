@@ -82,6 +82,16 @@ try {
     </form>
   </div>
 
+  <?php render_page_guide('secGuideAttendanceMy', '
+    <p>This page is a read-only view of your own attendance history — it does not let you clock in or out.</p>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Use the <strong>From</strong> and <strong>To</strong> date fields above the table to narrow the list to a specific period, then click the filter button.</li>
+      <li>Each row shows one day: your recorded time in, time out, any overtime minutes, and a status badge.</li>
+      <li>Status colors: <strong>green</strong> = present, <strong>amber</strong> = late, <strong>red</strong> = absent, <strong>blue</strong> = on-leave, <strong>purple</strong> = holiday.</li>
+    </ol>
+    <p>Spot an error in your recorded time in/out? File a correction from <strong>Documents &amp; Comms → Data Corrections</strong> instead of trying to edit it here.</p>
+  ') ?>
+
   <div class="card card-body p-0">
     <div class="overflow-x-auto">
       <table class="table-basic w-full">
