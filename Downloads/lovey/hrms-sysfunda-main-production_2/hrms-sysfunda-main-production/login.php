@@ -138,116 +138,155 @@ $csrfToken = csrf_token();
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    // Same anti-flash pattern as the app shell — apply saved/OS theme before
+    // first paint, so a user who set dark mode inside the app doesn't get a
+    // blinding light-mode flash the moment they're signed out to this page.
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var wantsDark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (wantsDark) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    })();
+  </script>
   <title>Sign in &middot; WorkFlow HRMS</title>
+  <link rel="icon" type="image/jpeg" href="assets/resources/logo.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/tailwind.css" />
   <link rel="stylesheet" href="assets/css/app.css" />
 </head>
-<body class="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-700 via-violet-600 to-slate-900 text-white">
-  <div class="pointer-events-none absolute inset-0">
-    <div class="absolute -top-28 -left-24 h-72 w-72 rounded-full bg-indigo-400/30 blur-3xl"></div>
-    <div class="absolute top-1/2 -right-16 h-80 w-80 -translate-y-1/2 rounded-full bg-violet-400/25 blur-3xl"></div>
-    <div class="absolute bottom-[-6rem] left-1/3 h-72 w-72 rounded-full bg-blue-300/20 blur-3xl"></div>
-  </div>
+<body class="min-h-screen font-sans antialiased" style="background: var(--bg-page);">
+  <button type="button" id="btnThemeToggle" class="btn btn-outline btn-icon fixed top-4 right-4 z-10" title="Toggle dark mode" aria-label="Toggle dark mode">
+    <svg id="themeIconLight" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+    <svg id="themeIconDark" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+  </button>
 
-  <div class="relative z-10 flex min-h-screen items-center justify-center px-6 py-12">
-    <div class="grid w-full max-w-5xl items-center gap-12 lg:grid-cols-[1.1fr,0.9fr]">
-      <div class="hidden flex-col gap-6 text-white/90 lg:flex">
-        <div class="rounded-3xl border border-white/20 bg-white/10 p-10 backdrop-blur">
-          <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-medium uppercase tracking-wide text-indigo-100">WorkFlow</span>
-          <h1 class="mt-5 text-4xl font-semibold leading-tight">Welcome to WorkFlow HRMS</h1>
-          <p class="mt-3 text-base text-indigo-100/90">Manage your HR operations from a single, secure workspace.</p>
-          <ul class="mt-6 space-y-3 text-sm text-indigo-50/90">
-            <li class="flex items-start gap-3">
-              <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-indigo-300/80 text-indigo-900">&#10003;</span>
-              <span>Manage employee records and roles with secure access controls.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-indigo-300/80 text-indigo-900">&#10003;</span>
-              <span>Track leave, attendance, and payroll readiness in one place.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-indigo-300/80 text-indigo-900">&#10003;</span>
-              <span>Audited changes for sensitive actions to protect your data.</span>
-            </li>
-          </ul>
-          <p class="mt-6 text-xs text-indigo-100/80">WorkFlow HRMS &middot; Human Resource Management System</p>
+  <div class="flex min-h-screen">
+    <!-- Brand panel — same token (--sidebar-bg) as the app's actual sidebar,
+         so it's white in light mode / near-black in dark mode, matching
+         rather than inventing a separate look. -->
+    <div class="hidden lg:flex lg:w-[42%] flex-col p-12" style="background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border);">
+      <div class="sidebar-brand">
+        <div class="flex items-center gap-2.5">
+          <div class="brand-icon" role="img" aria-label="WorkFlow HRMS"><?php readfile(__DIR__ . '/assets/resources/work-flow.svg'); ?></div>
+          <div>
+            <div class="brand-text">Work Flow</div>
+            <div class="brand-sub">HR Management System</div>
+          </div>
         </div>
       </div>
 
-      <div class="relative">
-        <div class="absolute inset-0 -translate-y-6 translate-x-4 rounded-3xl bg-white/25 blur-2xl"></div>
-        <div class="relative rounded-3xl bg-white p-8 text-gray-900 shadow-2xl lg:p-10">
-          <div class="mb-6">
-            <span class="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">Secure Access</span>
-            <h2 class="mt-4 text-2xl font-semibold text-gray-900">Sign in to WorkFlow HRMS</h2>
-            <p class="mt-2 text-sm text-gray-500">Use your credentials to access the HR workspace.</p>
+      <!-- Centered in the remaining space below the brand mark, so this
+           heading lands at roughly the same height as "Sign in" on the
+           right — matching that panel's vertical centering instead of
+           leaving a large empty gap up top. -->
+      <div class="flex flex-1 flex-col justify-center">
+        <h1 class="text-3xl font-semibold leading-tight" style="color: var(--text-primary);">Manage your workforce in one place.</h1>
+        <p class="mt-3 text-sm" style="color: var(--text-secondary);">Employees, attendance, leave, and payroll — all from a single secure workspace.</p>
+        <ul class="mt-8 space-y-4">
+          <li class="flex items-start gap-3">
+            <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" style="background: var(--accent);"></span>
+            <span class="text-sm" style="color: var(--text-secondary);">Role-based access keeps sensitive records visible only to the right people.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" style="background: var(--accent);"></span>
+            <span class="text-sm" style="color: var(--text-secondary);">Track leave, attendance, and payroll readiness at a glance.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" style="background: var(--accent);"></span>
+            <span class="text-sm" style="color: var(--text-secondary);">Every sensitive change is logged in a full audit trail.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Sign-in panel -->
+    <div class="flex flex-1 items-center justify-center p-6 sm:p-12">
+      <div class="w-full max-w-sm">
+        <div class="mb-8 lg:hidden">
+          <div class="sidebar-brand" style="padding: 0;">
+            <div class="brand-icon" role="img" aria-label="WorkFlow HRMS"><?php readfile(__DIR__ . '/assets/resources/work-flow.svg'); ?></div>
+            <div class="brand-text">Work Flow</div>
           </div>
-
-          <?php if ($infoMessage): ?>
-            <div class="mb-4 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm text-indigo-700">
-              <?= htmlspecialchars($infoMessage) ?>
-            </div>
-          <?php endif; ?>
-          <?php if ($error): ?>
-            <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              <?= htmlspecialchars($error) ?>
-            </div>
-          <?php endif; ?>
-          <div id="clientError" class="mb-4 hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></div>
-
-          <form id="loginForm" method="post" class="space-y-5" novalidate>
-            <input type="hidden" name="csrf" value="<?= htmlspecialchars($csrfToken) ?>" />
-            <div class="space-y-2">
-              <label for="email" class="block text-xs font-semibold uppercase tracking-wide text-gray-600">Work Email</label>
-              <input id="email" name="email" type="email" value="<?= htmlspecialchars($emailInput) ?>" class="input-text w-full" placeholder="you@company.com" required autocomplete="email" />
-            </div>
-            <div class="space-y-2">
-              <label for="password" class="block text-xs font-semibold uppercase tracking-wide text-gray-600">Password</label>
-              <div class="relative">
-                <input id="password" name="password" type="password" class="input-text w-full pr-12" placeholder="Enter your password" required autocomplete="current-password" />
-                <button type="button" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-indigo-600" data-toggle-password aria-label="Toggle password visibility" aria-pressed="false">
-                  <span class="sr-only">Toggle password visibility</span>
-                  <svg data-icon="show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.436 0 .643C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <svg data-icon="hide" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c1.712 0 3.332-.356 4.786-1.004M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.5a10.523 10.523 0 01-4.293 5.223M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L9.88 9.88" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="flex flex-wrap items-center justify-end gap-3 text-sm">
-              <button type="button" data-open-forgot class="font-medium text-indigo-600 hover:text-indigo-700">Forgot password?</button>
-            </div>
-            <button type="submit" class="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-500 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-indigo-500 hover:to-violet-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-offset-2 focus:ring-offset-white">Sign in</button>
-            <p class="mt-4 text-center text-xs text-gray-500">WorkFlow HRMS &middot; Human Resource Management System</p>
-          </form>
-
-          <?php if (in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1','::1'], true)): ?>
-            <p class="mt-4 text-xs text-gray-500"><a class="font-medium text-indigo-600 hover:text-indigo-700" href="tools/reset_admin.php">Reset admin password</a></p>
-          <?php endif; ?>
         </div>
+
+        <p class="hint-text uppercase tracking-widest text-[11px]">Welcome back</p>
+        <h2 class="mt-1 text-2xl font-semibold" style="color: var(--text-primary);">Sign in</h2>
+        <p class="hint-text mt-1">Use your work email and password to continue.</p>
+
+        <?php if ($infoMessage): ?>
+          <div class="mt-5 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm text-indigo-700 dark:border-indigo-800 dark:bg-indigo-500/10 dark:text-indigo-300">
+            <?= htmlspecialchars($infoMessage) ?>
+          </div>
+        <?php endif; ?>
+        <?php if ($error): ?>
+          <div class="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-500/10 dark:text-red-300">
+            <?= htmlspecialchars($error) ?>
+          </div>
+        <?php endif; ?>
+        <div id="clientError" class="mt-5 hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-500/10 dark:text-red-300"></div>
+
+        <form id="loginForm" method="post" class="mt-6 space-y-4" novalidate>
+          <input type="hidden" name="csrf" value="<?= htmlspecialchars($csrfToken) ?>" />
+          <div class="space-y-1.5">
+            <label for="email" class="text-sm font-medium" style="color: var(--text-secondary);">Work email</label>
+            <input id="email" name="email" type="email" value="<?= htmlspecialchars($emailInput) ?>" class="input-text w-full" placeholder="you@company.com" required autocomplete="email" />
+          </div>
+          <div class="space-y-1.5">
+            <label for="password" class="text-sm font-medium" style="color: var(--text-secondary);">Password</label>
+            <div class="relative">
+              <input id="password" name="password" type="password" class="input-text w-full pr-12" placeholder="Enter your password" required autocomplete="current-password" />
+              <button type="button" class="absolute inset-y-0 right-3 flex items-center justify-center" style="color: var(--text-muted);" data-toggle-password aria-label="Toggle password visibility" aria-pressed="false">
+                <span class="sr-only">Toggle password visibility</span>
+                <svg data-icon="show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.436 0 .643C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <svg data-icon="hide" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c1.712 0 3.332-.356 4.786-1.004M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.5a10.523 10.523 0 01-4.293 5.223M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L9.88 9.88" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button type="button" data-open-forgot class="text-sm font-medium" style="color: var(--accent);">Forgot password?</button>
+          </div>
+          <button type="submit" class="btn btn-primary w-full justify-center">Sign in</button>
+        </form>
+
+        <?php if (in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1','::1'], true)): ?>
+          <p class="mt-4 text-center"><a class="text-sm font-medium" style="color: var(--accent);" href="tools/reset_admin.php">Reset admin password</a></p>
+        <?php endif; ?>
+
+        <p class="mt-8 text-center hint-text">&copy; <?= date('Y') ?> WorkFlow HRMS</p>
       </div>
     </div>
   </div>
 
   <div id="forgotModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/50" data-forgot-close></div>
+    <div class="absolute inset-0" style="background: rgba(0,0,0,.5);" data-forgot-close></div>
     <div class="absolute inset-0 flex items-center justify-center p-4">
-      <div class="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-2xl">
-        <h3 class="text-lg font-semibold text-gray-900">Need a password reset?</h3>
-        <p class="mt-3 text-sm text-gray-600">For security reasons, password resets are handled by your system administrator. Please reach out to them to restore your account access.</p>
-        <button type="button" class="mt-6 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500" data-forgot-close>Got it</button>
+      <div class="card w-full max-w-md p-6 text-center">
+        <h3 class="text-lg font-semibold" style="color: var(--text-primary);">Need a password reset?</h3>
+        <p class="mt-3 text-sm" style="color: var(--text-secondary);">For security reasons, password resets are handled by your system administrator. Please reach out to them to restore your account access.</p>
+        <button type="button" class="btn btn-primary mt-6" data-forgot-close>Got it</button>
       </div>
     </div>
   </div>
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Same toggle logic as the app shell's #btnThemeToggle (this page doesn't
+    // load app.js, so it's duplicated here rather than pulling in the whole bundle).
+    const themeBtn = document.getElementById('btnThemeToggle');
+    themeBtn?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+    });
+
     const passwordInput = document.getElementById('password');
     const toggleBtn = document.querySelector('[data-toggle-password]');
     if (toggleBtn && passwordInput) {
