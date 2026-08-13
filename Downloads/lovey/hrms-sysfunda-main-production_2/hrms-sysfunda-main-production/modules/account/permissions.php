@@ -787,7 +787,14 @@ function _initPermissionsPage() {
     window.showOverrideModal = function(checkbox) {
         const modal = document.getElementById('override-modal');
         modal.classList.remove('hidden');
-        modal.style.display = 'flex';
+        // block, not flex - the modal wrapper itself just needs to be
+        // visible; the actual centering flex lives one level in, on its
+        // child (class="flex min-h-full items-center justify-center").
+        // Setting flex here too turns *that* child into a flex item with
+        // no explicit width, so it shrinks to content size instead of
+        // spanning the viewport - breaking its own centering and shifting
+        // the modal box toward the left edge.
+        modal.style.display = 'block';
         modal.dataset.targetCheckbox = checkbox.dataset.resource;
     };
     
@@ -839,9 +846,9 @@ function _initPermissionsPage() {
         });
         
         modal.classList.remove('hidden');
-        modal.style.display = 'flex';
+        modal.style.display = 'block'; // see comment in showOverrideModal() above
     };
-    
+
     window.closeConfirmModal = function() {
         const modal = document.getElementById('confirm-modal');
         modal.classList.add('hidden');
