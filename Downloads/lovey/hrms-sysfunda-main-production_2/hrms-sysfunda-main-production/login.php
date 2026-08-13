@@ -164,16 +164,10 @@ $csrfToken = csrf_token();
     <svg id="themeIconDark" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
   </button>
 
-  <!-- A truly FIXED-size card, centered both horizontally and vertically,
-       rather than a full-viewport-height split. min-h-screen previously
-       made the two-panel box grow with the browser window's height, which
-       kept stretching the gap between the fixed-position logo and the
-       vertically-centered heading below it as the window got taller —
-       the "elements moving" effect. Bounding both width AND height here
-       means the card's internal proportions never change; a bigger screen
-       just shows more background around it, nothing inside shifts. -->
-  <div class="flex min-h-screen items-center justify-center p-6">
-    <div class="flex overflow-hidden rounded-2xl" style="width: min(94vw, 1800px); height: min(920px, calc(100vh - 2rem)); border: 1px solid var(--border-default); box-shadow: var(--shadow-popover);">
+  <!-- Full-bleed split: the two panels ARE the page, edge-to-edge, so
+       there is no surrounding page background to ever show through or
+       mismatch — no card, no border, no seam, at any screen size. -->
+  <div class="flex min-h-screen">
     <!-- Brand panel — same token (--sidebar-bg) as the app's actual sidebar,
          so it's white in light mode / near-black in dark mode, matching
          rather than inventing a separate look. -->
@@ -276,7 +270,6 @@ $csrfToken = csrf_token();
 
         <p class="mt-8 text-center hint-text">&copy; <?= date('Y') ?> WorkFlow HRMS</p>
       </div>
-    </div>
     </div>
   </div>
 
