@@ -243,7 +243,7 @@ require_once __DIR__ . '/../../includes/header.php';
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    <?= date('h:i A', strtotime($ot['start_time'])) ?> - <?= date('h:i A', strtotime($ot['end_time'])) ?>
+                                    <?= $ot['start_time'] ? date('h:i A', strtotime($ot['start_time'])) : '—' ?> - <?= $ot['end_time'] ? date('h:i A', strtotime($ot['end_time'])) : '—' ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                                     <?= number_format((float)$ot['hours_worked'], 2) ?> hrs

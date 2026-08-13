@@ -247,7 +247,7 @@ require_once __DIR__ . '/../../includes/header.php';
                         <div>
                             <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Time Period</p>
                             <p class="mt-1 text-sm font-medium text-slate-700">
-                                <?= date('h:i A', strtotime($ot['start_time'])) ?> – <?= date('h:i A', strtotime($ot['end_time'])) ?>
+                                <?= $ot['start_time'] ? date('h:i A', strtotime($ot['start_time'])) : '—' ?> – <?= $ot['end_time'] ? date('h:i A', strtotime($ot['end_time'])) : '—' ?>
                             </p>
                         </div>
                         <div>

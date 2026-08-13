@@ -310,7 +310,7 @@ require_once __DIR__ . '/../../includes/header.php';
                             <tr>
                                 <td class="whitespace-nowrap"><?= date('M d, Y', strtotime($ot['overtime_date'])) ?></td>
                                 <td class="whitespace-nowrap text-xs">
-                                    <?= date('h:i A', strtotime($ot['start_time'])) ?> - <?= date('h:i A', strtotime($ot['end_time'])) ?>
+                                    <?= $ot['start_time'] ? date('h:i A', strtotime($ot['start_time'])) : '—' ?> - <?= $ot['end_time'] ? date('h:i A', strtotime($ot['end_time'])) : '—' ?>
                                 </td>
                                 <td class="font-semibold"><?= number_format((float)$ot['hours_worked'], 2) ?> hrs</td>
                                 <td>

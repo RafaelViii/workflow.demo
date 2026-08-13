@@ -250,7 +250,7 @@ require_once __DIR__ . '/../../includes/header.php';
                   </td>
                   <td class="text-sm"><?= htmlspecialchars($ot['department_name'] ?? 'N/A') ?></td>
                   <td class="whitespace-nowrap"><?= date('M d, Y', strtotime($ot['overtime_date'])) ?></td>
-                  <td class="whitespace-nowrap text-xs"><?= date('h:i A', strtotime($ot['start_time'])) ?> - <?= date('h:i A', strtotime($ot['end_time'])) ?></td>
+                  <td class="whitespace-nowrap text-xs"><?= $ot['start_time'] ? date('h:i A', strtotime($ot['start_time'])) : '—' ?> - <?= $ot['end_time'] ? date('h:i A', strtotime($ot['end_time'])) : '—' ?></td>
                   <td class="font-semibold text-indigo-600"><?= number_format((float)$ot['hours_worked'], 2) ?></td>
                   <td>
                     <?php $typeColors = ['regular'=>'bg-blue-100 text-blue-700','holiday'=>'bg-purple-100 text-purple-700','restday'=>'bg-orange-100 text-orange-700']; ?>
