@@ -198,7 +198,7 @@ require_once __DIR__ . '/../../includes/header.php';
 
 <div class="space-y-6">
   <!-- Hero Header -->
-  <div class="rounded-xl bg-gradient-to-br from-slate-900 via-indigo-900 to-blue-900 p-6 text-white shadow-lg">
+  <div class="rounded-xl p-6 text-white shadow-lg" style="background: var(--brand-black);">
     <div class="flex items-start justify-between">
       <div>
         <div class="mb-2 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white/75">

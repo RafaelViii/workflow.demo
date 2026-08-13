@@ -386,13 +386,14 @@ if ($isEmployeeRole) {
   }
   ?>
   <div class="space-y-6">
-    <div class="page-intro flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <p class="hint-text uppercase tracking-widest text-[11px]"><?= htmlspecialchars($userPosition ?: 'Admin Overview') ?> • <?= htmlspecialchars($adminToday) ?></p>
-        <h1 class="mt-1 text-2xl font-semibold text-slate-900 dark:text-slate-100 md:text-3xl"><?= $dashboardTitle ?></h1>
-        <p class="hint-text mt-1"><?= $dashboardSubtitle ?></p>
+    <div class="rounded-xl p-6 text-white shadow-lg" style="background: var(--brand-black);">
+      <div class="page-intro flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-4">
+        <div>
+          <p class="text-[11px] uppercase tracking-widest text-white/60"><?= htmlspecialchars($userPosition ?: 'Admin Overview') ?> • <?= htmlspecialchars($adminToday) ?></p>
+          <h1 class="mt-1 text-2xl font-semibold md:text-3xl"><?= $dashboardTitle ?></h1>
+          <p class="mt-1 text-sm text-white/70"><?= $dashboardSubtitle ?></p>
+        </div>
       </div>
-    </div>
 
     <?php
     // Build dynamic grid of cards based on permissions
@@ -446,19 +447,20 @@ if ($isEmployeeRole) {
     ?>
     
     <?php if ($metricCards): ?>
-    <section class="grid gap-4 <?= $gridCols ?>">
+    <section class="grid gap-3 <?= $gridCols ?>">
       <?php foreach ($metricCards as $card): ?>
-      <a class="card card-body group block transition hover:-translate-y-0.5" href="<?= htmlspecialchars($card['href']) ?>" title="<?= htmlspecialchars($card['title']) ?>">
+      <a class="group block rounded-lg bg-white/10 p-4 transition hover:bg-white/15" href="<?= htmlspecialchars($card['href']) ?>" title="<?= htmlspecialchars($card['title']) ?>">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-wide hint-text"><?= htmlspecialchars($card['title']) ?></span>
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-<?= $card['color'] ?>-50 text-<?= $card['color'] ?>-500 dark:bg-<?= $card['color'] ?>-500/15 dark:text-<?= $card['color'] ?>-300"><?= $card['icon'] ?></span>
+          <span class="text-xs font-semibold uppercase tracking-wide text-white/60"><?= htmlspecialchars($card['title']) ?></span>
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-<?= $card['color'] ?>-500/15 text-<?= $card['color'] ?>-300"><?= $card['icon'] ?></span>
         </div>
-        <p class="mt-4 text-3xl font-semibold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400"><?= $card['value'] ?></p>
-        <p class="mt-2 hint-text"><?= htmlspecialchars($card['description']) ?></p>
+        <p class="mt-3 text-2xl font-semibold"><?= $card['value'] ?></p>
+        <p class="mt-1 text-xs text-white/60"><?= htmlspecialchars($card['description']) ?></p>
       </a>
       <?php endforeach; ?>
     </section>
     <?php endif; ?>
+    </div>
 
     <?php
     $defaultCardOrder = ['secActionCenter', 'secInventoryStatus', 'secChartsTrends', 'secNotifications'];

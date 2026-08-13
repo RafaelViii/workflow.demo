@@ -16,10 +16,10 @@
 	--text-primary: #0f172a;
 	--text-secondary: #475569;
 	--text-muted: #64748b;
-	--accent: #4f46e5;
-	--accent-hover: #4338ca;
-	--accent-soft-bg: #eef2ff;
-	--accent-soft-text: #4338ca;
+	--accent: #f26e30;
+	--accent-hover: #c6551f;
+	--accent-soft-bg: #fee8da;
+	--accent-soft-text: #c6551f;
 	--sidebar-bg: #ffffff;
 	--sidebar-border: #e2e8f0;
 	--shadow-card: 0 1px 2px rgba(15, 23, 42, .04);
@@ -29,6 +29,11 @@
 	--tooltip-text: #f8fafc;
 	--bg-translucent: rgba(255, 255, 255, .72);
 	--ease-premium: cubic-bezier(.25, .1, .25, 1);
+	/* Identity black for hero/banner cards (Management Hub, Access Control,
+	   the dashboard hero) - deliberately constant across light/dark theme
+	   (not redefined under html.dark below) since it's a brand color, not a
+	   surface that should flip with the user's theme preference. */
+	--brand-black: #0a0a0a;
 }
 html.dark {
 	/* True neutral black/white/gray — not navy-tinted — per reference screenshot */
@@ -41,8 +46,8 @@ html.dark {
 	--text-primary: #fafafa;
 	--text-secondary: #a3a3a3;
 	--text-muted: #737373;
-	--accent: #6366f1;
-	--accent-hover: #818cf8;
+	--accent: #f78f5c;
+	--accent-hover: #fbae81;
 	--accent-soft-bg: rgba(255, 255, 255, .08);
 	--accent-soft-text: #fafafa;
 	--sidebar-bg: #0a0a0a;
@@ -113,7 +118,7 @@ canvas[data-chart] { display: block; }
 /* Loading Spinner */
 .loader-spinner {
 	width: 48px; height: 48px;
-	border: 3px solid rgba(99,102,241,0.15);
+	border: 3px solid rgba(242,110,48,0.15);
 	border-top-color: var(--accent);
 	border-radius: 9999px;
 	animation: spin .8s linear infinite;
@@ -262,13 +267,13 @@ canvas[data-chart] { display: block; }
 .group-label:hover svg { color: var(--text-secondary); }
 /* Expanded nav-group indicator — a single accent color on the title row
    (title text + chevron), not a background pill or border, so it reads as
-   "this section is open" without competing with the indigo .nav-item.active
+   "this section is open" without competing with the accent-colored .nav-item.active
    pill used for "this is the current page." Specificity here (class +
    attribute + :first-child + descendant) intentionally outranks both the
    inline text-gray-400 utility on that row and the plain :hover rules above,
    so it stays visible on hover and regardless of stylesheet load order. */
 .group-label[aria-expanded="true"] > span:first-child,
-.group-label[aria-expanded="true"] > span:first-child svg { color: #F26E30; }
+.group-label[aria-expanded="true"] > span:first-child svg { color: var(--accent); }
 .group-sep { height: 1px; background: var(--border-subtle); margin: .25rem .75rem; }
 
 /* Group content expand/collapse */
@@ -456,7 +461,7 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
 }
 input:focus, textarea:focus, select:focus{
 	outline: none !important;
-	box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+	box-shadow: 0 0 0 3px rgba(242,110,48,0.15);
 	border-color: var(--accent) !important;
 }
 .input-error{ border-color: #ef4444 !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
@@ -799,9 +804,9 @@ html.dark .border-slate-200, html.dark .border-slate-300, html.dark .border-gray
 html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]), html.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) { border-color: var(--border-default); }
 html.dark .hover\:bg-slate-50:hover, html.dark .hover\:bg-gray-50:hover, html.dark .hover\:bg-slate-100:hover, html.dark .hover\:bg-gray-100:hover { background-color: var(--bg-surface-hover); }
 
-html.dark .bg-indigo-50, html.dark .bg-indigo-100, html.dark .bg-indigo-200 { background-color: rgba(224,231,255,.14); }
-html.dark .border-indigo-50, html.dark .border-indigo-100, html.dark .border-indigo-200 { border-color: rgba(224,231,255,.35); }
-html.dark .text-indigo-600, html.dark .text-indigo-700, html.dark .text-indigo-800 { color: rgb(199,210,254); }
+html.dark .bg-indigo-50, html.dark .bg-indigo-100, html.dark .bg-indigo-200 { background-color: rgba(254,232,218,.14); }
+html.dark .border-indigo-50, html.dark .border-indigo-100, html.dark .border-indigo-200 { border-color: rgba(254,232,218,.35); }
+html.dark .text-indigo-600, html.dark .text-indigo-700, html.dark .text-indigo-800 { color: rgb(253,208,180); }
 html.dark .bg-emerald-50, html.dark .bg-emerald-100, html.dark .bg-emerald-200 { background-color: rgba(209,250,229,.14); }
 html.dark .border-emerald-50, html.dark .border-emerald-100, html.dark .border-emerald-200 { border-color: rgba(209,250,229,.35); }
 html.dark .text-emerald-600, html.dark .text-emerald-700, html.dark .text-emerald-800 { color: rgb(167,243,208); }
@@ -814,9 +819,9 @@ html.dark .text-red-600, html.dark .text-red-700, html.dark .text-red-800 { colo
 html.dark .bg-blue-50, html.dark .bg-blue-100, html.dark .bg-blue-200 { background-color: rgba(219,234,254,.14); }
 html.dark .border-blue-50, html.dark .border-blue-100, html.dark .border-blue-200 { border-color: rgba(219,234,254,.35); }
 html.dark .text-blue-600, html.dark .text-blue-700, html.dark .text-blue-800 { color: rgb(191,219,254); }
-html.dark .bg-purple-50, html.dark .bg-purple-100, html.dark .bg-purple-200 { background-color: rgba(243,232,255,.14); }
-html.dark .border-purple-50, html.dark .border-purple-100, html.dark .border-purple-200 { border-color: rgba(243,232,255,.35); }
-html.dark .text-purple-600, html.dark .text-purple-700, html.dark .text-purple-800 { color: rgb(233,213,255); }
+html.dark .bg-purple-50, html.dark .bg-purple-100, html.dark .bg-purple-200 { background-color: rgba(254,232,218,.14); }
+html.dark .border-purple-50, html.dark .border-purple-100, html.dark .border-purple-200 { border-color: rgba(254,232,218,.35); }
+html.dark .text-purple-600, html.dark .text-purple-700, html.dark .text-purple-800 { color: rgb(253,208,180); }
 html.dark .bg-sky-50, html.dark .bg-sky-100, html.dark .bg-sky-200 { background-color: rgba(224,242,254,.14); }
 html.dark .border-sky-50, html.dark .border-sky-100, html.dark .border-sky-200 { border-color: rgba(224,242,254,.35); }
 html.dark .text-sky-600, html.dark .text-sky-700, html.dark .text-sky-800 { color: rgb(186,230,253); }
