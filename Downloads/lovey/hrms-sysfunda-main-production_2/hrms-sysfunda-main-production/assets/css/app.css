@@ -423,7 +423,8 @@ canvas[data-chart] { display: block; }
 	min-height: 3.25rem;
 	transition: background-color .15s ease, border-color .15s ease;
 }
-.top-bar .page-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+.top-bar .breadcrumb { display: flex; align-items: center; gap: .4rem; font-size: .875rem; flex-wrap: wrap; }
+.top-bar .breadcrumb a:hover { text-decoration: underline; }
 /* .btn's unconditional `display: inline-flex` ties in specificity with
    Tailwind's `.md\:hidden` and — since this stylesheet loads after
    tailwind.css — wins on source order, leaving the mobile-only hamburger

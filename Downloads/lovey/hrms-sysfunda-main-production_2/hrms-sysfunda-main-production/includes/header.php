@@ -56,6 +56,11 @@ function nav_group_is_active(string $current, array $relativePaths): bool {
   }
   return false;
 }
+// Captured while the sidebar renders below (whichever nav-group's
+// $groupActive comes back true for the current request) so the top bar
+// breadcrumb can show "Home / <that group> / $pageTitle" without a second,
+// separately-maintained copy of the same group-to-route mapping.
+$activeGroupLabel = null;
 $sessionMeta = null;
 if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
   $sm = $_SESSION['__meta'];
@@ -274,7 +279,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         ?>
 
   <?php if ($showEmployeePortal): ?>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/index', '/', '/modules/attendance/my', '/modules/payroll/my_payslips', '/modules/leave/index', '/modules/leave/create', '/modules/leave/view', '/modules/overtime/create', '/modules/overtime/index']); ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/index', '/', '/modules/attendance/my', '/modules/payroll/my_payslips', '/modules/leave/index', '/modules/leave/create', '/modules/leave/view', '/modules/overtime/create', '/modules/overtime/index']); if ($groupActive) { $activeGroupLabel = 'My Workspace'; } ?>
         <div class="nav-group" data-group="my-workspace">
           <button type="button" class="group-label px-3 py-1 w-full flex flex-col gap-0.5" data-group-toggle="my-workspace" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -331,7 +336,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
             </a>
           </div>
         </div>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/documents/index', '/modules/memos/index', '/modules/compliance/corrections/index', '/modules/compliance/privacy/consent', '/modules/compliance/data-export']); ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/documents/index', '/modules/memos/index', '/modules/compliance/corrections/index', '/modules/compliance/privacy/consent', '/modules/compliance/data-export']); if ($groupActive) { $activeGroupLabel = 'Documents & Comms'; } ?>
         <div class="nav-group" data-group="docs-comms">
           <button type="button" class="group-label px-3 py-1 mt-2 w-full flex flex-col gap-0.5" data-group-toggle="docs-comms" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -392,7 +397,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         <?php endif; ?>
 
         <?php if ($hasTimeAttendance): ?>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/attendance/index', '/modules/overtime/admin', '/modules/overtime/index', '/modules/overtime/approve', '/modules/leave/admin', '/modules/leave/view', '/modules/payroll/index']); ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/attendance/index', '/modules/overtime/admin', '/modules/overtime/index', '/modules/overtime/approve', '/modules/leave/admin', '/modules/leave/view', '/modules/payroll/index']); if ($groupActive) { $activeGroupLabel = 'Time, Attendance & Payroll'; } ?>
         <div class="nav-group" data-group="time-attendance">
           <button type="button" class="group-label px-3 py-1 mt-2 w-full flex flex-col gap-0.5" data-group-toggle="time-attendance" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -445,7 +450,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         <?php endif; ?>
 
         <?php if ($hasPeopleOrg): ?>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/employees/index', '/modules/recruitment/index', '/modules/recruitment/view', '/modules/recruitment/create', '/modules/recruitment/templates', '/modules/departments/index', '/modules/positions/index', '/modules/memos/index', '/modules/memos/create', '/modules/memos/view', '/modules/memos/edit']); ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/employees/index', '/modules/recruitment/index', '/modules/recruitment/view', '/modules/recruitment/create', '/modules/recruitment/templates', '/modules/departments/index', '/modules/positions/index', '/modules/memos/index', '/modules/memos/create', '/modules/memos/view', '/modules/memos/edit']); if ($groupActive) { $activeGroupLabel = 'People & Organization'; } ?>
         <div class="nav-group" data-group="company">
           <button type="button" class="group-label px-3 py-1 mt-2 w-full flex flex-col gap-0.5" data-group-toggle="company" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -512,7 +517,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         <?php endif; ?>
 
         <?php if ($hasInventory): ?>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/inventory/index', '/modules/inventory/inventory', '/modules/inventory/item_form', '/modules/inventory/item_view', '/modules/inventory/bulk_import', '/modules/inventory/manual_update', '/modules/inventory/movements', '/modules/inventory/reports', '/modules/inventory/restock', '/modules/inventory/purchase_orders']); ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/inventory/index', '/modules/inventory/inventory', '/modules/inventory/item_form', '/modules/inventory/item_view', '/modules/inventory/bulk_import', '/modules/inventory/manual_update', '/modules/inventory/movements', '/modules/inventory/reports', '/modules/inventory/restock', '/modules/inventory/purchase_orders']); if ($groupActive) { $activeGroupLabel = 'Inventory'; } ?>
         <div class="nav-group" data-group="inventory">
           <button type="button" class="group-label px-3 py-1 mt-2 w-full flex flex-col gap-0.5" data-group-toggle="inventory" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -578,7 +583,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         <?php endif; ?>
 
         <?php if ($hasSalesPOS): ?>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/inventory/pos', '/modules/inventory/transactions', '/modules/inventory/transaction_view']); ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/inventory/pos', '/modules/inventory/transactions', '/modules/inventory/transaction_view']); if ($groupActive) { $activeGroupLabel = 'Sales & POS'; } ?>
         <div class="nav-group" data-group="sales-pos">
           <button type="button" class="group-label px-3 py-1 mt-2 w-full flex flex-col gap-0.5" data-group-toggle="sales-pos" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -617,7 +622,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         <?php endif; ?>
 
         <?php if ($hasHealthcare): ?>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/clinic_records/index', '/modules/clinic_records/create', '/modules/clinic_records/edit']); ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/clinic_records/index', '/modules/clinic_records/create', '/modules/clinic_records/edit']); if ($groupActive) { $activeGroupLabel = 'Healthcare'; } ?>
         <div class="nav-group" data-group="healthcare">
           <button type="button" class="group-label px-3 py-1 mt-2 w-full flex flex-col gap-0.5" data-group-toggle="healthcare" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -646,7 +651,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         <?php endif; ?>
 
         <?php if ($hasAdminTools): ?>
-        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/admin/management', '/modules/admin/access-control/index', '/modules/admin/system', '/modules/inventory/print_server']) || strpos($reqPath, '/access-control/') !== false; ?>
+        <?php $groupActive = nav_group_is_active($reqPath, ['/modules/admin/management', '/modules/admin/access-control/index', '/modules/admin/system', '/modules/inventory/print_server']) || strpos($reqPath, '/access-control/') !== false; if ($groupActive) { $activeGroupLabel = 'Administration'; } ?>
         <div class="nav-group" data-group="administration">
           <button type="button" class="group-label px-3 py-1 mt-2 w-full flex flex-col gap-0.5" data-group-toggle="administration" aria-expanded="<?= $groupActive ? 'true' : 'false' ?>">
             <span class="flex items-center justify-between w-full text-[10px] uppercase tracking-wide text-gray-400">
@@ -704,7 +709,23 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
           <button id="btnMobileMenu" class="md:hidden btn btn-outline btn-icon" onclick="document.getElementById('mnav').classList.toggle('hidden')" title="Menu">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
-          <div class="page-title"><?= htmlspecialchars($pageTitle) ?></div>
+          <?php
+            $isHomePage = ($pageTitle === 'Home' || $pageTitle === 'Dashboard');
+            $homeLinkStyle = $isHomePage
+              ? 'color: var(--text-primary); font-weight: 600; text-decoration: none;'
+              : 'color: var(--text-secondary); font-weight: 500; text-decoration: none;';
+          ?>
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="<?= BASE_URL ?>/index" class="spa" style="<?= $homeLinkStyle ?>">Home</a>
+            <?php if (!$isHomePage && $activeGroupLabel): ?>
+              <span aria-hidden="true" style="color: var(--text-muted);">/</span>
+              <span style="color: var(--text-secondary); font-weight: 500;"><?= htmlspecialchars($activeGroupLabel) ?></span>
+            <?php endif; ?>
+            <?php if (!$isHomePage): ?>
+              <span aria-hidden="true" style="color: var(--text-muted);">/</span>
+              <span style="color: var(--text-primary); font-weight: 600;"><?= htmlspecialchars($pageTitle) ?></span>
+            <?php endif; ?>
+          </nav>
         </div>
         <div class="flex items-center gap-4 relative">
           <div id="headerClock" class="hidden sm:flex items-center text-sm text-gray-600 select-none" title="Current date & time"></div>

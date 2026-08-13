@@ -78,14 +78,14 @@ async function navigateSpa(url, opts) {
 			});
 			window.history.pushState({}, '', absUrl);
 			// Only #appMain's content comes from the fetched page - the persistent
-			// header (including the top bar's .page-title) is never re-rendered by
+			// header (including the top bar's .breadcrumb) is never re-rendered by
 			// SPA navigation, so without this it keeps showing whatever page was
 			// last loaded via a full page load instead of the current one.
 			if (doc.title) document.title = doc.title;
-			const newPageTitleEl = doc.querySelector('.page-title');
-			const pageTitleEl = document.querySelector('.page-title');
-			if (newPageTitleEl && pageTitleEl) {
-				pageTitleEl.textContent = newPageTitleEl.textContent;
+			const newBreadcrumbEl = doc.querySelector('.breadcrumb');
+			const breadcrumbEl = document.querySelector('.breadcrumb');
+			if (newBreadcrumbEl && breadcrumbEl) {
+				breadcrumbEl.innerHTML = newBreadcrumbEl.innerHTML;
 			}
 			hideContentLoader();
 			// Close mobile menu if open
