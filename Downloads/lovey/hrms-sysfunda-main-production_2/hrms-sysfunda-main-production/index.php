@@ -355,7 +355,6 @@ if ($isEmployeeRole) {
   $today = date('Y-m-d');
   $presentToday = $canViewAttendance ? scalar("SELECT COUNT(*) FROM attendance WHERE date = :d AND status = 'present'", [':d' => $today]) : 0;
   $payrollReleased = $canViewPayroll ? scalar('SELECT COUNT(*) FROM payroll WHERE released_at::date = CURRENT_DATE') : 0;
-  $adminToday = date('l, F j, Y');
 
   // Pending Requests: aggregate ALL request types (leave, overtime, manual override)
   $pendingOT = 0;
@@ -381,7 +380,7 @@ if ($isEmployeeRole) {
       $dashboardTitle = htmlspecialchars($userPosition) . ' Dashboard';
       $dashboardSubtitle = 'Tools and insights for your role';
   } elseif ($role === 'admin') {
-      $dashboardTitle = 'People Operations Pulse';
+      $dashboardTitle = 'Workforce Overview';
       $dashboardSubtitle = 'Monitor workforce trends, approvals, and payroll releases at a glance';
   }
   ?>
@@ -389,7 +388,7 @@ if ($isEmployeeRole) {
     <div class="rounded-xl p-6 text-white shadow-lg" style="background: var(--brand-black);">
       <div class="page-intro flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-4">
         <div>
-          <p class="text-[11px] uppercase tracking-widest text-white/60"><?= htmlspecialchars($userPosition ?: 'Admin Overview') ?> • <?= htmlspecialchars($adminToday) ?></p>
+          <p class="text-[11px] uppercase tracking-widest text-white/60"><?= htmlspecialchars($userPosition ?: 'Admin Overview') ?></p>
           <h1 class="mt-1 text-2xl font-semibold md:text-3xl"><?= $dashboardTitle ?></h1>
           <p class="mt-1 text-sm text-white/70"><?= $dashboardSubtitle ?></p>
         </div>
