@@ -299,9 +299,24 @@ function auth_logout(): void {
     if (session_status() === PHP_SESSION_ACTIVE) session_destroy();
 }
 
+/**
+ * True when the current request is a fetch()/XHR call rather than a normal
+ * page navigation — app.js's fetch-based endpoints (e.g. the notifications
+ * feed) send X-Requested-With explicitly for this purpose.
+ */
+function is_ajax_request(): bool {
+    return !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
+}
+
 function require_login(): void {
     if (empty($_SESSION['user'])) {
-    header('Location: ' . BASE_URL . '/login');
+        if (is_ajax_request()) {
+            http_response_code(401);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Not authenticated']);
+            exit;
+        }
+        header('Location: ' . BASE_URL . '/login');
         exit;
     }
     // Re-validate user is still active every 5 minutes
@@ -314,6 +329,12 @@ function require_login(): void {
             $status = $st->fetchColumn();
             if ($status !== 'active') {
                 auth_logout();
+                if (is_ajax_request()) {
+                    http_response_code(401);
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'Not authenticated']);
+                    exit;
+                }
                 header('Location: ' . BASE_URL . '/login');
                 exit;
             }

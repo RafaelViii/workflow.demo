@@ -1491,6 +1491,10 @@ function initNotifications(scope = document) {
 		setLoading(true);
 		try {
 			const res = await fetch(trigger.dataset.feedUrl, { headers: { 'X-Requested-With': 'fetch' } });
+			if (res.status === 401) {
+				showError('Your session expired. Please sign in again.');
+				return;
+			}
 			if (!res.ok) throw new Error('Unable to load notifications');
 			const payload = await res.json();
 			if (emptyState) emptyState.textContent = emptyDefault;
