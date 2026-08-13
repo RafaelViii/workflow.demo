@@ -171,8 +171,20 @@ $csrfToken = csrf_token();
     <!-- Brand panel — same token (--sidebar-bg) as the app's actual sidebar,
          so it's white in light mode / near-black in dark mode, matching
          rather than inventing a separate look. -->
-    <div class="hidden lg:flex lg:w-[42%] flex-col p-12" style="background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border);">
-      <div class="sidebar-brand" style="padding-left: 0; padding-right: 0;">
+    <div class="hidden lg:flex lg:w-[42%] flex-col p-12 relative" style="background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border);">
+      <!-- Taken out of flow (absolute, pinned to the padding box's top-left —
+           the same spot it'd sit at in normal flow) so the heading below
+           isn't sharing this panel's height with it. Previously the logo
+           was an in-flow sibling, so the heading only centered within the
+           LEFTOVER space below it (H - logoHeight), while the right panel
+           centers within the FULL height (H). As the full-bleed panel grows
+           taller (e.g. zooming out enlarges the effective viewport), those
+           two different centering math produce different vertical
+           positions and the two sides visibly drift apart. Making the logo
+           absolute means the heading block below centers over the SAME
+           full height H as the right panel, so they always land in sync
+           regardless of viewport size. -->
+      <div class="sidebar-brand" style="position: absolute; top: 0; left: 0; padding-left: 0; padding-right: 0;">
         <div class="flex items-center gap-2.5">
           <div class="brand-icon" role="img" aria-label="WorkFlow HRMS"><?php readfile(__DIR__ . '/assets/resources/work-flow.svg'); ?></div>
           <div>
@@ -182,12 +194,6 @@ $csrfToken = csrf_token();
         </div>
       </div>
 
-      <!-- Centered in the remaining space below the brand mark, so this
-           heading lands at roughly the same height as "Sign in" on the
-           right — matching that panel's vertical centering instead of
-           leaving a large empty gap up top. Now that the panel's own
-           height is capped (not min-h-screen), this gap stays consistent
-           instead of growing with the browser window. -->
       <div class="flex flex-1 flex-col justify-center overflow-y-auto">
         <h1 class="text-3xl font-semibold leading-tight" style="color: var(--text-primary);">Manage your workforce in one place.</h1>
         <p class="mt-3 text-sm" style="color: var(--text-secondary);">Employees, attendance, leave, and payroll — all from a single secure workspace.</p>
