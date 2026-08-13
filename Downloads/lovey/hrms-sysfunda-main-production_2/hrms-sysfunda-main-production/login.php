@@ -164,7 +164,11 @@ $csrfToken = csrf_token();
     <svg id="themeIconDark" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
   </button>
 
-  <div class="flex min-h-screen">
+  <!-- Capped width + centered: without this, the two panels stretch edge-to-
+       edge on very wide/zoomed-out viewports, and since the sign-in card is
+       only centered *within* the right panel (not the full page), it drifts
+       further from the page's actual center the wider the screen gets. -->
+  <div class="mx-auto flex min-h-screen max-w-[1400px]" style="border-left: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);">
     <!-- Brand panel — same token (--sidebar-bg) as the app's actual sidebar,
          so it's white in light mode / near-black in dark mode, matching
          rather than inventing a separate look. -->
