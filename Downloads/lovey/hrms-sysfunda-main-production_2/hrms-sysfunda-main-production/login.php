@@ -180,9 +180,12 @@ $csrfToken = csrf_token();
          so it's white in light mode / near-black in dark mode, matching
          rather than inventing a separate look. -->
     <div class="hidden lg:flex lg:w-[42%] flex-col p-12 relative" style="background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border);">
-      <!-- Taken out of flow (absolute, pinned to the padding box's top-left —
-           the same spot it'd sit at in normal flow) so the heading below
-           isn't sharing this panel's height with it. Previously the logo
+      <!-- Taken out of flow (absolute, offset by top/left: 3rem to match
+           the panel's own p-12 padding — an absolutely positioned element's
+           containing block is the padding BOX edge, not the content edge,
+           so top:0/left:0 would sit 3rem too far up-left, misaligned with
+           the heading below) so the heading below isn't sharing this
+           panel's height with it. Previously the logo
            was an in-flow sibling, so the heading only centered within the
            LEFTOVER space below it (H - logoHeight), while the right panel
            centers within the FULL height (H). As the full-bleed panel grows
@@ -192,7 +195,7 @@ $csrfToken = csrf_token();
            absolute means the heading block below centers over the SAME
            full height H as the right panel, so they always land in sync
            regardless of viewport size. -->
-      <div class="sidebar-brand" style="position: absolute; top: 0; left: 0; padding-left: 0; padding-right: 0;">
+      <div class="sidebar-brand" style="position: absolute; top: 3rem; left: 3rem; padding-left: 0; padding-right: 0;">
         <div class="flex items-center gap-3">
           <div class="brand-icon" role="img" aria-label="WorkFlow HRMS" style="width: 4.5rem; height: 4.5rem;"><?php readfile(__DIR__ . '/assets/resources/work-flow.svg'); ?></div>
           <div>
