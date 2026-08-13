@@ -1021,7 +1021,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
         </nav>
       </div>
       <main id="appMain" class="relative p-4 sm:p-6 space-y-4 flex-1">
-        <div id="contentLoader" class="hidden content-loader-overlay absolute inset-0 flex items-center justify-center z-10">
+        <div id="contentLoader" class="hidden content-loader-overlay absolute inset-0 flex items-center justify-center z-20">
           <div class="loader-spinner"></div>
         </div>
         <?php
