@@ -9,7 +9,7 @@ $deps = [];
 try { $deps = $pdo->query('SELECT id, name FROM departments WHERE deleted_at IS NULL ORDER BY name')->fetchAll(PDO::FETCH_ASSOC); } catch (Throwable $e) { $deps = []; }
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!csrf_verify($_POST['csrf'] ?? '')) { $error = 'Invalid CSRF token'; }
+  if (!csrf_verify($_POST['csrf'] ?? '')) { $error = 'Your session expired. Please try again.'; }
   else {
     $name = trim($_POST['name'] ?? '');
     $desc = trim($_POST['description'] ?? '');

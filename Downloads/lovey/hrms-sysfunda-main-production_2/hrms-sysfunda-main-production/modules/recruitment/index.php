@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     exit;
   }
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    flash_error('Invalid CSRF token.');
+    flash_error('Your session expired. Please try again.');
   } else {
     $rid = (int)($_POST['recruitment_id'] ?? 0);
     $newStatus = $_POST['status'] ?? '';

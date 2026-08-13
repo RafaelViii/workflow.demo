@@ -174,7 +174,7 @@ if ($action === 'create_job' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $input = json_decode(file_get_contents('php://input'), true);
-    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']); exit; }
+    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Your session expired. Please try again.']); exit; }
 
     $printerId = (int)($input['printer_id'] ?? 0);
     $docType = $input['document_type'] ?? 'receipt';
@@ -265,7 +265,7 @@ if ($action === 'process_queue' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $input = json_decode(file_get_contents('php://input'), true);
-    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']); exit; }
+    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Your session expired. Please try again.']); exit; }
 
     // Get next queued job
     $stmt = $pdo->query("SELECT pj.*, p.name as printer_name, p.status as printer_status FROM print_jobs pj LEFT JOIN printers p ON p.id = pj.printer_id WHERE pj.status = 'queued' ORDER BY pj.priority ASC, pj.created_at ASC LIMIT 1");
@@ -330,7 +330,7 @@ if ($action === 'update_status' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $input = json_decode(file_get_contents('php://input'), true);
-    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']); exit; }
+    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Your session expired. Please try again.']); exit; }
 
     $id = (int)($input['printer_id'] ?? 0);
     $newStatus = $input['status'] ?? '';

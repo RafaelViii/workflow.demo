@@ -57,7 +57,7 @@ $selectedBranches = $allBranchIds;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    $errors[] = 'Invalid form token. Please try again.';
+    $errors[] = 'Your session expired. Please try again.';
   } else {
     $periodStart = $periodStartInput;
     $periodEnd = $periodEndInput;

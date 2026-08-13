@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($isAjax) {
       http_response_code(400);
       header('Content-Type: application/json');
-      echo json_encode(['ok' => false, 'message' => 'Invalid CSRF token']);
+      echo json_encode(['ok' => false, 'message' => 'Your session expired. Please try again.']);
       exit;
     }
-    flash_error('Invalid CSRF token.');
+    flash_error('Your session expired. Please try again.');
     header('Location: ' . BASE_URL . '/modules/notifications/index'); exit;
   }
   $nid = (int)($_POST['id'] ?? 0);

@@ -8,7 +8,7 @@ $pdo = get_db_conn();
 // Handle inline time edit for HR users
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_time'])) {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    flash_error('Invalid form token');
+    flash_error('Your session expired. Please try again.');
     header('Location: ' . BASE_URL . '/modules/attendance/index');
     exit;
   }

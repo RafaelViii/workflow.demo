@@ -31,7 +31,7 @@ if (stripos($contentType, 'application/json') !== false) {
 // CSRF check
 if (empty($input['csrf']) || !csrf_verify($input['csrf'])) {
     http_response_code(403);
-    echo json_encode(['ok' => false, 'error' => 'Invalid CSRF token.']);
+    echo json_encode(['ok' => false, 'error' => 'Your session expired. Please try again.']);
     exit;
 }
 

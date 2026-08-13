@@ -22,7 +22,7 @@ if (!function_exists('format_leave_days_input')) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_verify($_POST['csrf'] ?? '')) {
-        flash_error('Invalid form token. Please try again.');
+        flash_error('Your session expired. Please try again.');
         header('Location: ' . $redirectUrl);
         exit;
     }

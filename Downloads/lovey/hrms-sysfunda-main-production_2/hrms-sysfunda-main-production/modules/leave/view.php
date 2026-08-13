@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors[] = 'You are not allowed to change this request.';
   } else {
     if (!csrf_verify($_POST['csrf'] ?? '')) { 
-      $errors[] = 'Invalid CSRF token.'; 
+      $errors[] = 'Your session expired. Please try again.'; 
     } else {
       $action = $_POST['action'] ?? '';
       $reason = trim($_POST['reason'] ?? '');

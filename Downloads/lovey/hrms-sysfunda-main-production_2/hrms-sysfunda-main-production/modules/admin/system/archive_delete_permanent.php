@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Verify CSRF
 $token = $_POST['csrf_token'] ?? '';
 if (!csrf_verify($token)) {
-    echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+    echo json_encode(['success' => false, 'message' => 'Your session expired. Please try again.']);
     exit;
 }
 

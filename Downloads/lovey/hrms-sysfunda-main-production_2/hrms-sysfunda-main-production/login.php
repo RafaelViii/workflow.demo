@@ -53,7 +53,7 @@ $error = '';
 $emailInput = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    $error = 'Invalid CSRF token';
+    $error = 'This page took too long to load. Please try signing in again.';
   } else {
     $now = time();
     $email = trim($_POST['email'] ?? '');

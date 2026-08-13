@@ -8,7 +8,7 @@ $pdo = get_db_conn();
 // Handle create
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrf_verify($_POST['csrf'] ?? '')) { $errors[] = 'Invalid CSRF token.'; }
+    if (!csrf_verify($_POST['csrf'] ?? '')) { $errors[] = 'Your session expired. Please try again.'; }
     $employee_id = (int)($_POST['employee_id'] ?? 0);
     $date = $_POST['date'] ?? '';
     $time_in = $_POST['time_in'] ?? null;

@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../includes/utils.php';
 $pdo = get_db_conn();
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!csrf_verify($_POST['csrf'] ?? '')) { $error = 'Invalid CSRF token'; }
+  if (!csrf_verify($_POST['csrf'] ?? '')) { $error = 'Your session expired. Please try again.'; }
   else {
     $name = trim($_POST['name'] ?? '');
     $desc = trim($_POST['description'] ?? '');

@@ -9,7 +9,7 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    $error = 'Invalid CSRF token';
+    $error = 'Your session expired. Please try again.';
   } else {
     $title = trim($_POST['title'] ?? '');
     $body = trim($_POST['body'] ?? '');

@@ -101,7 +101,7 @@ $allowedTypes = ['pdf','png','jpg','jpeg'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['remove_attachment'])) {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    $errors[] = 'Invalid CSRF token.';
+    $errors[] = 'Your session expired. Please try again.';
   }
   $memoCode = strtoupper(trim((string)($_POST['memo_code'] ?? '')));
   $header = trim((string)($_POST['header'] ?? ''));

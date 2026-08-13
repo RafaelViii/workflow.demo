@@ -118,7 +118,7 @@ $allowedAttachmentExtensions = ['pdf','jpg','jpeg','png'];
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!csrf_verify($_POST['csrf'] ?? '')) { $errors[] = 'Invalid CSRF token.'; }
+  if (!csrf_verify($_POST['csrf'] ?? '')) { $errors[] = 'Your session expired. Please try again.'; }
   $leave_type = $_POST['leave_type'] ?? '';
   $start_date = $_POST['start_date'] ?? '';
   $end_date = $_POST['end_date'] ?? '';

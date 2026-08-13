@@ -76,7 +76,7 @@ if ($action === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']); exit; }
+    if (!csrf_verify($input['csrf'] ?? '')) { http_response_code(403); echo json_encode(['success' => false, 'error' => 'Your session expired. Please try again.']); exit; }
 
     $defaultPrinter = trim($input['default_printer'] ?? '');
     $paperWidth     = max(32, min(80, (int)($input['paper_width'] ?? 48)));

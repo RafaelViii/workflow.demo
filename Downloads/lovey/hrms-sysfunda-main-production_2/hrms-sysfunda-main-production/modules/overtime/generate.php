@@ -24,7 +24,7 @@ $errors = [];
 $previewData = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_verify($_POST['csrf'] ?? '')) {
-    flash_error('Invalid form token');
+    flash_error('Your session expired. Please try again.');
     header('Location: ' . BASE_URL . '/modules/overtime/generate');
     exit;
 }

@@ -25,7 +25,7 @@ $selectedBranchId = $defaultBranchId;
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    $error = 'Invalid CSRF token';
+    $error = 'Your session expired. Please try again.';
   } else {
     $code = trim($_POST['employee_code'] ?? '');
     $first = trim($_POST['first_name'] ?? '');

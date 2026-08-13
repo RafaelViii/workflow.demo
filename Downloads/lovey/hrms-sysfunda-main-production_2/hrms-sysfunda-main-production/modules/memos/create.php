@@ -24,7 +24,7 @@ $allowDownloads = false;
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    $errors[] = 'Invalid CSRF token.';
+    $errors[] = 'Your session expired. Please try again.';
   }
   $memoCode = strtoupper(trim((string)($_POST['memo_code'] ?? '')));
   $header = trim((string)($_POST['header'] ?? ''));

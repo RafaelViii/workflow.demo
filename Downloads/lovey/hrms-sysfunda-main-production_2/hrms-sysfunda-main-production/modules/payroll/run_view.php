@@ -173,7 +173,7 @@ $complaintStatusLabels = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    flash_error('Invalid form token.');
+    flash_error('Your session expired. Please try again.');
     header('Location: ' . BASE_URL . '/modules/payroll/run_view?id=' . $runId);
     exit;
   }

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     
     if ($action === 'create_leave_type' && $activeTab === 'policies') {
         if (!csrf_verify($_POST['csrf'] ?? '')) {
-            $errors[] = 'Invalid CSRF token.';
+            $errors[] = 'Your session expired. Please try again.';
         } else {
             $newTypeCode = strtolower(trim($_POST['leave_type_code'] ?? ''));
             $newTypeLabel = trim($_POST['leave_type_label'] ?? '');
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         }
     } elseif ($action === 'delete_leave_type' && $activeTab === 'policies') {
         if (!csrf_verify($_POST['csrf'] ?? '')) {
-            $errors[] = 'Invalid CSRF token.';
+            $errors[] = 'Your session expired. Please try again.';
         } else {
             $typeToDelete = strtolower(trim($_POST['leave_type'] ?? ''));
             
@@ -178,7 +178,7 @@ $leaveTypes = leave_get_known_types($pdo);
 // Handle policy updates (POST from policies tab)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $activeTab === 'policies' && !isset($_POST['action'])) {
     if (!csrf_verify($_POST['csrf'] ?? '')) {
-        $errors[] = 'Invalid CSRF token.';
+        $errors[] = 'Your session expired. Please try again.';
     } else {
         $leaveType = trim($_POST['leave_type'] ?? '');
         $requireNotice = isset($_POST['require_advance_notice']) && $_POST['require_advance_notice'] === '1';

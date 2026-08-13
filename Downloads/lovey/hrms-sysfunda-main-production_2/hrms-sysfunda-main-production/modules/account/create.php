@@ -37,7 +37,7 @@ if ($employeeId) {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!csrf_verify($_POST['csrf'] ?? '')) {
-    $error = 'Invalid CSRF token';
+    $error = 'Your session expired. Please try again.';
   } else {
 
     $email = trim($_POST['email'] ?? '');

@@ -31,7 +31,7 @@ if ($action === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (!csrf_verify($input['csrf'] ?? '')) {
         http_response_code(403);
-        echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']);
+        echo json_encode(['success' => false, 'error' => 'Your session expired. Please try again.']);
         exit;
     }
 
@@ -62,7 +62,7 @@ if ($action === 'save_quick_actions' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (!csrf_verify($input['csrf'] ?? '')) {
         http_response_code(403);
-        echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']);
+        echo json_encode(['success' => false, 'error' => 'Your session expired. Please try again.']);
         exit;
     }
 

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $redirectUrl = $redirectBase . '?tab=' . $activeTab;
 
     if (!csrf_verify($_POST['csrf'] ?? '')) {
-        flash_error('Invalid form token. Please try again.');
+        flash_error('Your session expired. Please try again.');
         header('Location: ' . $redirectUrl);
         exit;
     }

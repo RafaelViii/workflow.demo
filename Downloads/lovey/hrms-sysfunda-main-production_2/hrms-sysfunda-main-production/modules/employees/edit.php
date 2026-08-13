@@ -156,7 +156,7 @@ if (!function_exists('leave_format_days_compact')) {
 // ================================================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!csrf_verify($_POST['csrf'] ?? '')) { 
-    $error = 'Invalid CSRF token'; 
+    $error = 'Your session expired. Please try again.'; 
   } else {
     // DELETE EMPLOYEE
     if (isset($_POST['delete_employee'])) {

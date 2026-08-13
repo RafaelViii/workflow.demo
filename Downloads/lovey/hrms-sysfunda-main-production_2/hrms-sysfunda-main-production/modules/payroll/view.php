@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'post_data' => $_POST
     ]);
     audit('payroll_complaint_error', 'Invalid CSRF token', ['user_id' => $uid, 'payslip_id' => $psId]);
-    flash_error('Invalid form token.');
+    flash_error('Your session expired. Please try again.');
     header('Location: ' . BASE_URL . '/modules/payroll/view?id=' . $psId);
     exit;
   }

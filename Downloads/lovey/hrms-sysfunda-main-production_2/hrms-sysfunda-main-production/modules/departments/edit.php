@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_supervisor']))
 
 // Handle Department Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_department'])) {
-  if (!csrf_verify($_POST['csrf'] ?? '')) { $error = 'Invalid CSRF token'; }
+  if (!csrf_verify($_POST['csrf'] ?? '')) { $error = 'Your session expired. Please try again.'; }
   else {
     $name = trim($_POST['name'] ?? '');
     $desc = trim($_POST['description'] ?? '');

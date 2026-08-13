@@ -9,7 +9,7 @@ $defaultBranchId = branches_get_default_id($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_verify($_POST['csrf'] ?? '')) {
-        flash_error('Invalid form token. Please try again.');
+        flash_error('Your session expired. Please try again.');
         header('Location: ' . BASE_URL . '/modules/admin/branches');
         exit;
     }
