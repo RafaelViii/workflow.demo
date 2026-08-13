@@ -207,19 +207,23 @@ $csrfToken = csrf_token();
 
       <div class="flex flex-1 flex-col justify-center overflow-y-auto">
         <h1 class="text-4xl font-semibold leading-tight" style="color: var(--text-primary);">Manage your workforce in one place.</h1>
-        <p class="mt-3 text-sm" style="color: var(--text-secondary);">Employees, attendance, leave, and payroll — all from a single secure workspace.</p>
+        <p class="mt-3 text-sm" style="color: var(--text-secondary);">Employees, payroll, attendance, leave, recruitment, and multi-branch operations — all in one secure workspace.</p>
         <ul class="mt-8 space-y-4">
           <li class="flex items-start gap-3">
             <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" style="background: var(--accent);"></span>
-            <span class="text-sm" style="color: var(--text-secondary);">Role-based access keeps sensitive records visible only to the right people.</span>
+            <span class="text-sm" style="color: var(--text-secondary);">Run payroll end-to-end — batches, approvals, statutory computations, and payslips.</span>
           </li>
           <li class="flex items-start gap-3">
             <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" style="background: var(--accent);"></span>
-            <span class="text-sm" style="color: var(--text-secondary);">Track leave, attendance, and payroll readiness at a glance.</span>
+            <span class="text-sm" style="color: var(--text-secondary);">Track attendance and DTR, file and approve leave requests, and monitor balances in real time.</span>
           </li>
           <li class="flex items-start gap-3">
             <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" style="background: var(--accent);"></span>
-            <span class="text-sm" style="color: var(--text-secondary);">Every sensitive change is logged in a full audit trail.</span>
+            <span class="text-sm" style="color: var(--text-secondary);">Manage multiple branches, each with its own payroll batches and settings.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" style="background: var(--accent);"></span>
+            <span class="text-sm" style="color: var(--text-secondary);">Run recruitment pipelines and performance reviews alongside role-based access and a full audit trail.</span>
           </li>
         </ul>
       </div>
@@ -280,10 +284,6 @@ $csrfToken = csrf_token();
           </div>
           <button type="submit" class="btn btn-primary w-full justify-center">Sign in</button>
         </form>
-
-        <?php if (in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1','::1'], true)): ?>
-          <p class="mt-4 text-center"><a class="text-sm font-medium" style="color: var(--accent);" href="tools/reset_admin.php">Reset admin password</a></p>
-        <?php endif; ?>
 
         <p class="mt-8 text-center hint-text">&copy; <?= date('Y') ?> WorkFlow HRMS</p>
       </div>

@@ -511,6 +511,19 @@ input:disabled, textarea:disabled, select:disabled { cursor: not-allowed; }
 /* Text inputs */
 .input-text { border: 1px solid var(--border-default); background: var(--bg-surface); color: var(--text-primary); padding: 0.5rem 0.75rem; border-radius: 0.5rem; min-width: 12rem; }
 .input-text:hover{ background: var(--bg-surface-muted); border-color: var(--text-muted); }
+/* Browser autofill (e.g. a saved Chrome credential) paints its own light
+   blue/yellow background over inputs, ignoring our theme entirely. This
+   forces it back to the app's normal surface color via the inset-shadow
+   trick (the only way to override :-webkit-autofill's background). */
+.input-text:-webkit-autofill,
+.input-text:-webkit-autofill:hover,
+.input-text:-webkit-autofill:focus {
+	-webkit-text-fill-color: var(--text-primary);
+	caret-color: var(--text-primary);
+	-webkit-box-shadow: 0 0 0 1000px var(--bg-surface) inset;
+	box-shadow: 0 0 0 1000px var(--bg-surface) inset;
+	transition: background-color 9999s ease-in-out 0s;
+}
 
 /* Simple dropdown */
 .dropdown { position: relative; display: inline-block; }
