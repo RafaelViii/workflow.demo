@@ -164,16 +164,21 @@ $csrfToken = csrf_token();
     <svg id="themeIconDark" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
   </button>
 
-  <!-- Capped width + centered: without this, the two panels stretch edge-to-
-       edge on very wide/zoomed-out viewports, and since the sign-in card is
-       only centered *within* the right panel (not the full page), it drifts
-       further from the page's actual center the wider the screen gets. -->
-  <div class="mx-auto flex min-h-screen max-w-[1400px]" style="border-left: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);">
+  <!-- A truly FIXED-size card, centered both horizontally and vertically,
+       rather than a full-viewport-height split. min-h-screen previously
+       made the two-panel box grow with the browser window's height, which
+       kept stretching the gap between the fixed-position logo and the
+       vertically-centered heading below it as the window got taller —
+       the "elements moving" effect. Bounding both width AND height here
+       means the card's internal proportions never change; a bigger screen
+       just shows more background around it, nothing inside shifts. -->
+  <div class="flex min-h-screen items-center justify-center p-6">
+    <div class="flex w-full max-w-[1400px] overflow-hidden rounded-2xl" style="height: min(760px, calc(100vh - 3rem)); border: 1px solid var(--border-default); box-shadow: var(--shadow-popover);">
     <!-- Brand panel — same token (--sidebar-bg) as the app's actual sidebar,
          so it's white in light mode / near-black in dark mode, matching
          rather than inventing a separate look. -->
     <div class="hidden lg:flex lg:w-[42%] flex-col p-12" style="background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border);">
-      <div class="sidebar-brand">
+      <div class="sidebar-brand" style="padding-left: 0; padding-right: 0;">
         <div class="flex items-center gap-2.5">
           <div class="brand-icon" role="img" aria-label="WorkFlow HRMS"><?php readfile(__DIR__ . '/assets/resources/work-flow.svg'); ?></div>
           <div>
@@ -186,8 +191,10 @@ $csrfToken = csrf_token();
       <!-- Centered in the remaining space below the brand mark, so this
            heading lands at roughly the same height as "Sign in" on the
            right — matching that panel's vertical centering instead of
-           leaving a large empty gap up top. -->
-      <div class="flex flex-1 flex-col justify-center">
+           leaving a large empty gap up top. Now that the panel's own
+           height is capped (not min-h-screen), this gap stays consistent
+           instead of growing with the browser window. -->
+      <div class="flex flex-1 flex-col justify-center overflow-y-auto">
         <h1 class="text-3xl font-semibold leading-tight" style="color: var(--text-primary);">Manage your workforce in one place.</h1>
         <p class="mt-3 text-sm" style="color: var(--text-secondary);">Employees, attendance, leave, and payroll — all from a single secure workspace.</p>
         <ul class="mt-8 space-y-4">
@@ -208,7 +215,7 @@ $csrfToken = csrf_token();
     </div>
 
     <!-- Sign-in panel -->
-    <div class="flex flex-1 items-center justify-center p-6 sm:p-12">
+    <div class="flex flex-1 items-center justify-center overflow-y-auto p-6 sm:p-12">
       <div class="w-full max-w-sm">
         <div class="mb-8 lg:hidden">
           <div class="sidebar-brand" style="padding: 0;">
@@ -267,6 +274,7 @@ $csrfToken = csrf_token();
 
         <p class="mt-8 text-center hint-text">&copy; <?= date('Y') ?> WorkFlow HRMS</p>
       </div>
+    </div>
     </div>
   </div>
 
