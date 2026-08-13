@@ -1094,7 +1094,6 @@ $csrf = csrf_token();
 ?>
 <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
   <div class="flex items-center gap-3">
-    <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/payroll/index">Back</a>
     <div>
       <h1 class="text-2xl font-semibold">Payroll Run</h1>
       <p class="text-sm text-gray-600">

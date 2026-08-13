@@ -41,12 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $pageTitle = 'Create Notification / Memo';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
-<div class="mb-3">
-  <a class="btn btn-outline inline-flex items-center gap-2" href="<?= BASE_URL ?>/modules/admin/management">
-    <span>&larr;</span>
-    <span>Back to Management Hub</span>
-  </a>
-</div>
 <div class="card p-4 max-w-xl">
   <h1 class="text-xl font-semibold mb-3">Create Notification / Memo</h1>
   <?php if ($error): ?><div class="bg-red-50 text-red-700 p-2 rounded mb-3 text-sm"><?= htmlspecialchars($error) ?></div><?php endif; ?>

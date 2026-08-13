@@ -165,7 +165,6 @@ require_once __DIR__ . '/../../includes/header.php';
           </button>
         </form>
       <?php endif; ?>
-      <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/memos/index">Back to list</a>
     </div>
   </div>
 

@@ -236,7 +236,6 @@ require_once __DIR__ . '/../../includes/header.php';
     <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-2">
       <div class="flex items-center gap-3">
-        <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/attendance/index">Back</a>
         <div>
           <h1 class="text-xl font-semibold text-slate-900">Employee Schedule & Leave Calendar</h1>
           <p class="text-sm text-slate-500 mt-0.5">View employee schedules and leave requests</p>

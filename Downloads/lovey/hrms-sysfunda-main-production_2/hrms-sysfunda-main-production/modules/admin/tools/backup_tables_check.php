@@ -59,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify($_POST['csrf'] ?? '')) 
   <form method="post" class="mt-3">
     <input type="hidden" name="csrf" value="<?php echo csrf_token() ?>">
     <button class="px-3 py-2 bg-blue-600 text-white rounded">Create Missing</button>
-    <a class="px-3 py-2 border rounded ml-2" href="<?php echo BASE_URL ?>/modules/admin/index">Back</a>
   </form>
 </div>
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

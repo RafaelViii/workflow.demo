@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php if (!$pos) { echo '<div class="p-3">Not found</div>'; require_once __DIR__ . '/../../includes/footer.php'; exit; } ?>
 
 <div class="flex items-center gap-3 mb-6">
-  <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/positions/index">Back to List</a>
   <h1 class="text-xl font-semibold">Edit Position</h1>
 </div>
 

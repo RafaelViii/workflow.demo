@@ -304,7 +304,6 @@ require_once __DIR__ . '/../../includes/header.php';
       <h1 class="text-3xl font-semibold text-slate-900">Create Memo</h1>
       <p class="mt-1 max-w-2xl text-sm text-slate-600">Craft a memo, target the right audience, and attach supporting files with live previews before sending.</p>
     </div>
-    <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/memos/index">Back to Memo Hub</a>
   </div>
 
   <?php foreach ($errors as $error): ?>

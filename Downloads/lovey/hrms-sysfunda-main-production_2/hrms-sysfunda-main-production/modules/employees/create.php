@@ -125,7 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="max-w-3xl">
   <div class="flex items-center gap-3 mb-4">
-    <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/employees/index">Back</a>
     <div>
       <h1 class="text-xl font-semibold">Add Employee</h1>
     </div>

@@ -495,12 +495,6 @@ $csrfToken = csrf_token();
 $pageTitle = 'System Configuration';
 require_once __DIR__ . '/../../../includes/header.php';
 ?>
-<div class="mb-3">
-  <a class="btn btn-outline inline-flex items-center gap-2" href="<?= BASE_URL ?>/modules/admin/management">
-    <span>&larr;</span>
-    <span>Back to Management Hub</span>
-  </a>
-</div>
 <div class="flex flex-col gap-3 mb-4 md:flex-row md:items-center md:justify-between">
   <div>
     <h1 class="text-xl font-semibold">System Configuration</h1>

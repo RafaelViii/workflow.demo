@@ -140,7 +140,6 @@ require_once __DIR__ . '/../../includes/header.php';
     <h1 class="text-xl font-bold text-slate-900">New Clinic Record</h1>
     <p class="text-sm text-slate-500 mt-0.5">Log a nurse or medtech service record</p>
   </div>
-  <a href="<?= BASE_URL ?>/modules/clinic_records/index" class="btn btn-outline text-sm spa">Back to Records</a>
 </div>
 
 <form method="post" class="max-w-3xl">

@@ -149,7 +149,6 @@ require_once __DIR__ . '/../../includes/header.php';
     <h1 class="text-lg sm:text-xl font-bold text-slate-900">Edit Clinic Record #<?= $id ?></h1>
     <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Update patient and nurse service details</p>
   </div>
-  <a href="<?= BASE_URL ?>/modules/clinic_records/index" class="btn btn-outline text-sm spa">Back to Records</a>
 </div>
 
 <form method="post" class="max-w-3xl mx-auto">

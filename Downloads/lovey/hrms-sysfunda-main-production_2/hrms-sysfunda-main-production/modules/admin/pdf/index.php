@@ -72,12 +72,6 @@ function field($arr, $path, $def=''){
   return $cur;
 }
 ?>
-<div class="mb-3">
-  <a class="btn btn-outline inline-flex items-center gap-2" href="<?= BASE_URL ?>/modules/admin/management">
-    <span>&larr;</span>
-    <span>Back to Management Hub</span>
-  </a>
-</div>
 <div class="max-w-4xl">
   <h1 class="text-xl font-semibold mb-3">PDF Templates</h1>
   <?php if ($msg): ?><div class="mb-3 p-2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200"><?= htmlspecialchars($msg) ?></div><?php endif; ?>

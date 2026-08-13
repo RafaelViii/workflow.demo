@@ -177,7 +177,6 @@ $csrf = csrf_token();
   </div>
   <div class="mt-4 flex flex-wrap gap-2">
     <a class="btn btn-primary" href="<?= BASE_URL ?>/modules/payroll/pdf_payslip?id=<?= (int)$psId ?>" target="_blank" rel="noopener">Download PDF</a>
-    <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/payroll/my_payslips">Back</a>
     <?php if ($canAdmin && false): // Adjust Payslip feature disabled ?>
       <details class="ml-auto">
         <summary class="btn btn-secondary">Adjust Payslip</summary>

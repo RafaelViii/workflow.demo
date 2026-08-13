@@ -172,18 +172,6 @@ $pageTitle = 'Branch Directory';
 require_once __DIR__ . '/../../../includes/header.php';
 ?>
 <div class="space-y-6">
-  <div>
-    <a
-      href="<?= BASE_URL ?>/modules/admin/management"
-      class="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
-      data-no-loader
-    >
-      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
-      </svg>
-      <span>Back to Management Hub</span>
-    </a>
-  </div>
   <div class="rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 text-white shadow-lg">
     <div class="p-6 md:p-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div class="space-y-2">
