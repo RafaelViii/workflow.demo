@@ -70,8 +70,14 @@
     </div>
   </div>
 </div>
-<?php // Bump asset version to invalidate stale cached JS (auth modal, payroll updates)
-$assetVer = '20250210a'; ?>
+<?php
+// Cache-bust on file mtime instead of a hand-maintained version string, so
+// an app.js edit is guaranteed to invalidate cached copies on the next load
+// rather than relying on someone remembering to bump this by hand (a stale
+// hardcoded value here means every JS fix silently doesn't reach browsers
+// that already cached the old file under the same ?v= URL).
+$assetVer = (string)(@filemtime(__DIR__ . '/../assets/js/app.js') ?: time());
+?>
 <script>window.__APP_VER='<?= $assetVer ?>';</script>
 <script src="<?= BASE_URL ?>/assets/js/app.js?v=<?= $assetVer ?>"></script>
 </body>
