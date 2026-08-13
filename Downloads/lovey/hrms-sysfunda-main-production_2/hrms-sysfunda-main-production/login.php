@@ -173,7 +173,7 @@ $csrfToken = csrf_token();
        means the card's internal proportions never change; a bigger screen
        just shows more background around it, nothing inside shifts. -->
   <div class="flex min-h-screen items-center justify-center p-6">
-    <div class="flex w-full max-w-[1680px] overflow-hidden rounded-2xl" style="height: min(920px, calc(100vh - 2rem)); border: 1px solid var(--border-default); box-shadow: var(--shadow-popover);">
+    <div class="flex overflow-hidden rounded-2xl" style="width: min(94vw, 1800px); height: min(920px, calc(100vh - 2rem)); border: 1px solid var(--border-default); box-shadow: var(--shadow-popover);">
     <!-- Brand panel — same token (--sidebar-bg) as the app's actual sidebar,
          so it's white in light mode / near-black in dark mode, matching
          rather than inventing a separate look. -->
