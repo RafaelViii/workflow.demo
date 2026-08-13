@@ -89,8 +89,7 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
     })();
   </script>
   <title><?= htmlspecialchars(APP_NAME) ?></title>
-  <link rel="icon" type="image/jpeg" href="<?= BASE_URL ?>/assets/resources/logo.jpg" />
-  <link rel="shortcut icon" type="image/jpeg" href="<?= BASE_URL ?>/assets/resources/logo.jpg" />
+  <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>/assets/resources/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet" crossorigin="anonymous">
