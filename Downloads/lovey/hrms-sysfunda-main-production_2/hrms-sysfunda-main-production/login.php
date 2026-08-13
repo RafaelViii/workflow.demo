@@ -193,17 +193,17 @@ $csrfToken = csrf_token();
            full height H as the right panel, so they always land in sync
            regardless of viewport size. -->
       <div class="sidebar-brand" style="position: absolute; top: 0; left: 0; padding-left: 0; padding-right: 0;">
-        <div class="flex items-center gap-2.5">
-          <div class="brand-icon" role="img" aria-label="WorkFlow HRMS"><?php readfile(__DIR__ . '/assets/resources/work-flow.svg'); ?></div>
+        <div class="flex items-center gap-3">
+          <div class="brand-icon" role="img" aria-label="WorkFlow HRMS" style="width: 4.5rem; height: 4.5rem;"><?php readfile(__DIR__ . '/assets/resources/work-flow.svg'); ?></div>
           <div>
-            <div class="brand-text">Work Flow</div>
-            <div class="brand-sub">HR Management System</div>
+            <div class="brand-text" style="font-size: 1.5rem;">Work Flow</div>
+            <div class="brand-sub" style="font-size: .75rem;">HR Management System</div>
           </div>
         </div>
       </div>
 
       <div class="flex flex-1 flex-col justify-center overflow-y-auto">
-        <h1 class="text-3xl font-semibold leading-tight" style="color: var(--text-primary);">Manage your workforce in one place.</h1>
+        <h1 class="text-4xl font-semibold leading-tight" style="color: var(--text-primary);">Manage your workforce in one place.</h1>
         <p class="mt-3 text-sm" style="color: var(--text-secondary);">Employees, attendance, leave, and payroll — all from a single secure workspace.</p>
         <ul class="mt-8 space-y-4">
           <li class="flex items-start gap-3">
