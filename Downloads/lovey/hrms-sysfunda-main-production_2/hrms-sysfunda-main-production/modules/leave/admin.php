@@ -147,12 +147,12 @@ require_once __DIR__ . '/../../includes/header.php';
           </div>
         </div>
         <!-- Search and Type Filter -->
-        <div class="flex flex-wrap gap-3 items-end">
-          <div class="flex-1 min-w-0 sm:min-w-[200px]">
+        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+          <div class="w-full sm:flex-1 sm:min-w-[200px]">
             <label class="block text-xs font-medium text-slate-500 mb-1">Search Employee</label>
             <input type="text" id="searchInput" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Name or employee code..." autocomplete="off">
           </div>
-          <div class="min-w-[180px]">
+          <div class="w-full sm:w-auto sm:min-w-[180px]">
             <label class="block text-xs font-medium text-slate-500 mb-1">Leave Type</label>
             <select id="typeFilter" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
               <option value="">All Types</option>

@@ -347,21 +347,23 @@ foreach ($rows as $r) {
   <!-- Filters -->
   <div class="card">
     <div class="card-body">
-      <form method="get" class="flex flex-wrap gap-3 items-end">
-        <div class="flex-1 min-w-0 sm:min-w-[200px]">
+      <form method="get" class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+        <div class="w-full sm:flex-1 sm:min-w-[200px]">
           <label class="block text-xs font-medium text-slate-500 mb-1">Search Employee</label>
           <input name="q" value="<?= htmlspecialchars($q) ?>" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Name or employee code...">
         </div>
-        <div>
+        <div class="w-full sm:w-auto">
           <label class="block text-xs font-medium text-slate-500 mb-1">From</label>
-          <input type="date" name="from" value="<?= htmlspecialchars($from) ?>" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <input type="date" name="from" value="<?= htmlspecialchars($from) ?>" class="w-full sm:w-auto rounded-lg border border-slate-300 px-3 py-2 text-sm">
         </div>
-        <div>
+        <div class="w-full sm:w-auto">
           <label class="block text-xs font-medium text-slate-500 mb-1">To</label>
-          <input type="date" name="to" value="<?= htmlspecialchars($to) ?>" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <input type="date" name="to" value="<?= htmlspecialchars($to) ?>" class="w-full sm:w-auto rounded-lg border border-slate-300 px-3 py-2 text-sm">
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="<?= BASE_URL ?>/modules/attendance/index" class="btn btn-outline">Clear</a>
+        <div class="flex gap-2 w-full sm:w-auto">
+          <button type="submit" class="btn btn-primary flex-1 sm:flex-none">Filter</button>
+          <a href="<?= BASE_URL ?>/modules/attendance/index" class="btn btn-outline flex-1 sm:flex-none text-center">Clear</a>
+        </div>
       </form>
     </div>
   </div>

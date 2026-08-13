@@ -170,20 +170,20 @@ require_once __DIR__ . '/../../includes/header.php';
 
     <!-- Filters -->
     <div class="card card-body">
-        <form method="get" class="flex flex-wrap gap-3 items-end">
-            <div class="flex-1 min-w-[200px]">
-                <input type="text" name="q" value="<?= htmlspecialchars($search) ?>" placeholder="Search products..." 
+        <form method="get" class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+            <div class="w-full sm:flex-1 sm:min-w-[200px]">
+                <input type="text" name="q" value="<?= htmlspecialchars($search) ?>" placeholder="Search products..."
                        class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
             </div>
-            <div>
-                <select name="category" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+            <div class="w-full sm:w-auto">
+                <select name="category" class="w-full sm:w-auto rounded-lg border border-slate-300 px-3 py-2 text-sm">
                     <option value="0">All Categories</option>
                     <?php foreach ($categories as $cat): ?>
                         <option value="<?= $cat['id'] ?>" <?= $catFilter == $cat['id'] ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary text-sm">Search</button>
+            <button type="submit" class="btn btn-primary text-sm w-full sm:w-auto">Search</button>
         </form>
     </div>
 

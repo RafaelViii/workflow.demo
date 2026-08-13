@@ -189,24 +189,26 @@ require_once __DIR__ . '/../../includes/header.php';
   <!-- Filters -->
   <div class="card">
     <div class="card-body">
-      <form method="get" class="flex flex-wrap gap-3 items-end">
-        <div class="flex-1 min-w-0 sm:min-w-[200px]">
+      <form method="get" class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+        <div class="w-full sm:flex-1 sm:min-w-[200px]">
           <label class="block text-xs font-medium text-slate-500 mb-1">Search Employee</label>
           <input type="text" name="q" value="<?= htmlspecialchars($search) ?>" placeholder="Name or employee code..." class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
         </div>
-        <div>
+        <div class="w-full sm:w-auto">
           <label class="block text-xs font-medium text-slate-500 mb-1">From</label>
-          <input type="date" name="from" value="<?= htmlspecialchars($dateFrom) ?>" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <input type="date" name="from" value="<?= htmlspecialchars($dateFrom) ?>" class="w-full sm:w-auto rounded-lg border border-slate-300 px-3 py-2 text-sm">
         </div>
-        <div>
+        <div class="w-full sm:w-auto">
           <label class="block text-xs font-medium text-slate-500 mb-1">To</label>
-          <input type="date" name="to" value="<?= htmlspecialchars($dateTo) ?>" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <input type="date" name="to" value="<?= htmlspecialchars($dateTo) ?>" class="w-full sm:w-auto rounded-lg border border-slate-300 px-3 py-2 text-sm">
         </div>
         <?php if ($statusFilter !== 'all'): ?>
           <input type="hidden" name="status" value="<?= htmlspecialchars($statusFilter) ?>">
         <?php endif; ?>
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="<?= BASE_URL ?>/modules/overtime/admin" class="btn btn-outline">Clear</a>
+        <div class="flex gap-2 w-full sm:w-auto">
+          <button type="submit" class="btn btn-primary flex-1 sm:flex-none">Filter</button>
+          <a href="<?= BASE_URL ?>/modules/overtime/admin" class="btn btn-outline flex-1 sm:flex-none text-center">Clear</a>
+        </div>
       </form>
     </div>
   </div>
