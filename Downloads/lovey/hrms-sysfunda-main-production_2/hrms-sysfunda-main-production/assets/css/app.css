@@ -288,14 +288,17 @@ canvas[data-chart] { display: block; }
 	position: relative;
 }
 .sidebar.collapsed .sidebar-brand > div {
-	/* gap-2 (from the base markup) still reserves space for the now-hidden
-	   label next to the icon, since it shrinks to width:0 rather than being
-	   removed from flow - that phantom gap shifts the icon off-center
-	   relative to the collapse button below it, which has no such sibling. */
 	flex: 0 1 auto; justify-content: center; gap: 0;
 }
-.sidebar.collapsed .sidebar-brand .brand-text,
-.sidebar.collapsed .sidebar-brand .brand-sub { display: none; }
+/* The label next to the icon normally shrinks to width:0 (opacity/width/
+   overflow trick, for a smooth collapse animation on nav-item labels) but
+   still keeps its own box - any padding/border on it, or on .brand-text/
+   .brand-sub inside, still renders and nudges the icon off true-center.
+   Removing it from flow entirely here is more reliable than trying to
+   zero out every box-model property that could contribute width. */
+.sidebar.collapsed .sidebar-brand .sidebar-label {
+	display: none;
+}
 /* Collapse row in collapsed mode */
 .sidebar.collapsed .sidebar-collapse-row {
 	justify-content: center;
