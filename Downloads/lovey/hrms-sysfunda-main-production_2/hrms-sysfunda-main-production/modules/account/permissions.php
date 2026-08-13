@@ -84,25 +84,34 @@ if ($selectedPosition && $_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify($_
                 VALUES (:pid, :domain, :resource, :level, :override, :notes)
             ');
             
+            // Fields are posted as permissions[domain][resource] (nested arrays)
+            // rather than a single permissions[domain.resource] key - PHP
+            // silently converts dots in POST field names to underscores, so
+            // a dot-joined key arrived here already mangled (e.g.
+            // "system_system_logs" instead of "system.system_logs"),
+            // meaning the old strpos($key, '.') check was false for every
+            // single row and every save silently inserted nothing, even
+            // though the DELETE above still ran - permissions were being
+            // wiped on every "Save" with no visible error.
             $savedCount = 0;
-            foreach ($permissions as $key => $level) {
-                // Skip 'none' permissions (don't insert them)
-                if ($level === 'none') continue;
-                
-                // Parse domain.resource format
-                if (strpos($key, '.') === false) continue;
-                [$domain, $resource] = explode('.', $key, 2);
-                
+            foreach ($permissions as $domain => $resources) {
+                if (!is_array($resources)) continue;
+                foreach ($resources as $resource => $level) {
+                    // Skip 'none' permissions (don't insert them)
+                    if ($level === 'none') continue;
+
+                    $key = $domain . '.' . $resource;
                     $insertStmt->execute([
                         ':pid' => $selectedPositionId,
                         ':domain' => $domain,
                         ':resource' => $resource,
                         ':level' => $level,
-                        ':override' => isset($allowOverride[$key]) ? 1 : 0,
-                        ':notes' => trim($notes[$key] ?? '') ?: null
+                        ':override' => isset($allowOverride[$domain][$resource]) ? 1 : 0,
+                        ':notes' => trim($notes[$domain][$resource] ?? '') ?: null
                     ]);
                     $savedCount++;
                 }
+            }
                 
                 $pdo->commit();
                 
@@ -435,8 +444,8 @@ require_once __DIR__ . '/../../includes/header.php';
               
               <!-- Access Level -->
               <div class="col-span-3 flex justify-center">
-                <select name="permissions[<?= htmlspecialchars($fullKey) ?>]" 
-                        class="input-text text-sm w-full max-w-[140px] permission-select" 
+                <select name="permissions[<?= htmlspecialchars($domainKey) ?>][<?= htmlspecialchars($resourceKey) ?>]"
+                        class="input-text text-sm w-full max-w-[140px] permission-select"
                         data-resource="<?= htmlspecialchars($fullKey) ?>"
                         data-label="<?= htmlspecialchars($resource['label']) ?>"
                         <?= ($resource['self_service'] ?? false) ? 'disabled' : '' ?>>
@@ -455,8 +464,8 @@ require_once __DIR__ . '/../../includes/header.php';
                 <?php if (!($resource['self_service'] ?? false)): ?>
                   <label class="flex items-center gap-2 cursor-pointer group" 
                          title="Allow authorization of destructive actions">
-                    <input type="checkbox" 
-                           name="allow_override[<?= htmlspecialchars($fullKey) ?>]"
+                    <input type="checkbox"
+                           name="allow_override[<?= htmlspecialchars($domainKey) ?>][<?= htmlspecialchars($resourceKey) ?>]"
                            class="form-checkbox h-5 w-5 text-red-600 rounded border-gray-300 focus:ring-red-500 override-checkbox"
                            data-resource="<?= htmlspecialchars($fullKey) ?>"
                            data-label="<?= htmlspecialchars($resource['label']) ?>"
@@ -643,14 +652,25 @@ function _initPermissionsPage() {
     const overrideCheckboxes = form.querySelectorAll('.override-checkbox');
     const changedCount = document.getElementById('changed-count');
     let changes = 0;
-    
+
+    // select.dataset.resource ("domain.resource") is a dot-joined key used
+    // only for JS-side bookkeeping; the actual form fields are named as
+    // nested arrays (permissions[domain][resource]) since PHP silently
+    // converts dots in POST field names to underscores, which would mangle
+    // a dot-joined name. Split back into [domain, resource] to look up the
+    // matching override checkbox by its real name attribute.
+    function overrideCheckboxFor(key) {
+        const [domain, resource] = key.split('.');
+        return document.querySelector(`input[name="allow_override[${domain}][${resource}]"]`);
+    }
+
     // Store initial values
     const initialValues = {};
     selects.forEach(select => {
         const key = select.dataset.resource;
         initialValues[key] = {
             level: select.value,
-            override: document.querySelector(`input[name="allow_override[${key}]"]`)?.checked || false,
+            override: overrideCheckboxFor(key)?.checked || false,
             label: select.dataset.label || key
         };
     });
@@ -682,8 +702,8 @@ function _initPermissionsPage() {
         changes = 0;
         selects.forEach(select => {
             const key = select.dataset.resource;
-            const overrideCheck = document.querySelector(`input[name="allow_override[${key}]"]`);
-            
+            const overrideCheck = overrideCheckboxFor(key);
+
             if (select.value !== initialValues[key].level) changes++;
             if (overrideCheck && overrideCheck.checked !== initialValues[key].override) changes++;
         });
@@ -715,8 +735,8 @@ function _initPermissionsPage() {
     selects.forEach(select => {
         select.addEventListener('change', function() {
             const key = this.dataset.resource;
-            const overrideCheck = document.querySelector(`input[name="allow_override[${key}]"]`);
-            
+            const overrideCheck = overrideCheckboxFor(key);
+
             if (overrideCheck) {
                 // Only write/manage levels can have override capability
                 if (this.value === 'none' || this.value === 'read') {
@@ -785,7 +805,7 @@ function _initPermissionsPage() {
         // Build changes list
         selects.forEach(select => {
             const key = select.dataset.resource;
-            const overrideCheck = document.querySelector(`input[name="allow_override[${key}]"]`);
+            const overrideCheck = overrideCheckboxFor(key);
             const label = select.dataset.label || key;
             
             const levelChanged = select.value !== initialValues[key].level;
