@@ -288,7 +288,11 @@ canvas[data-chart] { display: block; }
 	position: relative;
 }
 .sidebar.collapsed .sidebar-brand > div {
-	flex: 0 1 auto; justify-content: center;
+	/* gap-2 (from the base markup) still reserves space for the now-hidden
+	   label next to the icon, since it shrinks to width:0 rather than being
+	   removed from flow - that phantom gap shifts the icon off-center
+	   relative to the collapse button below it, which has no such sibling. */
+	flex: 0 1 auto; justify-content: center; gap: 0;
 }
 .sidebar.collapsed .sidebar-brand .brand-text,
 .sidebar.collapsed .sidebar-brand .brand-sub { display: none; }
