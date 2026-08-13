@@ -157,26 +157,32 @@ require_once __DIR__ . '/../../includes/header.php';
 ?>
 
 <style>
+/* Backgrounds reference the app's theme tokens (see app.css) instead of
+   literal hex, so the calendar grid actually goes dark in dark mode -
+   previously these stayed hardcoded white/light-gray regardless of theme,
+   which combined with inherited (correctly dark-mode-aware) text color to
+   produce near-invisible light-on-light content. */
 .schedule-calendar {
     display: grid;
     gap: 1px;
-    background: #e5e7eb;
-    border: 1px solid #e5e7eb;
+    background: var(--border-default);
+    border: 1px solid var(--border-default);
 }
 .schedule-row {
     display: grid;
     grid-template-columns: 200px repeat(31, minmax(40px, 1fr));
     gap: 1px;
-    background: #e5e7eb;
+    background: var(--border-default);
 }
 .schedule-cell {
-    background: white;
+    background: var(--bg-surface);
     padding: 0.5rem;
     min-height: 3rem;
     position: relative;
 }
 .schedule-header {
-    background: #f9fafb;
+    background: var(--bg-surface-muted);
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 0.75rem;
     text-align: center;
@@ -186,7 +192,8 @@ require_once __DIR__ . '/../../includes/header.php';
     z-index: 10;
 }
 .schedule-employee {
-    background: #f9fafb;
+    background: var(--bg-surface-muted);
+    color: var(--text-primary);
     font-weight: 500;
     font-size: 0.875rem;
     padding: 0.75rem;
@@ -214,6 +221,14 @@ require_once __DIR__ . '/../../includes/header.php';
     background: #fef3c7;
     color: #92400e;
 }
+html.dark .leave-approved {
+    background: rgba(16,185,129,.18);
+    color: #6ee7b7;
+}
+html.dark .leave-pending {
+    background: rgba(245,158,11,.18);
+    color: #fcd34d;
+}
 .leave-spanning {
     position: absolute;
     top: 0.5rem;
@@ -228,7 +243,7 @@ require_once __DIR__ . '/../../includes/header.php';
     cursor: pointer;
 }
 .weekend-cell {
-    background: #f9fafb;
+    background: var(--bg-surface-muted);
 }
 </style>
 
