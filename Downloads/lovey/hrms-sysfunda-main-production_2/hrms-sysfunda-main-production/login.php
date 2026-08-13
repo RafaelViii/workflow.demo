@@ -158,16 +158,24 @@ $csrfToken = csrf_token();
   <link rel="stylesheet" href="assets/css/tailwind.css" />
   <link rel="stylesheet" href="assets/css/app.css" />
 </head>
-<body class="min-h-screen font-sans antialiased" style="background: var(--bg-page);">
+<body class="min-h-screen font-sans antialiased" style="background: var(--sidebar-bg);">
   <button type="button" id="btnThemeToggle" class="btn btn-outline btn-icon fixed top-4 right-4 z-10" title="Toggle dark mode" aria-label="Toggle dark mode">
     <svg id="themeIconLight" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
     <svg id="themeIconDark" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
   </button>
 
-  <!-- Full-bleed split: the two panels ARE the page, edge-to-edge, so
-       there is no surrounding page background to ever show through or
-       mismatch — no card, no border, no seam, at any screen size. -->
-  <div class="flex min-h-screen">
+  <!-- The two panels stay full-height and borderless/seamless (body and
+       panels share the exact same --sidebar-bg, so there's nothing to see
+       at the edges), but width is capped and centered via min(vw, px) —
+       the same pattern already used for height elsewhere on this page.
+       Without a cap, a proportional 42%/58% split keeps growing on wider
+       viewports (e.g. zooming out enlarges the effective viewport) while
+       the actual text/form inside doesn't stretch to match, so the dead
+       space between them balloons outward. Capping width stops that
+       without reintroducing a visible "card" frame, since the color never
+       changes across the boundary. -->
+  <div class="flex justify-center min-h-screen">
+    <div class="flex w-full" style="max-width: min(92vw, 1900px);">
     <!-- Brand panel — same token (--sidebar-bg) as the app's actual sidebar,
          so it's white in light mode / near-black in dark mode, matching
          rather than inventing a separate look. -->
@@ -276,6 +284,7 @@ $csrfToken = csrf_token();
 
         <p class="mt-8 text-center hint-text">&copy; <?= date('Y') ?> WorkFlow HRMS</p>
       </div>
+    </div>
     </div>
   </div>
 
