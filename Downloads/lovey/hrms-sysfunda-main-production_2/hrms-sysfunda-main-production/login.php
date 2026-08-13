@@ -155,8 +155,12 @@ $csrfToken = csrf_token();
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet" crossorigin="anonymous">
-  <link rel="stylesheet" href="assets/css/tailwind.css" />
-  <link rel="stylesheet" href="assets/css/app.css" />
+  <?php
+    $tailwindCssVer = @filemtime(__DIR__ . '/assets/css/tailwind.css') ?: time();
+    $appCssVer = @filemtime(__DIR__ . '/assets/css/app.css') ?: time();
+  ?>
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=<?= $tailwindCssVer ?>" />
+  <link rel="stylesheet" href="assets/css/app.css?v=<?= $appCssVer ?>" />
 </head>
 <body class="min-h-screen font-sans antialiased" style="background: var(--sidebar-bg);">
   <button type="button" id="btnThemeToggle" class="btn btn-outline btn-icon fixed top-4 right-4 z-10" title="Toggle dark mode" aria-label="Toggle dark mode">

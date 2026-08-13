@@ -89,8 +89,18 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet" crossorigin="anonymous">
-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tailwind.css" />
-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/app.css" />
+  <?php
+    // Cache-bust on file mtime so a CSS edit is guaranteed to be picked up on
+    // the next load instead of possibly serving a stale cached copy — these
+    // files change often during active UI work and browsers cache .css
+    // aggressively by default with no query string to invalidate against.
+    $tailwindCssPath = __DIR__ . '/../assets/css/tailwind.css';
+    $appCssPath = __DIR__ . '/../assets/css/app.css';
+    $tailwindCssVer = @filemtime($tailwindCssPath) ?: time();
+    $appCssVer = @filemtime($appCssPath) ?: time();
+  ?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tailwind.css?v=<?= $tailwindCssVer ?>" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/app.css?v=<?= $appCssVer ?>" />
   <!-- Charts library (global) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
   <script>
