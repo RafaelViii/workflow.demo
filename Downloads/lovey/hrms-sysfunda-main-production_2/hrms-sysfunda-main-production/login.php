@@ -214,8 +214,10 @@ $csrfToken = csrf_token();
       </div>
     </div>
 
-    <!-- Sign-in panel -->
-    <div class="flex flex-1 items-center justify-center overflow-y-auto p-6 sm:p-12">
+    <!-- Sign-in panel — pinned to the same --sidebar-bg token as the brand
+         panel (not the page background) so the two halves are always the
+         exact same color with no visible seam, in both themes. -->
+    <div class="flex flex-1 items-center justify-center overflow-y-auto p-6 sm:p-12" style="background: var(--sidebar-bg);">
       <div class="w-full max-w-sm">
         <div class="mb-8 lg:hidden">
           <div class="sidebar-brand" style="padding: 0;">
