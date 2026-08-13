@@ -425,7 +425,7 @@ require_once __DIR__ . '/../../includes/header.php';
                   <?= htmlspecialchars($resource['label']) ?>
                 </label>
                 <p class="text-xs text-gray-600 mt-0.5 leading-tight"><?= htmlspecialchars($resource['description']) ?></p>
-                <?php if ($resource['self_service']): ?>
+                <?php if ($resource['self_service'] ?? false): ?>
                   <span class="inline-block mt-1.5 px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded">
                     <svg class="w-3.5 h-3.5 inline mr-0.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
                     Self-Service
@@ -439,7 +439,7 @@ require_once __DIR__ . '/../../includes/header.php';
                         class="input-text text-sm w-full max-w-[140px] permission-select" 
                         data-resource="<?= htmlspecialchars($fullKey) ?>"
                         data-label="<?= htmlspecialchars($resource['label']) ?>"
-                        <?= $resource['self_service'] ? 'disabled' : '' ?>>
+                        <?= ($resource['self_service'] ?? false) ? 'disabled' : '' ?>>
                   <?php foreach ($accessLevels as $levelKey => $level): ?>
                     <option value="<?= $levelKey ?>" 
                             <?= $currentLevel === $levelKey ? 'selected' : '' ?>
@@ -452,7 +452,7 @@ require_once __DIR__ . '/../../includes/header.php';
               
               <!-- Override Checkbox -->
               <div class="col-span-2 flex justify-center">
-                <?php if (!$resource['self_service']): ?>
+                <?php if (!($resource['self_service'] ?? false)): ?>
                   <label class="flex items-center gap-2 cursor-pointer group" 
                          title="Allow authorization of destructive actions">
                     <input type="checkbox" 
