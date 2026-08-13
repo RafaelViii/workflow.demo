@@ -196,13 +196,16 @@ canvas[data-chart] { display: block; }
 	letter-spacing: .06em; margin-top: .125rem;
 }
 
-/* Collapse button */
+/* Collapse button — deliberately borderless/unfilled at rest so it reads as
+   part of the nav list (like every .nav-item below it) rather than a
+   separate boxed chip; it was the only bordered/filled element sitting
+   above an otherwise plain nav list. */
 .sidebar-collapse-btn {
 	display: flex; align-items: center; justify-content: center;
-	width: 100%; height: 1.75rem; border-radius: .5rem;
-	color: var(--text-muted); background: var(--bg-surface-muted);
-	border: 1px solid var(--border-subtle); cursor: pointer;
-	transition: all .15s ease;
+	width: 100%; height: 1.75rem; border-radius: .625rem;
+	color: var(--text-muted); background: transparent;
+	border: none; cursor: pointer;
+	transition: background .18s var(--ease-premium), color .18s var(--ease-premium);
 	position: relative; z-index: 40;
 	pointer-events: auto;
 	flex-shrink: 0;
@@ -211,7 +214,6 @@ canvas[data-chart] { display: block; }
 .sidebar-collapse-btn:hover {
 	background: var(--bg-surface-hover);
 	color: var(--accent);
-	border-color: var(--border-default);
 }
 .sidebar-collapse-btn:active {
 	transform: scale(0.97);
