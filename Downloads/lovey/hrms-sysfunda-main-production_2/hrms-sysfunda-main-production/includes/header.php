@@ -726,7 +726,13 @@ if (!empty($_SESSION['__meta']) && is_array($_SESSION['__meta'])) {
                 <span class="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] leading-4 px-1 rounded-full min-w-[18px] text-center hidden" data-notif-badge></span>
               <?php endif; ?>
             </button>
-            <div id="notifDropdown" class="hidden absolute right-0 top-full mt-3 w-[min(360px,calc(100vw-2rem))] sm:w-[420px] z-50">
+            <!-- Below sm: anchored to the viewport (fixed + left/right insets) instead
+                 of the bell button, since a right-0-anchored dropdown wide enough to be
+                 readable (360-420px) doesn't reliably fit between the bell (near the
+                 screen's right edge) and the screen's left edge on narrow phones — it
+                 was overflowing/getting clipped past the left side. At sm: and up there's
+                 enough room, so it reverts to anchoring off the bell as before. -->
+            <div id="notifDropdown" class="hidden fixed left-4 right-4 top-16 sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-3 sm:w-[420px] z-50">
               <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
                 <div class="flex items-center justify-between px-4 py-3 border-b bg-slate-50">
                   <h2 class="text-base font-semibold text-slate-900">Notifications</h2>
