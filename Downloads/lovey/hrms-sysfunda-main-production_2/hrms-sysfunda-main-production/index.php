@@ -380,16 +380,16 @@ if ($isEmployeeRole) {
       $dashboardTitle = htmlspecialchars($userPosition) . ' Dashboard';
       $dashboardSubtitle = 'Tools and insights for your role';
   } elseif ($role === 'admin') {
-      $dashboardTitle = 'Workforce Overview';
+      $dashboardTitle = 'Dashboard';
       $dashboardSubtitle = 'Monitor workforce trends, approvals, and payroll releases at a glance';
   }
   ?>
   <div class="space-y-6">
-    <div class="rounded-xl p-6 text-white shadow-lg" style="background: var(--brand-black);">
+    <div class="hero-card-black rounded-xl p-6 text-white shadow-lg">
       <div class="page-intro flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-4">
         <div>
           <p class="text-[11px] uppercase tracking-widest text-white/60"><?= htmlspecialchars($userPosition ?: 'Admin Overview') ?></p>
-          <h1 class="mt-1 text-2xl font-semibold md:text-3xl"><?= $dashboardTitle ?></h1>
+          <h1 class="mt-1 text-2xl font-semibold md:text-3xl" style="color: #fff;"><?= $dashboardTitle ?></h1>
           <p class="mt-1 text-sm text-white/70"><?= $dashboardSubtitle ?></p>
         </div>
       </div>

@@ -32,8 +32,11 @@
 	/* Identity black for hero/banner cards (Management Hub, Access Control,
 	   the dashboard hero) - deliberately constant across light/dark theme
 	   (not redefined under html.dark below) since it's a brand color, not a
-	   surface that should flip with the user's theme preference. */
-	--brand-black: #0a0a0a;
+	   surface that should flip with the user's theme preference. Kept one
+	   step lighter than html.dark's --bg-page (#0a0a0a) on purpose - if they
+	   matched exactly, the card would have zero contrast against the page
+	   and effectively disappear in dark mode. */
+	--brand-black: #161616;
 }
 html.dark {
 	/* True neutral black/white/gray — not navy-tinted — per reference screenshot */
@@ -553,6 +556,13 @@ input:disabled, textarea:disabled, select:disabled { cursor: not-allowed; }
 .card { background-color: var(--bg-surface); border-radius: 1rem; box-shadow: var(--shadow-card); border: 1px solid var(--border-subtle); transition: background-color .15s ease, border-color .15s ease; }
 .card-header { padding: .75rem 1rem; border-bottom: 1px solid var(--border-subtle); font-weight: 600; color: var(--text-primary); }
 .card-body { padding: 1rem; }
+
+/* Black identity hero card (Management Hub, Access Control, HR Admin,
+   dashboard) — a hairline border does the same job here that it does on
+   every other .card: giving the edge definition regardless of how close
+   the surrounding page background happens to land tonally, in either
+   theme, rather than relying on background contrast alone. */
+.hero-card-black { background: var(--brand-black); border: 1px solid rgba(255,255,255,.08); }
 
 /* ── Tables ───────────────────────────────────────────────────── */
 .table-basic { width: 100%; font-size: 0.875rem; border-collapse: collapse; color: var(--text-primary); }

@@ -304,7 +304,7 @@ require_once __DIR__ . '/../../includes/header.php';
 
 <div class="space-y-6">
   <!-- Compact Header -->
-  <div class="rounded-xl p-6 text-white shadow-lg" style="background: var(--brand-black);">
+  <div class="hero-card-black rounded-xl p-6 text-white shadow-lg">
     <div class="mb-4 flex items-start justify-between">
       <div>
         <div class="mb-2 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white/75">

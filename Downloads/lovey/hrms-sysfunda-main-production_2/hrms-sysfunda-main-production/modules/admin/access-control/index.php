@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../../includes/header.php';
 
 <div class="space-y-6">
   <!-- Header -->
-  <div class="rounded-xl p-6 text-white shadow-lg" style="background: var(--brand-black);">
+  <div class="hero-card-black rounded-xl p-6 text-white shadow-lg">
     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
       <div>
         <div class="mb-2 inline-flex items-center gap-2 rounded-full <?= $isEnabled ? 'bg-emerald-500/20' : 'bg-white/10' ?> px-3 py-1 text-xs font-semibold uppercase tracking-wider <?= $isEnabled ? 'text-emerald-300' : 'text-white/75' ?>">
