@@ -475,14 +475,16 @@ button, [type="button"], [type="submit"], a { cursor: pointer; }
 input:disabled, textarea:disabled, select:disabled { cursor: not-allowed; }
 
 /* ── Buttons ─────────────────────────────────────────────────── */
-/* Same pill + frosted-glass language as the global Back/Refresh controls:
-   full rounded shape everywhere, translucent "material" background for the
-   neutral/outline variant (the one that visually plays the same role as
+/* Corner radius matches .input-text (.5rem) rather than a full pill, so a
+   button sitting next to a select/input in the same toolbar (very common -
+   filter bars, calendar nav, etc.) shares one consistent shape language
+   instead of two competing ones. Frosted-glass background on the neutral/
+   outline variant (the one that visually plays the same role as
    Back/Refresh), solid fill kept only where a button needs strong contrast
    to read as the primary action on its page. */
 .btn {
 	display: inline-flex; align-items: center; justify-content: center;
-	border-radius: 9999px; font-weight: 600; line-height: 1.25rem;
+	border-radius: .5rem; font-weight: 600; line-height: 1.25rem;
 	padding: .5rem .875rem; border: 1px solid transparent;
 	font-size: .8125rem;
 	transition: background-color .18s var(--ease-premium), color .18s var(--ease-premium), box-shadow .18s var(--ease-premium), border-color .18s var(--ease-premium), transform .1s ease;
