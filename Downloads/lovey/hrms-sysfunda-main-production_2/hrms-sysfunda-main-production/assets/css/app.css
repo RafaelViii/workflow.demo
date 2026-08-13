@@ -572,7 +572,7 @@ input:disabled, textarea:disabled, select:disabled { cursor: not-allowed; }
 /* ── User avatar ─────────────────────────────────────────────── */
 .user-avatar {
 	display: inline-flex; align-items: center; justify-content: center;
-	width: 2rem; height: 2rem; border-radius: .5rem;
+	width: 2rem; height: 2rem; border-radius: 9999px;
 	background: var(--accent);
 	color: #fff; font-weight: 600; font-size: .8125rem;
 	flex-shrink: 0;
