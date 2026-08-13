@@ -618,6 +618,13 @@ input:disabled, textarea:disabled, select:disabled { cursor: not-allowed; }
 	width: 100%; cursor: pointer; background: none; border: 0; text-align: left;
 }
 .section-collapsible-header > :first-child { min-width: 0; }
+/* Page-guide panel has no summary badge next to its chevron (unlike the
+   dashboard's collapsible sections), so the default space-between layout
+   left the label pinned to the edge with a large empty gap before the
+   chevron on the opposite edge. Grouping icon+label+chevron into one
+   flex item (see render_page_guide() markup) and centering that group
+   avoids the awkward gap. */
+.page-guide-toggle { justify-content: center; }
 /* Groups the optional summary + chevron as ONE flex item on the right, so
    justify-content: space-between on the header always splits exactly two
    things (title block vs. this group) — with a summary present, 3 loose
