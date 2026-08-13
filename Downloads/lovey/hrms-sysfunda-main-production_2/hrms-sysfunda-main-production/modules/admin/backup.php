@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify($_POST['csrf'] ?? '')) 
   }
 }
 ?>
+<?php $pageTitle = 'Backup / Export Database'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="mb-3">
   <a class="btn btn-outline inline-flex items-center gap-2" href="<?= BASE_URL ?>/modules/admin/management">

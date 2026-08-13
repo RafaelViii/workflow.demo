@@ -8,6 +8,7 @@ require_once __DIR__ . '/../../includes/payroll.php';
 $pdo = get_db_conn();
 $user = current_user();
 $uid = (int)($user['id'] ?? 0);
+$pageTitle = 'Payslip';
 $psId = (int)($_GET['id'] ?? 0);
 
 if ($psId <= 0) {

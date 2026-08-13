@@ -226,11 +226,12 @@ $catalog = get_permissions_catalog();
 $accessLevels = get_access_levels();
 
 ?>
+<?php $pageTitle = 'Position Permissions'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 
 <div class="flex items-center gap-3 mb-4">
     <a class="btn btn-outline" href="<?= BASE_URL ?>/modules/positions/index">Back to List</a>
-    <h1 class="text-xl font-semibold">Edit Position</h1>
+    <h1 class="text-xl font-semibold">Position Permissions</h1>
 </div>
 
 <!-- Tab Navigation -->

@@ -104,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_time'])) {
   exit;
 }
 
+$pageTitle = 'Attendance Management';
 require_once __DIR__ . '/../../includes/header.php';
 
 if (!function_exists('attendance_format_time12')) {

@@ -73,6 +73,7 @@ $codeOptions = $codesStmt ? ($codesStmt->fetchAll(PDO::FETCH_COLUMN) ?: []) : []
 
 action_log('admin', 'view_system_logs');
 
+$pageTitle = 'System Logs';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 

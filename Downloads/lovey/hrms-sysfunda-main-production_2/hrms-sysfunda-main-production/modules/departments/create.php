@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
+<?php $pageTitle = 'Add Department'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="max-w-xl">
   <h1 class="text-xl font-semibold mb-4">Add Department</h1>

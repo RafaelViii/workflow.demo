@@ -17,6 +17,7 @@ try {
   $empId = (int)($st->fetchColumn() ?: 0);
 } catch (Throwable $e) { $empId = 0; }
 
+$pageTitle = 'My Payslips';
 require_once __DIR__ . '/../../includes/header.php';
 if (!$empId) {
   echo '<div class="card p-4 max-w-xl">';

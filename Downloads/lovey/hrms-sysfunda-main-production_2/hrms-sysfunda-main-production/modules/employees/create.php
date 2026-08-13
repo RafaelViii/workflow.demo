@@ -121,6 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
+<?php $pageTitle = 'Add Employee'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="max-w-3xl">
   <div class="flex items-center gap-3 mb-4">

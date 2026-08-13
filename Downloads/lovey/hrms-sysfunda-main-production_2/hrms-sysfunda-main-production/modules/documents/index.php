@@ -35,6 +35,7 @@ try {
   $rows = $q->fetchAll(PDO::FETCH_ASSOC) ?: [];
 } catch (Throwable $e) { $rows = []; }
 
+$pageTitle = 'Documents & Memos';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="card p-4">

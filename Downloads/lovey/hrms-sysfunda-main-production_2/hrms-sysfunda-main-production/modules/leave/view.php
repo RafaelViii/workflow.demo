@@ -150,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+$pageTitle = 'Leave Request';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="max-w-5xl mx-auto space-y-6">

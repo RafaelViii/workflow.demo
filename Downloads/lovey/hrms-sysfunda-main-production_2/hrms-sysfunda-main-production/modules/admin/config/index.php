@@ -492,6 +492,7 @@ unset($group);
 
 $csrfToken = csrf_token();
 
+$pageTitle = 'System Configuration';
 require_once __DIR__ . '/../../../includes/header.php';
 ?>
 <div class="mb-3">

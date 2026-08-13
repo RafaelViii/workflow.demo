@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $tpls = [];
 try { $tpls = $pdo->query('SELECT * FROM recruitment_templates ORDER BY created_at DESC')->fetchAll(PDO::FETCH_ASSOC); } catch (Throwable $e) { $tpls = []; }
+$pageTitle = 'Recruitment Templates';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="max-w-5xl">

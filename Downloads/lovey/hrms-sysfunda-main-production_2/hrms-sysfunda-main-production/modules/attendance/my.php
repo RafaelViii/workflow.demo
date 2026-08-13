@@ -16,6 +16,7 @@ try {
     $emp = $st->fetch(PDO::FETCH_ASSOC) ?: null;
 } catch (Throwable $e) { $emp = null; }
 
+$pageTitle = 'My Attendance';
 require_once __DIR__ . '/../../includes/header.php';
 if (!$emp) {
     echo '<div class="card p-4 max-w-xl">';

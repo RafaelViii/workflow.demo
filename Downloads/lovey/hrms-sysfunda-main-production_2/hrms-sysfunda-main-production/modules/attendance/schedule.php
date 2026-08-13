@@ -152,6 +152,7 @@ foreach ($leaveData as $leave) {
     }
 }
 
+$pageTitle = 'Employee Schedule & Leave Calendar';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 

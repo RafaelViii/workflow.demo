@@ -111,6 +111,7 @@ $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
 try { $stmt->execute(); $rows = $stmt->fetchAll(PDO::FETCH_ASSOC); }
 catch (Throwable $e) { sys_log('DB2524', 'Prepare failed: departments list - ' . $e->getMessage(), ['module'=>'departments','file'=>__FILE__,'line'=>__LINE__]); $rows = []; }
 ?>
+<?php $pageTitle = 'Departments'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="flex flex-col gap-3 mb-4 md:flex-row md:items-center md:justify-between">
   <div class="flex items-center gap-3">

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../includes/auth.php';
 require_access('reports', 'pdf_reports', 'read');
+$pageTitle = 'PDF Templates';
 require_once __DIR__ . '/../../../includes/header.php';
 require_once __DIR__ . '/../../../includes/db.php';
 require_once __DIR__ . '/../../../includes/utils.php';

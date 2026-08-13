@@ -115,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $attendanceSnapshot = $allBranchIds ? payroll_get_branch_attendance_snapshot($pdo, $periodStartInput, $periodEndInput, $allBranchIds) : [];
+$pageTitle = 'New Payroll Run';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="space-y-6">

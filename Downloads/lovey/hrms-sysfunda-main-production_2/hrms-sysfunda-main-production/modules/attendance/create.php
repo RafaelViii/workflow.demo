@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $employees = [];
 try { $employees = $pdo->query("SELECT id, employee_code, first_name, last_name FROM employees WHERE status='active' ORDER BY last_name, first_name")->fetchAll(PDO::FETCH_ASSOC); } catch (Throwable $e) { $employees = []; }
 
+$pageTitle = 'Add Attendance';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">

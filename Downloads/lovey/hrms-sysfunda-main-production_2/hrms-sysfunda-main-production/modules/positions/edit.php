@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
+<?php $pageTitle = 'Edit Position'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <?php if (!$pos) { echo '<div class="p-3">Not found</div>'; require_once __DIR__ . '/../../includes/footer.php'; exit; } ?>
 

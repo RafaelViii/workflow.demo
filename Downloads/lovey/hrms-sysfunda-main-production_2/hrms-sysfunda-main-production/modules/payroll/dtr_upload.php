@@ -225,6 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $csrf = csrf_token();
+$pageTitle = 'Upload DTR for Batch';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="max-w-xl">

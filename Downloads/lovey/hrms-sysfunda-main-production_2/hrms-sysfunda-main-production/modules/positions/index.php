@@ -107,6 +107,7 @@ try {
   $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Throwable $e) { sys_log('DB2624', 'Prepare/execute failed: positions list - ' . $e->getMessage(), ['module'=>'positions','file'=>__FILE__,'line'=>__LINE__]); $rows = []; }
 ?>
+<?php $pageTitle = 'Positions'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="flex flex-col gap-3 mb-4 md:flex-row md:items-center md:justify-between">
   <div class="flex items-center gap-3">

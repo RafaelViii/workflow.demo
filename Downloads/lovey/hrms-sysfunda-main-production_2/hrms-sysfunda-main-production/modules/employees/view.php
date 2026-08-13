@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['unbind_user']) && csr
   header('Location: ' . BASE_URL . '/modules/employees/view?id=' . $id); exit;
 }
 
+$pageTitle = 'Employee Profile';
 require_once __DIR__ . '/../../includes/header.php';
 $emp = null;
 try {

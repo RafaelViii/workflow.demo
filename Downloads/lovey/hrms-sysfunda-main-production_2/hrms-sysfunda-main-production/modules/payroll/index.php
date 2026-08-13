@@ -291,6 +291,7 @@ $csrf = csrf_token();
 // Land on the Complaint Tracker tab if the page was reached via a complaint filter link
 $defaultPayrollTab = isset($_GET['complaint_status']) ? 'tabComplaints' : 'tabRuns';
 
+$pageTitle = 'Payroll Management';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="space-y-5">

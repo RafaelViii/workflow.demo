@@ -168,6 +168,7 @@ if ($editingId > 0) {
 
 action_log('branches', 'view_directory', 'success', ['count' => count($branches)]);
 
+$pageTitle = 'Branch Directory';
 require_once __DIR__ . '/../../../includes/header.php';
 ?>
 <div class="space-y-6">

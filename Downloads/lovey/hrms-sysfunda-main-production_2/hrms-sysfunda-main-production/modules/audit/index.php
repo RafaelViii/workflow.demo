@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../includes/auth.php';
 require_access('system', 'audit_logs', 'read');
 require_once __DIR__ . '/../../includes/db.php';
 require_once __DIR__ . '/../../includes/utils.php';
+$pageTitle = 'Action Log';
 require_once __DIR__ . '/../../includes/header.php';
 $pdo = get_db_conn();
 

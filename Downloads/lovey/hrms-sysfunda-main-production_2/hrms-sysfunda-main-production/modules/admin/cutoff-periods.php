@@ -300,6 +300,7 @@ foreach ($periods as $period) {
     }
 }
 
+$pageTitle = 'Cutoff Period Management';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 

@@ -555,6 +555,7 @@ if (!in_array($activeTab, ['personal', 'compensation', 'leave', 'overtime'], tru
   $activeTab = 'personal';
 }
 
+$pageTitle = 'Edit Employee';
 require_once __DIR__ . '/../../includes/header.php';
 
 if (!$emp) { 

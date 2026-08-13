@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
+<?php $pageTitle = 'Add Position'; ?>
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="max-w-xl">
   <h1 class="text-xl font-semibold mb-4">Add Position</h1>

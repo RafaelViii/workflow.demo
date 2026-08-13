@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../includes/utils.php';
 $pdo = get_db_conn();
 $user = current_user();
 $uid = (int)($user['id'] ?? 0);
+$pageTitle = 'Edit Department';
 $id = (int)($_GET['id'] ?? 0);
 $stmt = $pdo->prepare('SELECT * FROM departments WHERE id = :id AND deleted_at IS NULL');
 $stmt->execute([':id' => $id]);

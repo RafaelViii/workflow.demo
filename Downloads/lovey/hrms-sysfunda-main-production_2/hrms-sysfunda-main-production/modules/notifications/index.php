@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../includes/auth.php';
 require_access('notifications', 'view_notifications', 'read');
 require_once __DIR__ . '/../../includes/db.php';
+$pageTitle = 'Notifications';
 require_once __DIR__ . '/../../includes/header.php';
 $pdo = get_db_conn();
 

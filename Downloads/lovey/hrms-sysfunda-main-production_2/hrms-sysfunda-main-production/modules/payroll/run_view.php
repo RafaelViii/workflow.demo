@@ -941,6 +941,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+$pageTitle = 'Payroll Run';
 require_once __DIR__ . '/../../includes/header.php';
 
 $submittedCount = 0;
